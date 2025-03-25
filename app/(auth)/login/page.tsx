@@ -42,7 +42,7 @@ const Login = () => {
               <h2 className="primary-text">Welcome Back!</h2>
               <p className="typography xl:w-[38ch]">
                 Don’t have an account?{" "}
-                <Link href="/signup" className="secondary-text border-b">
+                <Link href="/register" className="secondary-text border-b">
                   Create New account now.
                 </Link>{" "}
                 it’s <span className="secondary-text">FREE!</span> Takes less
@@ -97,7 +97,7 @@ const Login = () => {
               Forget Password?
               <Link
                 href={"/reset-password"}
-                className="text-main border-b font-bold "
+                className="text-main border-b font-medium "
               >
                 {" "}
                 Click Here
