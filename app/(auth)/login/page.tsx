@@ -10,7 +10,7 @@ const Login = () => {
     <div>
       <div className="container mx-auto">
         <div className="flex gap-28 items-center">
-          <div className="w-[45%]">
+          <div className="2xl:w-[45%] blur-3xl">
             <CustomImage
               src={loginImage}
               width={713}
@@ -18,7 +18,7 @@ const Login = () => {
               alt="login-image"
             />
           </div>
-          <div className="w-[40%]">
+          <div className="2xl:w-[40%]">
             <div className="mb-[38px]">
               <h2 className="primary-text">Welcome Back!</h2>
               <p className="typography w-[38ch]">
