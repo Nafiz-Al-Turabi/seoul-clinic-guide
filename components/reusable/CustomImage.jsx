@@ -31,16 +31,13 @@ export default function CustomImage({
       : window.btoa(str)
   return (
     <Image
-      crossOrigin="anonymous"
-      src={src} alt={alt}
-      loading="lazy"
+      src={src}
+      alt={alt}
+      placeholder="blur"
+      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(width || 700, height || 475))}`}
       width={width}
       height={height}
-      unoptimized={false}
       layout={layout}
-      placeholder="blur"
-      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`}
-      loader={() => src}
       {...props}
     />
   )

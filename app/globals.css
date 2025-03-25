@@ -1,2 +1,53 @@
 @import "tailwindcss";
 
+
+body{
+    font-family: "Inter";
+}
+
+
+/*-------------------Text and background colors ----------------------*/
+.primary-bg{
+    @apply bg-[#68B0D4]
+}
+.secondary-bg{
+    @apply bg-[#F9FDFD]
+}
+.primary-text {
+    @apply text-[#305162]   
+}
+.secondary-text {
+    @apply text-[#68B0D4]
+}
+.text-main{
+    @apply text-[#151623]
+}
+
+/* ------------------Font sizes------------------- */
+h1{
+    @apply text-[4.25rem] font-semibold leading-[110%]  /* 68 px*/
+} 
+
+h2{
+    @apply text-[3rem] font-semibold /*48px*/
+}
+
+h3{
+    @apply text-[2.5rem] /*40px*/
+}
+
+h4{
+    @apply text-lg /*18px*/
+}
+
+h5{
+    @apply text-base /*16px*/
+}
+
+.typography{
+    @apply text-xs sm:text-sm lg:text-base /*16px*/
+}
+
+.typography-2{
+    @apply text-xs sm:text-sm /*14px*/
+}
