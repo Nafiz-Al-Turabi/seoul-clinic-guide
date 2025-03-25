@@ -29,7 +29,7 @@ h1{
 } 
 
 h2{
-    @apply text-[3rem] font-semibold /*48px*/
+    @apply text-[2rem] md:text-[2.5rem] lg:text-[3rem]  font-semibold  /*48px*/
 }
 
 h3{
