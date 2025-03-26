@@ -1,10 +1,11 @@
 import CustomImage from '@/components/reusable/CustomImage';
 import React from 'react';
 import heroImage from '@/public/assets/images/hero.png';
+import seoulImage from '@/public/assets/images/seoul.svg';
 
 const HeroSection = () => {
     return (
-        <div className='bg-[#F9FDFD] px-4 2xl:px-0'>
+        <div className='bg-[#F9FDFD] px-4 2xl:px-0 relative'>
             <div className='container mx-auto flex flex-col-reverse sm:flex-row items-center gap-5 '>
                 <div className='capitalize primary-text'>
                     <h1>FIND THE BEST SPECIALIZED </h1>
@@ -16,9 +17,13 @@ const HeroSection = () => {
                     </div>
                 </div>
                 <div>
-                    <CustomImage src={heroImage} alt='hero-image'  />
+                    <CustomImage src={heroImage} alt='hero-image' />
+                </div>
+                <div className='hidden xl:flex items-center justify-center xl:w-28 xl:h-28 2xl:w-36 2xl:h-36 absolute xl:right-10 2xl:right-32 -bottom-14  p-4 rounded-full bg-[#D9D9D966] backdrop-blur-sm '>
+                    <CustomImage src={seoulImage} alt='hero-image' />
                 </div>
             </div>
+
         </div>
     );
 };
