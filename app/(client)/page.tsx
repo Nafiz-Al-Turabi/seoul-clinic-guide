@@ -11,7 +11,7 @@ export default function HomePage() {
       <div className="my-28">
         <PopularCategories />
       </div>
-      <div className="my-28 ">
+      <div className="">
         <TopClinics />
       </div>
     </div>

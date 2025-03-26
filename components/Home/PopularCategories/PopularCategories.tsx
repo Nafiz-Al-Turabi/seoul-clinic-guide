@@ -36,7 +36,7 @@ const PopularCategories = () => {
             <div className='mb-12'>
                 <h3 className="mb-6 font-bold  primary-text">Popular Categories</h3>
             </div>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-10 ">
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-10 ">
                 {categories.map((category, index) => (
                     <div className='flex flex-col w-[80px] items-center '>
                         <div

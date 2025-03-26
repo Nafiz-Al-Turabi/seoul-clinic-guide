@@ -35,7 +35,7 @@ h2{
 }
 
 h3{
-    @apply text-[2.5rem] /*40px*/
+    @apply text-[1.8rem] lg:text-[2.5rem] /*40px*/
 }
 
 h4{

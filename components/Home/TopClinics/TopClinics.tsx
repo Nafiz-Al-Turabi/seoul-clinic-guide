@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -36,35 +36,82 @@ const topClinics = [
     name: "Haru Clinic",
     address: "591 Joanne Lane, Wilmington, MA 01887",
   },
+  {
+    id: 5,
+    image: clinicImage4,
+    name: "Haru Clinic",
+    address: "591 Joanne Lane, Wilmington, MA 01887",
+  },
 ];
 
-const PrevArrow = ({ onClick }: any) => (
+const PrevArrow = ({ onClick, isDisabled }: any) => (
   <button
-    className="p-3 rounded-full shadow-lg transition duration-200 bg-[#68B0D4] text-white absolute right-14 -top-24 cursor-pointer"
     onClick={onClick}
+    disabled={isDisabled}
+    className={`absolute right-14 -top-[75px] transition duration-200 flex items-center justify-center p-3
+      ${
+        isDisabled
+          ? "bg-transparent text-gray-400 cursor-not-allowed"
+          : "bg-[#68B0D4] text-white rounded-full  shadow-lg cursor-pointer"
+      }
+    `}
   >
     <FaArrowLeft />
   </button>
 );
 
-const NextArrow = ({ onClick }: any) => (
+const NextArrow = ({ onClick, isDisabled }: any) => (
   <button
-    className="p-3 rounded-full shadow-lg transition duration-200 bg-[#68B0D4] text-white absolute right-0 -top-24 cursor-pointer"
     onClick={onClick}
+    disabled={isDisabled}
+    className={`absolute right-0 -top-[75px] transition duration-200 flex items-center justify-center p-3 
+      ${
+        isDisabled
+          ? "bg-transparent text-gray-400 cursor-not-allowed"
+          : "bg-[#68B0D4] text-white rounded-full shadow-lg cursor-pointer"
+      }
+    `}
   >
     <FaArrowRight />
   </button>
 );
 
 const TopClinics = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slidesToShow, setSlidesToShow] = useState(4);
+
+  useEffect(() => {
+    const updateSlidesToShow = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setSlidesToShow(1);
+      } else if (width < 1024) {
+        setSlidesToShow(2);
+      } else if (width < 1280) {
+        setSlidesToShow(3);
+      } else {
+        setSlidesToShow(4);
+      }
+    };
+
+    updateSlidesToShow();
+    window.addEventListener("resize", updateSlidesToShow);
+    return () => window.removeEventListener("resize", updateSlidesToShow);
+  }, []);
+
+  const totalSlides = topClinics.length;
+
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow,
     slidesToScroll: 1,
     arrows: true,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    beforeChange: (_: number, next: number) => setCurrentSlide(next),
+    prevArrow: <PrevArrow isDisabled={currentSlide === 0} />,
+    nextArrow: (
+      <NextArrow isDisabled={currentSlide >= totalSlides - slidesToShow} />
+    ),
     responsive: [
       {
         breakpoint: 1280,
@@ -91,9 +138,8 @@ const TopClinics = () => {
     <div className="py-[100px] bg-[#F9FDFD]">
       <div className="container mx-auto px-4 2xl:px-0">
         <div className="flex items-center justify-between">
-          <h2 className="primary-text mb-8">Top Clinics</h2>
+          <h3 className="primary-text font-bold mb-8">Top Clinics</h3>
         </div>
-
         <div className="relative">
           <Slider {...settings}>
             {topClinics.map((clinic) => (
