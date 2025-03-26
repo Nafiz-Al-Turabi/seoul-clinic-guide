@@ -37,10 +37,10 @@ const Login = () => {
             />
           </div>
 
-          <div className="2xl:w-[40%] px-5 xl:px-0">
+          <div className=" w-full lg:w-[40%] 2xl:w-[40%] px-5 xl:px-0">
             <div className="mb-[38px]">
               <h2 className="primary-text">Welcome Back!</h2>
-              <p className="typography xl:w-[38ch]">
+              <p className="typography sm:w-[40ch]  xl:w-[38ch]">
                 Don’t have an account?{" "}
                 <Link href="/register" className="secondary-text border-b">
                   Create New account now.
@@ -57,7 +57,7 @@ const Login = () => {
                   type="text"
                   placeholder="Enter your email"
                   {...register("email", { required: "Email is required" })}
-                  className="text-main text-lg placeholder:text-lg placeholder:text-[#C9C9C9] p-3 border-b border-[#EEF3F8] focus:outline-none focus:border-b focus:border-[#434343] focus:bg-[#F6F6F6] duration-300"
+                  className="w-full text-main text-lg placeholder:text-lg placeholder:text-[#C9C9C9] p-3 border-b border-[#EEF3F8] focus:outline-none focus:border-b focus:border-[#434343] focus:bg-[#F6F6F6] duration-300"
                 />
                 {errors.email && (
                   <span className="text-red-500 text-sm mt-[-20px]">
@@ -71,7 +71,7 @@ const Login = () => {
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  className="text-main text-lg placeholder:text-lg placeholder:text-[#C9C9C9] p-3 border-b border-[#EEF3F8] focus:outline-none focus:border-b focus:border-[#434343] focus:bg-[#F6F6F6] duration-300"
+                  className="w-full text-main text-lg placeholder:text-lg placeholder:text-[#C9C9C9] p-3 border-b border-[#EEF3F8] focus:outline-none focus:border-b focus:border-[#434343] focus:bg-[#F6F6F6] duration-300"
                 />
                 {errors.password && (
                   <span className="text-red-500 text-sm mt-[-20px]">

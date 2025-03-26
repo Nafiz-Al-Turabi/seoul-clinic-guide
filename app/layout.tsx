@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body  cz-shortcut-listen="true">
         {children}
         <Footer />
       </body>
