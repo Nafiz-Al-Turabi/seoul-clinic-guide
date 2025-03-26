@@ -38,7 +38,7 @@ const PopularCategories = () => {
             </div>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-10 ">
                 {categories.map((category, index) => (
-                    <div className='w-full flex flex-col items-center justify-center '>
+                    <div className='flex flex-col w-[80px] items-center '>
                         <div
                             key={index}
                             className=" h-[80px] w-[80px] flex flex-col items-center justify-center p-4 bg-[#E8F7F7] rounded-[10px] border-2 border-[#A1D5F0] hover:bg-[#e8f7f7b2] transition-colors duration-300 cursor-pointer"
@@ -46,7 +46,7 @@ const PopularCategories = () => {
                             <CustomImage src={category.icon} alt={category.label} />
 
                         </div>
-                        <p className="text-xs text-center text-gray-700 font-medium mt-3 w-[16ch]">
+                        <p className="text-xs text-center  text-gray-700 font-medium mt-3 w-[16ch]">
                             {category.label}
                         </p>
                     </div>
