@@ -78,17 +78,17 @@ export default function Navbar() {
                       dropdownOpen === menu.label ? "" : menu.label
                     )
                   }
-                  className="flex items-center gap-1 text-base text-gray-700 hover:text-sky-500"
+                  className="flex items-center gap-1 text-base text-gray-700 hover:text-[#68B0D4] duration-300 cursor-pointer"
                 >
                   {menu.label} <ChevronDown size={14} />
                 </button>
                 {dropdownOpen === menu.label && (
-                  <div className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md border py-2 z-40 animate-fadeIn">
+                  <div className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md  py-2 z-40 animate-fadeIn">
                     {menu.dropdown.map((item, subIdx) => (
                       <Link
                         key={subIdx}
                         href={item.path}
-                        className="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                        className="block px-4 py-2.5 text-base text-gray-700 hover:bg-gray-100"
                       >
                         {item.label}
                       </Link>
@@ -100,7 +100,7 @@ export default function Navbar() {
               <Link
                 key={idx}
                 href={menu.path}
-                className="text-base  hover:text-[#68B0D4] duration-300"
+                className="text-base p-2.5  hover:text-[#68B0D4] duration-300"
               >
                 {menu.label}
               </Link>
@@ -111,13 +111,13 @@ export default function Navbar() {
         {/* Desktop Auth */}
         <div className="hidden lg:flex gap-2">
           <Link
-            href="/login"
+            href="/auth/login"
             className="px-6 py-2.5 primary-bg text-white rounded-full text-sm  transition"
           >
             Login
           </Link>
           <Link
-            href="/register"
+            href="/auth/register"
             className="px-6 py-2.5 border border-[#68B0D4]  rounded-full text-sm hover:bg-sky-50 transition"
           >
             Signup
@@ -135,7 +135,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-40 transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:hidden top-0 right-0 h-full w-64 bg-white shadow-lg z-40 transition-transform duration-300 ease-in-out ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

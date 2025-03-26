@@ -117,7 +117,7 @@ const Register = () => {
             <p className="text-sm lg:text-base mt-5 text-center text-[#93949A]">
               Already have an account?
               <Link
-                href={"/login"}
+                href={"/auth/login"}
                 className="secondary-text border-b font-medium "
               >
                 {" "}

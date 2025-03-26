@@ -42,7 +42,7 @@ const Login = () => {
               <h2 className="primary-text">Welcome Back!</h2>
               <p className="typography sm:w-[40ch]  xl:w-[38ch]">
                 Don’t have an account?{" "}
-                <Link href="/register" className="secondary-text border-b">
+                <Link href="/auth/register" className="secondary-text border-b">
                   Create New account now.
                 </Link>{" "}
                 it’s <span className="secondary-text">FREE!</span> Takes less
