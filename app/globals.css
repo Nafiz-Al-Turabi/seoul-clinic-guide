@@ -26,7 +26,8 @@ body{
 
 /* ------------------Font sizes------------------- */
 h1{
-    @apply text-[1.8rem] lg:text-[2.2rem] 2xl:text-[4.25rem] font-semibold leading-[110%]  /* 68 px*/
+    @apply text-[1.8rem] md:text-[2.5rem] lg:text-[3rem] xl:text-[3.8rem] 2xl:text-[4.25rem] font-semibold leading-[110%]  /* 68 px*/
+    /* @apply text-[1.8rem] lg:text-[2.2rem] 2xl:text-[4.25rem] font-semibold leading-[110%]  68 px */
 } 
 
 h2{

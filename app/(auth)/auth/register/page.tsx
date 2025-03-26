@@ -31,7 +31,7 @@ const Register = () => {
   return (
     <div>
       <div className="container mx-auto">
-        <div className="flex gap-5 lg:gap-5 xl:gap-28 items-center py-10 md:py-0">
+        <div className="flex gap-5 lg:gap-5 xl:gap-10 2xl:gap-28 items-center py-10 md:py-0">
           <div className="hidden lg:block 2xl:w-[45%]">
             <CustomImage
               src={registerImage}
@@ -45,7 +45,7 @@ const Register = () => {
             <div className="mb-[38px]">
               <h1 className="primary-text ">Welcome To</h1>
               <h1 className="secondary-text">Seoul Clinic Guide</h1>
-              <p className="typography xl:w-[55ch] mt-2">
+              <p className="typography xl:w-[45ch] 2xl:w-[55ch] mt-2">
                 Seoul Clinic Guide helps you find top-rated clinics, doctors,
                 and medical services in Seoul with detailed profiles, patient
                 reviews, and easy appointment booking.

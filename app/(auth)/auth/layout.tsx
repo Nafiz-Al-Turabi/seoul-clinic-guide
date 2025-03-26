@@ -4,7 +4,12 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}
-  <p>Hello</p>
-  </>;
+  return (
+    <>
+      {children}
+      <h4 className="bg-slate-700 text-white py-3 text-center mt-2">
+        ©2025 All rights reserved
+      </h4>
+    </>
+  );
 }
