@@ -2,6 +2,7 @@ import React from "react";
 import HeroSection from "@/components/Home/HeroSection/HeroSection";
 import PopularCategories from "@/components/Home/PopularCategories/PopularCategories";
 import TopClinics from "@/components/Home/TopClinics/TopClinics";
+import Procedures from "@/components/Home/Procedures/Procedures";
 export default function HomePage() {
   return (
     <div className="">
@@ -13,6 +14,9 @@ export default function HomePage() {
       </div>
       <div className="">
         <TopClinics />
+      </div>
+      <div className="my-28">
+        <Procedures />
       </div>
     </div>
   );
