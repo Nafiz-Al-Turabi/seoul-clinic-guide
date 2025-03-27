@@ -23,7 +23,7 @@ const menus = [
       { path: "#", label: "Top Rated" },
     ],
   },
-  { path: "#", label: "Procedures" },
+  { path: "/procedures", label: "Procedures" },
   { path: "#", label: "Blogs" },
 ];
 
