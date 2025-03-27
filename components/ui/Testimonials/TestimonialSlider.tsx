@@ -67,7 +67,7 @@ const TestimonialSlider = () => {
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     appendDots: (dots: any) => (
-      <div className="absolute -left-6 bottom-4 md:bottom-6">
+      <div className="absolute -left-0 bottom-4 md:bottom-6">
         <ul className="space-y-2">{dots}</ul>
       </div>
     ),
