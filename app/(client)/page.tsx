@@ -5,6 +5,7 @@ import TopClinics from "@/components/Home/TopClinics/TopClinics";
 import Procedures from "@/components/Home/Procedures/Procedures";
 import NewsLetter from "@/components/ui/NewsLetter/NewsLetter";
 import RecentBlogs from "@/components/ui/RecentBlogs/RecentBlogs";
+import TestimonialSlider from "@/components/ui/Testimonials/TestimonialSlider";
 export default function HomePage() {
   return (
     <div className="">
@@ -25,6 +26,10 @@ export default function HomePage() {
       </div>
       <div className="my-28">
         <RecentBlogs />
+      </div>
+
+      <div className="my-28">
+        <TestimonialSlider />
       </div>
     </div>
   );
