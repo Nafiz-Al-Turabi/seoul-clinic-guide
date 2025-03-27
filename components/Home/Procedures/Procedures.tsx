@@ -52,9 +52,8 @@ const Procedures = () => {
           ))}
         </div>
       </div>
-
       {/* Dynamic Component Rendering */}
-      <div className="p-6 bg-white rounded-xl shadow">
+      <div>
         {tabComponents[activeTab]}
       </div>
     </div>
