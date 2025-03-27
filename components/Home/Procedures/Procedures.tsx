@@ -31,10 +31,11 @@ const Procedures = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
-    <div className="container mx-auto px-4 2xl:px-0">
-      <h3 className="primary-text font-bold mb-8">Procedures</h3>
-
-      <div className="overflow-x-auto mb-6">
+    <div className="">
+      <h3 className="max-w-[86rem] mx-auto px-4 2xl:px-0 primary-text font-bold mb-8">
+        Procedures
+      </h3>
+      <div className="xl:ml-12 2xl:ml-[260px] overflow-x-auto mb-6 pl-4 xl:pl-0">
         <div className="flex gap-4 w-max min-w-full">
           {tabs.map((tab) => (
             <button
@@ -51,10 +52,10 @@ const Procedures = () => {
             </button>
           ))}
         </div>
-      </div> 
-      {/* Dynamic Component Rendering */}
-      <div>
-        {tabComponents[activeTab]}
+      </div>
+      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
+        {/* Dynamic Component Rendering */}
+        <div>{tabComponents[activeTab]}</div>
       </div>
     </div>
   );

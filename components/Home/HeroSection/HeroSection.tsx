@@ -6,7 +6,7 @@ import seoulImage from "@/public/assets/images/seoul.svg";
 const HeroSection = () => {
   return (
     <div className="bg-[#F9FDFD] px-4 2xl:px-0 relative">
-      <div className="container mx-auto flex flex-col-reverse sm:flex-row items-center gap-5 ">
+      <div className="max-w-[86rem] mx-auto flex flex-col-reverse sm:flex-row items-center gap-5 ">
         <div className="capitalize primary-text">
           <h1>FIND THE BEST SPECIALIZED </h1>
           <h1 className="secondary-text">CLINICS IN KOREA</h1>

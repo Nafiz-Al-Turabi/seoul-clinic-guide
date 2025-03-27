@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     <div>
-      <div className="container mx-auto">
+      <div className="max-w-[86rem] mx-auto">
         <div className="flex gap-5 lg:gap-10 xl:gap-10 2xl:gap-28 items-center py-10 md:py-0">
           <div className="hidden md:block 2xl:w-[45%]">
             <CustomImage

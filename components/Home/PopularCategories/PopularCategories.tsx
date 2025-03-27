@@ -32,7 +32,7 @@ const categories = [
 
 const PopularCategories = () => {
     return (
-        <div className="container mx-auto px-4 2xl:px-0">
+        <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
             <div className='mb-12'>
                 <h3 className="mb-6 font-bold  primary-text">Popular Categories</h3>
             </div>

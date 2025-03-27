@@ -48,11 +48,11 @@ const PrevArrow = ({ onClick, isDisabled }: any) => (
   <button
     onClick={onClick}
     disabled={isDisabled}
-    className={`absolute right-14 -top-[75px] transition duration-200 flex items-center justify-center p-3
+    className={`absolute right-14 -top-[75px] transition duration-200 flex items-center justify-center p-3 rounded-full
       ${
         isDisabled
           ? "bg-transparent text-gray-400 cursor-not-allowed"
-          : "bg-[#68B0D4] text-white rounded-full  shadow-lg cursor-pointer"
+          : "bg-[#68B0D4] text-white  shadow-lg cursor-pointer"
       }
     `}
   >
@@ -64,11 +64,11 @@ const NextArrow = ({ onClick, isDisabled }: any) => (
   <button
     onClick={onClick}
     disabled={isDisabled}
-    className={`absolute right-0 -top-[75px] transition duration-200 flex items-center justify-center p-3 
+    className={`absolute right-0 -top-[75px] transition duration-200 flex items-center justify-center p-3  rounded-full
       ${
         isDisabled
-          ? "bg-transparent text-gray-400 cursor-not-allowed"
-          : "bg-[#68B0D4] text-white rounded-full shadow-lg cursor-pointer"
+          ? "bg-transparent text-gray-400 cursor-not-allowed "
+          : "bg-[#68B0D4] text-white shadow-lg cursor-pointer"
       }
     `}
   >
@@ -136,7 +136,7 @@ const TopClinics = () => {
 
   return (
     <div className="py-[100px] bg-[#F9FDFD]">
-      <div className="container mx-auto px-4 2xl:px-0">
+      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
         <div className="flex items-center justify-between">
           <h3 className="primary-text font-bold mb-8">Top Clinics</h3>
         </div>

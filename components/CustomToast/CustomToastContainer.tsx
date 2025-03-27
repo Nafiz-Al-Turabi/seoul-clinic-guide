@@ -1,7 +1,7 @@
 import React from "react";
-import { ToastContainer } from "react-toastify";
+import { Toastmax-w-[86rem] } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function CustomToastContainer() {
-  return <ToastContainer />;
+export default function CustomToastmax-w-[86rem]() {
+  return <Toastmax-w-[86rem] />;
 }
