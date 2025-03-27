@@ -51,7 +51,7 @@ const Procedures = () => {
             </button>
           ))}
         </div>
-      </div>
+      </div> 
       {/* Dynamic Component Rendering */}
       <div>
         {tabComponents[activeTab]}
