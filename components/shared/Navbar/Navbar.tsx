@@ -24,7 +24,7 @@ const menus = [
     ],
   },
   { path: "/procedures", label: "Procedures" },
-  { path: "#", label: "Blogs" },
+  { path: "blogs", label: "Blogs" },
 ];
 
 export default function Navbar() {
