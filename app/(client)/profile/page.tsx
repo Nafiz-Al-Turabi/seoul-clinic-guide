@@ -31,8 +31,8 @@ const Profile = () => {
   };
 
   return (
-    <div className="p-6 max-w-[86rem] mx-auto">
-      <span className="text-[2rem] font-semibold">Account</span>
+    <div className="p-6 max-w-[86rem] mx-auto 2xl:mb-44">
+      <p className="text-[2rem] font-semibold text-center sm:text-left">Account</p>
 
       <div className="flex flex-col items-center  sm:flex-row sm:items-center my-6">
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
