@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState,JSX } from 'react';
+import StemCell from '../Home/Procedures/Tabcomponents/StemCell';
 
 const categories = [
     'All Procedures',
@@ -15,8 +16,20 @@ const categories = [
     'Urology',
 ];
 
+const tabComponents: { [key: string]: JSX.Element } = {
+    "Stem Cell": <StemCell />,
+    "Nose Surgery": <>Nose Surgery</>,
+    Breast: <>Breast</>,
+    "Face Lift": <>Face Lift</>,
+    Dental: <>Dental</>,
+    "Obstetrics and Gynecology": <>Obstetrics and Gynecology</>,
+    "Eye Surgery": <>Eye Surgery</>,
+    Urology: <>Urology</>,
+    "LGBTQ+": <>LGBTQ+</>,
+};
+
 const ProceduresCategories = () => {
-    const [activeTab, setActiveTab] = useState('Procedures');
+    const [activeTab, setActiveTab] = useState(categories[0]);
 
     return (
         <div className="max-w-[86rem] mx-auto px-4 py-6 flex gap-10">
@@ -29,7 +42,7 @@ const ProceduresCategories = () => {
                             key={item}
                             onClick={() => setActiveTab(item)}
                             className={`text-left p-3 rounded-full duration-300 cursor-pointer ${activeTab === item
-                                    ? 'bg-[#305162] text-white'
+                                    ? 'bg-[#68B0D4] text-white'
                                     : 'text-[#305162] hover:text-[#B4B4B4]'
                                 }`}
                         >
@@ -42,13 +55,12 @@ const ProceduresCategories = () => {
             {/* Right Content */}
             <div className="flex-1">
                 <h2 className="text-2xl font-semibold mb-2">{activeTab}</h2>
-                <p className="text-gray-600">
-                    This is the content for <strong>{activeTab}</strong>. You can customize this section to display
-                    information, images, or other components based on the selected category.
-                </p>
+                <div>
+                    {tabComponents[activeTab]}
+                </div>
             </div>
         </div>
     );
 };
 
-export default ProceduresCategories;
+export default ProceduresCategories; 
