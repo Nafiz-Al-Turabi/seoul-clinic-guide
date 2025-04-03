@@ -32,7 +32,7 @@ const Profile = () => {
 
   return (
     <div className="p-6 max-w-[86rem] mx-auto 2xl:mb-44">
-      <p className="text-[2rem] font-semibold text-center sm:text-left">Account</p>
+      <p className="text-[2rem] font-semibold primary-text text-center sm:text-left">Account</p>
 
       <div className="flex flex-col items-center  sm:flex-row sm:items-center my-6">
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
@@ -48,7 +48,7 @@ const Profile = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <label className="bg-white text-gray-600 px-4 py-2 rounded-full border border-[#E9E9E9] cursor-pointer hover:bg-gray-50 transition">
+          <label className="bg-white text-main px-4 py-2 rounded-full border border-[#E9E9E9] cursor-pointer hover:bg-gray-50 transition">
             Upload a new photo
             <input
               type="file"
@@ -61,7 +61,7 @@ const Profile = () => {
           <button
             type="button"
             onClick={handleDeletePhoto}
-            className="bg-gray-100 text-gray-600 px-4 py-2 rounded-full  hover:bg-gray-200 transition cursor-pointer"
+            className="bg-gray-100 text-main px-4 py-2 rounded-full  hover:bg-gray-200 transition cursor-pointer"
           >
             Delete photo
           </button>
@@ -173,9 +173,9 @@ const Profile = () => {
           )}
         </div>
 
-        <h2 className="text-xl font-semibold text-gray-700 mb-6">
+        <p className="text-[2rem] font-semibold primary-text mb-6">
           Change Password
-        </h2>
+        </p>
 
         <div className="space-y-6 mb-8">
           <div>
@@ -229,7 +229,7 @@ const Profile = () => {
 
           <button
             type="button"
-            className="bg-white text-gray-600 px-6 py-2 rounded-full border border-[#E9E9E9] hover:bg-gray-50 transition cursor-pointer"
+            className="bg-white text-main px-6 py-2 rounded-full border border-[#E9E9E9] hover:bg-gray-50 transition cursor-pointer"
           >
             Cancel
           </button>
