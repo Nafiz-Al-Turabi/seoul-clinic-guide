@@ -14,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body cz-shortcut-listen="true">{children}</body>
+      <body cz-shortcut-listen="true"
+      no-processed="true"
+      >{children}</body>
     </html>
   );
 }
