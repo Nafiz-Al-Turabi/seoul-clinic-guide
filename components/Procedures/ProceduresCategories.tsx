@@ -1,10 +1,10 @@
 'use client'
 import React, { useState,JSX } from 'react';
 import StemCell from '../Home/Procedures/Tabcomponents/StemCell';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
 const categories = [
     'All Procedures',
-    'Procedures',
     'Stem Cell',
     'Nose Surgery',
     'Breast',
@@ -54,7 +54,7 @@ const ProceduresCategories = () => {
 
             {/* Right Content */}
             <div className="flex-1">
-                <h2 className="text-2xl font-semibold mb-2">{activeTab}</h2>
+                <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-2 ">Procedures <MdKeyboardArrowRight /> {activeTab}</p>
                 <div>
                     {tabComponents[activeTab]}
                 </div>
