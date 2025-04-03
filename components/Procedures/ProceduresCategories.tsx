@@ -17,7 +17,7 @@ const categories = [
 ];
 
 const tabComponents: { [key: string]: JSX.Element } = {
-    "All Procedures": <p>all procedures</p>,
+    "All Procedures": <StemCell />,
     "Stem Cell": <StemCell />,
     "Nose Surgery": <>Nose Surgery</>,
     Breast: <>Breast</>,

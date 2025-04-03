@@ -7,9 +7,9 @@ export default function AuthLayout({
   return (
     <>
       {children}
-      <h4 className="bg-slate-700 text-white py-3 text-center mt-2">
+      {/* <h4 className="bg-slate-700 text-white py-3 text-center">
         ©2025 All rights reserved
-      </h4>
+      </h4> */}
     </>
   );
 }
