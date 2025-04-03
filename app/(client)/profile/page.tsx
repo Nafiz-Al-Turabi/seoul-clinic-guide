@@ -32,9 +32,9 @@ const Profile = () => {
 
   return (
     <div className="p-6 max-w-[86rem] mx-auto">
-      <span className="text-[2rem] font-semibold mb-6">Account</span>
+      <span className="text-[2rem] font-semibold">Account</span>
 
-      <div className="flex flex-col items-center  sm:flex-row sm:items-center">
+      <div className="flex flex-col items-center  sm:flex-row sm:items-center my-6">
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
             <Image
