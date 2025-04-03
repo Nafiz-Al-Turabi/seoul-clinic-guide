@@ -36,7 +36,7 @@ const Register = () => {
             <CustomImage
               src={registerImage}
               width={713}
-              height={500}
+              height={914}
               alt="register-image"
             />
           </div>
