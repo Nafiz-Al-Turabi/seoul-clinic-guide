@@ -13,8 +13,8 @@ const menus = [
     label: "Categories",
     dropdown: [
       { path: "/categories", label: "All Categories" },
-      { path: "#", label: "Skincare" },
-      { path: "#", label: "Hair" },
+      // { path: "#", label: "Skincare" },
+      // { path: "#", label: "Hair" },
     ],
   },
   {
