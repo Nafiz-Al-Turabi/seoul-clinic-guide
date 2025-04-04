@@ -71,7 +71,7 @@ const ProceduresCategories = () => {
             <MdClose size={24} />
           </button>
         </div>
-        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">Categories</h4>
+        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">Procedures</h4>
         <div className="flex flex-col gap-3">
           {categories.map((item) => (
             <button

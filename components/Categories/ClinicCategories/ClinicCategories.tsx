@@ -66,7 +66,7 @@ const ClinicCategories = () => {
       >
         {/* Close Button (Mobile) */}
         <div className="lg:hidden flex justify-between items-center mb-4">
-          <h4 className="text-lg font-semibold text-[#305162]">Procedures</h4>
+          <h4 className="text-lg font-semibold text-[#305162]">Categories</h4>
           <button onClick={() => setIsOpen(false)} className="text-[#305162]">
             <MdClose size={24} />
           </button>
