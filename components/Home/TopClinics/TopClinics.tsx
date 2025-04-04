@@ -10,6 +10,7 @@ import clinicImage3 from "@/public/assets/topClinicImages/top-clinic-3.png";
 import clinicImage4 from "@/public/assets/topClinicImages/top-clinic-4.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ClinicCard from "@/components/ui/Cards/ClinicCard";
 
 const topClinics = [
   {
@@ -143,19 +144,7 @@ const TopClinics = () => {
         <div className="relative">
           <Slider {...settings}>
             {topClinics.map((clinic) => (
-              <div key={clinic.id} className="px-2">
-                <div className="">
-                  <Image
-                    src={clinic.image}
-                    alt="clinic-image"
-                    className="aspect-auto rounded-xl"
-                  />
-                </div>
-                <div>
-                  <h4 className="primary-text">{clinic.name}</h4>
-                  <p className="text-sm text-gray-500">{clinic.address}</p>
-                </div>
-              </div>
+              <ClinicCard key={clinic.id} clinic={clinic} />
             ))}
           </Slider>
         </div>
