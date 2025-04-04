@@ -41,7 +41,7 @@ const ClinicCategories = () => {
   }, []);
 
   return (
-    <div className="max-w-[86rem] mx-auto px-4 pb-6 pt-20 flex gap-10 relative">
+    <div className="max-w-[86rem] mx-auto px-4 py-20 flex gap-10 relative">
         
       <button
         onClick={() => setIsOpen((prev) => !prev)}
