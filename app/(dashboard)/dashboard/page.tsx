@@ -1,11 +1,12 @@
-import React from 'react';
+import Overview from "@/components/Dashboard/Overview/Overview";
+import React from "react";
 
 const Dashboard = () => {
-    return (
-        <div>
-            Hello Dashboard
-        </div>
-    );
+  return (
+    <div>
+      <Overview />
+    </div>
+  );
 };
 
 export default Dashboard;
