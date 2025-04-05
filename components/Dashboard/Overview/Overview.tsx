@@ -4,6 +4,7 @@ import { FiInfo } from "react-icons/fi";
 import Image from "next/image";
 import chartImage from "@/public/chart.svg";
 import { TbUsersPlus } from "react-icons/tb";
+import SearchEngagementChart from "../Charts/SearchEngagementChart";
 
 const Overview = () => {
   return (
@@ -23,11 +24,20 @@ const Overview = () => {
           </div>
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">1.273</p>
-            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">+55</p>
+            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
+              +55
+            </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs primary-text font-medium">User Increased by 10% in last 7 days</p>
-            <Image src={chartImage} alt="user-engagement" width={100} height={100} />
+            <p className="text-xs primary-text font-medium">
+              User Increased by 10% in last 7 days
+            </p>
+            <Image
+              src={chartImage}
+              alt="user-engagement"
+              width={100}
+              height={100}
+            />
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-[#EEF3F8]">
@@ -44,11 +54,20 @@ const Overview = () => {
           </div>
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">5.3k</p>
-            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">+100</p>
+            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
+              +100
+            </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs primary-text font-medium">User Increased by 10% in last 7 days </p>
-            <Image src={chartImage} alt="user-engagement" width={100} height={100} />
+            <p className="text-xs primary-text font-medium">
+              User Increased by 10% in last 7 days{" "}
+            </p>
+            <Image
+              src={chartImage}
+              alt="user-engagement"
+              width={100}
+              height={100}
+            />
           </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-[#EEF3F8]">
@@ -65,14 +84,26 @@ const Overview = () => {
           </div>
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">273</p>
-            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">+60</p>
+            <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
+              +60
+            </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs primary-text font-medium">User Increased by 10% in last 7 days </p>
-            <Image src={chartImage} alt="user-engagement" width={100} height={100} />
+            <p className="text-xs primary-text font-medium">
+              User Increased by 10% in last 7 days{" "}
+            </p>
+            <Image
+              src={chartImage}
+              alt="user-engagement"
+              width={100}
+              height={100}
+            />
           </div>
         </div>
       </header>
+      <div className="grid grid-cols-2 mt-4">
+        <SearchEngagementChart />
+      </div>
     </div>
   );
 };
