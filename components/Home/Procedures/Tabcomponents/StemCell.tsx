@@ -38,7 +38,7 @@ const StemCell = () => {
               className="aspect-3/2 object-cover rounded-lg"
             />
           </div>
-          <h5 className="primary-text font-bold">{item.title}</h5>
+          <h5 className="text-base primary-text font-bold">{item.title}</h5>
           <p className="text-sm text-gray-400">4 clinics</p>
         </div>
       ))}

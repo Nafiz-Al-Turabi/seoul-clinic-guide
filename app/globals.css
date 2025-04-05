@@ -42,9 +42,7 @@ h4{
     @apply text-lg /*18px*/
 }
 
-h5{
-    @apply text-base /*16px*/
-}
+
 
 .typography{
     @apply text-xs sm:text-sm lg:text-base /*16px*/
