@@ -70,7 +70,7 @@ const Overview = () => {
             />
           </div>
         </div>
-        <div className="col-span-3 xl:col-span-1 bg-white p-4 rounded-xl border border-[#EEF3F8]">
+        <div className="bg-white p-4 rounded-xl border border-[#EEF3F8]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="bg-[#F0F6F9] rounded-md p-2 secondary-text">

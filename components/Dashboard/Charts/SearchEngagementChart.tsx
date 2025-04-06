@@ -145,9 +145,9 @@ const SearchEngagementChart = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-2">
+    <div className="bg-white rounded-lg p-4 shadow-sm">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-5 mb-6">
+        <div className="flex  items-center gap-2">
           <div className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
             <LuChartSpline size={20} />
           </div>
@@ -169,7 +169,7 @@ const SearchEngagementChart = () => {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg z-10 border">
+            <div className="absolute left-0 sm:right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-lg z-10 border">
               {months.map((month) => (
                 <div
                   key={month}

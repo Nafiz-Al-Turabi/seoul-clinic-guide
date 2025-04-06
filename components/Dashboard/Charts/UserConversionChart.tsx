@@ -52,7 +52,7 @@ const UserConversionChart = () => {
   const chartSeries = [204, 52, 24]; 
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm">
+    <div className="bg-white rounded-xl p-4 shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <div className="bg-[#EAF4FA] p-2 rounded-md">
