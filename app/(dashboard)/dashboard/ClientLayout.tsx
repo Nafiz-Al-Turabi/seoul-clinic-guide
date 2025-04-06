@@ -87,7 +87,7 @@ export default function ClientLayout({ children }) {
     <div className="flex bg-[#fafbfc] min-h-screen">
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black/20 md:hidden"
+          className="fixed inset-0 z-20 bg-black/20 lg:hidden"
           onClick={toggleSidebar}
         ></div>
       )}
@@ -96,7 +96,7 @@ export default function ClientLayout({ children }) {
       <div
         className={`fixed z-30 h-screen w-64 transform bg-white border-r border-[#EEF3F8] transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        } lg:translate-x-0`}
       >
         {/* Logo */}
         <div className="flex items-center py-8 pl-12">
@@ -165,8 +165,8 @@ export default function ClientLayout({ children }) {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto md:ml-64">
-        <div className="p-4 md:hidden">
+      <div className="flex-1 overflow-auto lg:ml-64">
+        <div className="p-4 lg:hidden">
           <button
             onClick={toggleSidebar}
             className="text-main focus:outline-none"
