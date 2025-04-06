@@ -6,7 +6,6 @@ import girlImage from "@/public/girl.jpg";
 
 const data = [
   {
-    serialNo: "01",
     name: "Paula Mora",
     image: girlImage,
     idNumber: "#123",
@@ -14,7 +13,6 @@ const data = [
     joinDateTime: "Feb 27, 2025 7:02 am",
   },
   {
-    serialNo: "02",
     name: "Autumn Phillips",
     image: girlImage,
     idNumber: "#234",
@@ -22,7 +20,6 @@ const data = [
     joinDateTime: "Mar 10, 2025 11:06 pm",
   },
   {
-    serialNo: "03",
     name: "Corina McCoy",
     image: girlImage,
     idNumber: "#784",
@@ -30,7 +27,6 @@ const data = [
     joinDateTime: "Mar 17, 2025 11:08 pm",
   },
   {
-    serialNo: "04",
     name: "Alex Buckmaster",
     image: girlImage,
     idNumber: "#236",
@@ -38,7 +34,6 @@ const data = [
     joinDateTime: "Mar 9, 2025 10:52 pm",
   },
   {
-    serialNo: "05",
     name: "Patricia Sanders",
     image: girlImage,
     idNumber: "#189",
@@ -46,7 +41,6 @@ const data = [
     joinDateTime: "Mar 13, 2025 3:31 am",
   },
   {
-    serialNo: "05",
     name: "Eddie Lake",
     image: girlImage,
     idNumber: "#018",
@@ -54,7 +48,6 @@ const data = [
     joinDateTime: "Feb 19, 2025 11:07 pm",
   },
   {
-    serialNo: "06",
     name: "Rodger Struck",
     image: girlImage,
     idNumber: "#018",
@@ -62,7 +55,6 @@ const data = [
     joinDateTime: "Mar 4, 2025 1:12 pm",
   },
   {
-    serialNo: "07",
     name: "Kenneth Allen",
     image: girlImage,
     idNumber: "#018",
@@ -70,7 +62,6 @@ const data = [
     joinDateTime: "Mar 6, 2025 9:14 am",
   },
   {
-    serialNo: "08",
     name: "Kimberly Mastrangelo",
     image: girlImage,
     idNumber: "#018",
@@ -78,7 +69,6 @@ const data = [
     joinDateTime: "Feb 27, 2025 1:03 pm",
   },
   {
-    serialNo: "09",
     name: "Frances Swann",
     image: girlImage,
     idNumber: "#018",
@@ -86,7 +76,6 @@ const data = [
     joinDateTime: "Mar 12, 2025 10:10 am",
   },
   {
-    serialNo: "10",
     name: "Rhonda Rhodes",
     image: girlImage,
     idNumber: "#018",
@@ -94,7 +83,6 @@ const data = [
     joinDateTime: "Mar 8, 2025 3:10 pm",
   },
   {
-    serialNo: "11",
     name: "Dennis Callis",
     image: girlImage,
     idNumber: "#789",
