@@ -190,7 +190,7 @@ const SearchEngagementChart = () => {
         options={chartOptions as ApexOptions}
         series={series}
         type="area"
-        height={350}
+        height={330}
       />
     </div>
   );

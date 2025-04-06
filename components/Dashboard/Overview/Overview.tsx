@@ -5,7 +5,7 @@ import Image from "next/image";
 import chartImage from "@/public/chart.svg";
 import { TbUsersPlus } from "react-icons/tb";
 import SearchEngagementChart from "../Charts/SearchEngagementChart";
-
+import UserConversionChart from "../Charts/UserConversionChart";
 const Overview = () => {
   return (
     <div>
@@ -70,7 +70,7 @@ const Overview = () => {
             />
           </div>
         </div>
-        <div className="bg-white p-4 rounded-xl border border-[#EEF3F8]">
+        <div className="col-span-3 xl:col-span-1 bg-white p-4 rounded-xl border border-[#EEF3F8]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
@@ -101,8 +101,13 @@ const Overview = () => {
           </div>
         </div>
       </header>
-      <div className="grid grid-cols-2 mt-4">
-        <SearchEngagementChart />
+      <div className="grid grid-cols-12 mt-4 gap-4">
+        <div className="col-span-12 xl:col-span-7 2xl:col-span-8">
+          <SearchEngagementChart />
+        </div>
+        <div className=" col-span-12 xl:col-span-5 2xl:col-span-4">
+          <UserConversionChart />
+        </div>
       </div>
     </div>
   );
