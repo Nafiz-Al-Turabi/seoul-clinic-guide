@@ -1,4 +1,4 @@
-import Users from "@/components/Users/Users";
+import Users from "@/components/Dashboard/Users/Users";
 import React from "react";
 
 const UserList = () => {

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import CustomTable, { TableColumn } from "../reusable/CustomTable";
+import CustomTable, { TableColumn } from "../../reusable/CustomTable";
 import { PiUsersThree } from "react-icons/pi";
 import girlImage from "@/public/girl.jpg";
 

@@ -1,4 +1,4 @@
-import Clinics from "@/components/Clinics/Clinics";
+import Clinics from "@/components/Dashboard/Clinics/Clinics";
 import React from "react";
 
 const ClinicList = () => {
