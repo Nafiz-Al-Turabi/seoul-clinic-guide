@@ -12,13 +12,22 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 const months = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 const monthlyData = [
-  1000, 2000, 1500, 3100, 3150, 2800,
-  1600, 3500, 3700, 2500, 2900, 1500
+  1000, 2000, 500, 2000, 4500, 2800, 1600, 3500, 3700, 2500, 2900,
 ];
 
 const formatValue = (val: number) =>
@@ -32,98 +41,101 @@ const SearchEngagementChart = () => {
   const selectedValue = monthlyData[selectedIndex];
   const formattedValue = formatValue(selectedValue);
 
-  const chartOptions = useMemo(() => ({
-    chart: {
-      type: "area",
-      height: 350,
-      fontFamily: "Inter, sans-serif",
-      toolbar: { show: false },
-      zoom: { enabled: false },
-    },
-    dataLabels: { enabled: false },
-    stroke: {
-      curve: "straight",
-      width: 2,
-      colors: ["#68B0D4"],
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.3,
-        opacityTo: 0.1,
-        stops: [0, 100],
-        colorStops: [
-          { offset: 0, color: "#68B0D4", opacity: 0.3 },
-          { offset: 100, color: "#68B0D4", opacity: 0.1 }
-        ]
-      }
-    },
-    grid: {
-      borderColor: "#f1f1f1",
-      strokeDashArray: 5,
-      xaxis: { lines: { show: true } },
-      yaxis: { lines: { show: true } }
-    },
-    xaxis: {
-      categories: months,
-      labels: {
-        style: {
-          colors: "#000",
-          fontSize: "12px",
+  const chartOptions = useMemo(
+    () => ({
+      chart: {
+        type: "area",
+        height: 350,
+        fontFamily: "Inter, sans-serif",
+        toolbar: { show: false },
+        zoom: { enabled: false },
+      },
+      dataLabels: { enabled: false },
+      stroke: {
+        curve: "straight",
+        width: 2,
+        colors: ["#68B0D4"],
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.3,
+          opacityTo: 0.1,
+          stops: [0, 100],
+          colorStops: [
+            { offset: 0, color: "#68B0D4", opacity: 0.3 },
+            { offset: 100, color: "#68B0D4", opacity: 0.1 },
+          ],
         },
       },
-      axisBorder: { show: false },
-      axisTicks: { show: false },
-    },
-    yaxis: {
-      min: 0,
-      max: 5000,
-      tickAmount: 5,
-      labels: {
-        formatter: (val: number) => (val >= 1000 ? `${val / 1000}k` : val),
-        style: {
-          colors: "#000",
-          fontSize: "12px",
-        },
+      grid: {
+        borderColor: "#f1f1f1",
+        strokeDashArray: 5,
+        xaxis: { lines: { show: true } },
+        yaxis: { lines: { show: true } },
       },
-    },
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (val: number) => val.toLocaleString(),
-      },
-      marker: { show: false },
-      theme: "light",
-    },
-    markers: {
-      size: 0,
-      colors: ["#68B0D4"],
-      strokeColors: "#FFFFFF",
-      strokeWidth: 4,
-      hover: { size: 8 },
-    },
-    annotations: {
-      xaxis: [
-        {
-          x: selectedMonth,
-          borderColor: "#111",
-          strokeDashArray: 2,
-          label: {
-            show: true,
-            borderColor: "#68B0D4",
-            style: {
-              color: "#fff",
-              background: "#68B0D4",
-              fontSize: "12px",
-            },
-            text: `${formattedValue}`,
-            offsetY: -8,
+      xaxis: {
+        categories: months,
+        labels: {
+          style: {
+            colors: "#000",
+            fontSize: "12px",
           },
         },
-      ],
-    },
-  }), [selectedMonth]);
+        axisBorder: { show: false },
+        axisTicks: { show: false },
+      },
+      yaxis: {
+        min: 0,
+        max: Math.ceil(Math.max(...monthlyData) / 1000) * 1000,
+        tickAmount: 5,
+        labels: {
+          formatter: (val: number) => (val >= 1000 ? `${val / 1000}k` : val),
+          style: {
+            colors: "#000",
+            fontSize: "12px",
+          },
+        },
+      },
+      tooltip: {
+        x: { show: false },
+        y: {
+          formatter: (val: number) => val.toLocaleString(),
+        },
+        marker: { show: false },
+        theme: "light",
+      },
+      markers: {
+        size: 0,
+        colors: ["#68B0D4"],
+        strokeColors: "#FFFFFF",
+        strokeWidth: 4,
+        hover: { size: 8 },
+      },
+      annotations: {
+        xaxis: [
+          {
+            x: selectedMonth,
+            borderColor: "#111",
+            strokeDashArray: 2,
+            label: {
+              show: true,
+              borderColor: "#68B0D4",
+              style: {
+                color: "#fff",
+                background: "#68B0D4",
+                fontSize: "12px",
+              },
+              text: `${formattedValue}`,
+              offsetY: -8,
+            },
+          },
+        ],
+      },
+    }),
+    [selectedMonth]
+  );
 
   const series = [
     {
@@ -137,12 +149,12 @@ const SearchEngagementChart = () => {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <div className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
-          <LuChartSpline size={20} />
+            <LuChartSpline size={20} />
           </div>
           <h5 className="text-lg font-semibold text-main">Search Engagement</h5>
           <button className="text-main cursor-pointer">
-              <FiInfo size={20} />
-            </button>
+            <FiInfo size={20} />
+          </button>
         </div>
 
         <div className="relative">
