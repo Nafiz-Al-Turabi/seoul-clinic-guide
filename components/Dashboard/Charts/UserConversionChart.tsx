@@ -56,11 +56,11 @@ const UserConversionChart = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <div className="bg-[#EAF4FA] p-2 rounded-md">
-            <LuChartLine size={18} className="text-[#5AAEDF]" />
+            <LuChartLine size={20} className="text-[#5AAEDF]" />
           </div>
           <h4 className="text-lg font-semibold">User Conversion Rate</h4>
         </div>
-        <FiInfo size={18} className="text-gray-400 cursor-pointer" />
+        <FiInfo size={20} className="text-main cursor-pointer" />
       </div>
 
       <div className="flex flex-col items-center">
