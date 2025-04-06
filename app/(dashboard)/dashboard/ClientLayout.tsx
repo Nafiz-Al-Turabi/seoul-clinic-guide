@@ -11,7 +11,7 @@ import { RiSettingsLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 
-// Menu and Bottom items as before...
+// Menu and Bottom items
 const menuItems = [
   { href: "/dashboard", icon: <RxDashboard size={18} />, label: "Overview" },
   {
@@ -63,20 +63,19 @@ const bottomMenu = [
 
 export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const pathname = usePathname(); // Get current pathname
+  const pathname = usePathname();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Create TopBar Component
   const TopBar = () => {
     const currentPage = menuItems.find((item) =>
       pathname.startsWith(item.href)
     )?.label;
 
     return (
-      <div className="bg-white text-main  p-4 flex items-center justify-between border-b border-[#EEF3F8]">
+      <div className="bg-white text-main p-4 flex items-center justify-between border-b border-[#EEF3F8]">
         <div className="font-semibold text-2xl">
           {currentPage || "Dashboard"}
         </div>
@@ -85,7 +84,7 @@ export default function ClientLayout({ children }) {
   };
 
   return (
-    <div className="flex bg-[#fafbfc]">
+    <div className="flex bg-[#fafbfc] min-h-screen">
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-20 bg-black/20 md:hidden"
@@ -95,12 +94,12 @@ export default function ClientLayout({ children }) {
 
       {/* Sidebar */}
       <div
-        className={`fixed z-30 h-screen w-64 transform bg-white border-r border-[#EEF3F8] transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${
+        className={`fixed z-30 h-screen w-64 transform bg-white border-r border-[#EEF3F8] transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        } md:translate-x-0`}
       >
         {/* Logo */}
-        <div className="flex items-center py-8 pl-12 ">
+        <div className="flex items-center py-8 pl-12">
           <Link href="/">
             <Image src={logo} alt="logo" />
           </Link>
@@ -111,7 +110,6 @@ export default function ClientLayout({ children }) {
           {menuItems.map((item, index) => {
             const isActive =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
-
             return (
               <div className="mb-2" key={index}>
                 <Link
@@ -134,7 +132,6 @@ export default function ClientLayout({ children }) {
         <div className="absolute bottom-0 w-full">
           {bottomMenu.map((item, index) => {
             const isActive = pathname === item.href;
-
             return (
               <div className="px-2 py-1" key={index}>
                 <Link
@@ -167,9 +164,8 @@ export default function ClientLayout({ children }) {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-auto">
-        {/* Toggle button for mobile */}
+      {/* Main Content */}
+      <div className="flex-1 overflow-auto md:ml-64">
         <div className="p-4 md:hidden">
           <button
             onClick={toggleSidebar}
@@ -178,11 +174,7 @@ export default function ClientLayout({ children }) {
             <HiOutlineMenuAlt1 size={26} />
           </button>
         </div>
-
-        {/* Top Bar */}
         <TopBar />
-
-        {/* Main Content */}
         <div className="p-4">{children}</div>
       </div>
     </div>
