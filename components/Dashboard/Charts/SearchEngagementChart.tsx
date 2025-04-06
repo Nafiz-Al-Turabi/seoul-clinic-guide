@@ -53,7 +53,7 @@ const SearchEngagementChart = () => {
       dataLabels: { enabled: false },
       stroke: {
         curve: "straight",
-        width: 2,
+        width: 3,
         colors: ["#68B0D4"],
       },
       fill: {
