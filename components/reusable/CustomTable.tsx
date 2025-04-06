@@ -72,7 +72,7 @@ const CustomTable: React.FC<TableProps> = ({
                 {columns.map((col) => (
                   <TableCell
                     key={col.key}
-                    className="text-center text-[#555F7E] py-4 border-b border-[#EEF3F8]"
+                    className="text-center text-[#555F7E] py-4 "
                   >
                     {col.type === "image" ? (
                       <img
