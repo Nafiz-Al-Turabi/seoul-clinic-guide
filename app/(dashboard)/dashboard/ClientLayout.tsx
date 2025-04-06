@@ -108,8 +108,12 @@ export default function ClientLayout({ children }) {
         {/* Menu Items */}
         <nav className="mt-4 px-4">
           {menuItems.map((item, index) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            const isActive = (() => {
+              if (item.href === "/dashboard") {
+                return pathname === "/dashboard";
+              }
+              return pathname.startsWith(item.href);
+            })();
             return (
               <div className="mb-2" key={index}>
                 <Link
