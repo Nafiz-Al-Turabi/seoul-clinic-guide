@@ -40,7 +40,7 @@ const CustomTable: React.FC<TableProps> = ({
             {columns.map((col) => (
               <TableHead
                 key={col.key}
-                className="text-[#62636C] text-center text-base py-5 font-medium whitespace-nowrap border-b border-[#EEF3F8]"
+                className="text-[#62636C] text-left text-base py-5 font-medium whitespace-nowrap border-b border-[#EEF3F8]"
               >
                 {col.label}
               </TableHead>
@@ -72,13 +72,13 @@ const CustomTable: React.FC<TableProps> = ({
                 {columns.map((col) => (
                   <TableCell
                     key={col.key}
-                    className="text-center text-[#555F7E] py-4 "
+                    className="text-left text-[#555F7E] py-4 "
                   >
                     {col.type === "image" ? (
                       <img
                         src={row[col.key]?.src || row[col.key]}
                         alt="Profile"
-                        className="w-10 h-10 rounded-full object-cover mx-auto"
+                        className="w-10 h-10 rounded-full object-cover "
                       />
                     ) : (
                       row[col.key] ?? "N/A"
