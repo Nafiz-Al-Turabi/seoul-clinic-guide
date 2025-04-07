@@ -12,6 +12,8 @@ import { SelectValue } from "@radix-ui/react-select";
 import { BsSortDown } from "react-icons/bs";
 import React from "react";
 import { BiNotepad } from "react-icons/bi";
+import { FaPlus } from "react-icons/fa";
+import { TbNotes } from "react-icons/tb";
 
 const BlogList = () => {
   const data = [];
@@ -26,18 +28,19 @@ const BlogList = () => {
   );
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
-      <div className="flex justify-between items-center pb-4 ">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center pb-4 ">
         <div className="flex items-center gap-2">
           <span className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
             <BiNotepad size={20} />
           </span>
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
-        <div>
+        <div className="flex gap-4 mt-4 sm:mt-0">
+          <button className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"><TbNotes />Add New Blog <FaPlus size={10} /></button>
           <Select>
-            <SelectTrigger className=" justify-between  py-5">
+            <SelectTrigger className=" justify-between text-main  py-5">
               <span className="flex items-center gap-2">
-                <BsSortDown size={20}/>
+                <BsSortDown size={20} />
                 <SelectValue placeholder="Filter Sort" />
               </span>
             </SelectTrigger>

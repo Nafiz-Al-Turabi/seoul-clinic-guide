@@ -116,18 +116,18 @@ const Users = () => {
   );
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
-      <div className="flex justify-between items-center pb-4 ">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center pb-4 ">
         <div className="flex items-center gap-2">
           <span className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
             <PiUsersThree size={20} />
           </span>
           <h5 className="text-base sm:text-[1.5rem] font-bold">Users</h5>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 mt-4 sm:mt-0">
           <Select>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
-                <MdOutlineCalendarMonth  size={20} />
+                <MdOutlineCalendarMonth   size={20} />
                 <SelectValue placeholder="Select Month" />
               </span>
             </SelectTrigger>
