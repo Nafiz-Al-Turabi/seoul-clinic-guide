@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BsSortDown } from "react-icons/bs";
+import { MdOutlineCalendarMonth } from "react-icons/md";
 
 const data = [
   {
@@ -102,14 +103,13 @@ const data = [
 ];
 
 const Users = () => {
-    const columns: TableColumn[] = [
-        { key: "image", label: "Image", type: "image" },
-        { key: "name", label: "Name", type: "text" },
-        { key: "idNumber", label: "ID Number", type: "text" }, 
-        { key: "email", label: "Email Address", type: "text" },
-        { key: "joinDateTime", label: "Join Date & Time", type: "text" }, 
-      ];
-      
+  const columns: TableColumn[] = [
+    { key: "image", label: "Image", type: "image" },
+    { key: "name", label: "Name", type: "text" },
+    { key: "idNumber", label: "ID Number", type: "text" },
+    { key: "email", label: "Email Address", type: "text" },
+    { key: "joinDateTime", label: "Join Date & Time", type: "text" },
+  ];
 
   const tableActions = (row: any) => (
     <button className="border-b text-[#555F7E] capitalize">View</button>
@@ -123,11 +123,36 @@ const Users = () => {
           </span>
           <h5 className="text-base sm:text-[1.5rem] font-bold">Users</h5>
         </div>
-        <div>
-        <Select>
+        <div className="flex gap-4">
+          <Select>
+            <SelectTrigger className="justify-between py-5">
+              <span className="flex items-center gap-2">
+                <MdOutlineCalendarMonth  size={20} />
+                <SelectValue placeholder="Select Month" />
+              </span>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Months</SelectLabel>
+                <SelectItem value="january">January</SelectItem>
+                <SelectItem value="february">February</SelectItem>
+                <SelectItem value="march">March</SelectItem>
+                <SelectItem value="april">April</SelectItem>
+                <SelectItem value="may">May</SelectItem>
+                <SelectItem value="june">June</SelectItem>
+                <SelectItem value="july">July</SelectItem>
+                <SelectItem value="august">August</SelectItem>
+                <SelectItem value="september">September</SelectItem>
+                <SelectItem value="october">October</SelectItem>
+                <SelectItem value="november">November</SelectItem>
+                <SelectItem value="december">December</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Select>
             <SelectTrigger className=" justify-between  py-5">
               <span className="flex items-center gap-2">
-                <BsSortDown size={20}/>
+                <BsSortDown size={20} />
                 <SelectValue placeholder="Filter Sort" />
               </span>
             </SelectTrigger>
