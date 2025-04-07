@@ -14,6 +14,7 @@ import React from "react";
 import { BiNotepad } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { TbNotes } from "react-icons/tb";
+import Link from "next/link";
 
 const BlogList = () => {
   const data = [];
@@ -36,7 +37,7 @@ const BlogList = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
         <div className="flex gap-4 mt-4 sm:mt-0">
-          <button className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"><TbNotes />Add New Blog <FaPlus size={10} /></button>
+          <Link href="/dashboard/blog-post" className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"><TbNotes />Add New Blog <FaPlus size={10} /></Link>
           <Select>
             <SelectTrigger className=" justify-between text-main  py-5">
               <span className="flex items-center gap-2">
