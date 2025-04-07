@@ -1,6 +1,15 @@
 "use client";
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
-import { table } from "console";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+} from "@/components/ui/select";
+import { SelectValue } from "@radix-ui/react-select";
+import { BsSortDown } from "react-icons/bs";
 import React from "react";
 import { BiNotepad } from "react-icons/bi";
 
@@ -25,7 +34,23 @@ const BlogList = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
         <div>
-          <button className="border p-3">Filter and other </button>
+          <Select>
+            <SelectTrigger className=" justify-between  py-5">
+              <span className="flex items-center gap-2">
+                <BsSortDown size={20}/>
+                <SelectValue placeholder="Filter Sort" />
+              </span>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sort</SelectLabel>
+                <SelectItem value="apple">Ascending</SelectItem>
+                <SelectItem value="banana"> Descending</SelectItem>
+                <SelectItem value="blueberry">Sort by Date</SelectItem>
+                <SelectItem value="grapes"> Sort by Name</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <CustomTable data={data} columns={columns} actions={tableActions} />
