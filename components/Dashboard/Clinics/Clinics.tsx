@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/select";
 import { BsSortDown } from "react-icons/bs";
 import { SelectValue } from "@radix-ui/react-select";
+import Link from "next/link";
+import { TbNotes } from "react-icons/tb";
+import { FaPlus } from "react-icons/fa";
 
 const data = [
   {
@@ -107,11 +110,18 @@ const Clinics = () => {
           </span>
           <h5 className="text-base sm:text-[1.5rem] font-bold">Clinics</h5>
         </div>
-        <div>
-        <Select>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/dashboard/blog-post"
+            className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
+          >
+            <TbNotes />
+            Add New Clinic <FaPlus size={10} />
+          </Link>
+          <Select>
             <SelectTrigger className=" justify-between  py-5">
               <span className="flex items-center gap-2">
-                <BsSortDown size={20}/>
+                <BsSortDown size={20} />
                 <SelectValue placeholder="Filter Sort" />
               </span>
             </SelectTrigger>
