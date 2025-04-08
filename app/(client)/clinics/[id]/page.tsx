@@ -72,7 +72,7 @@ const page = () => {
             </div>
           </div>
         </div>
-        <section className="flex gap-6 mb-20">
+        <section className="flex flex-col lg:flex-row gap-6 mb-20">
           <div className="w-full space-y-4 bg-[#F9FDFD] p-6 rounded-[8px]">
             <h5 className="text-[2rem] primary-text font-bold">Overview</h5>
             <p className="text-sm sm:text-base ">
@@ -86,7 +86,7 @@ const page = () => {
               well-being.
             </p> 
           </div>
-          <div className="w-[480px] h-fit border border-[#EEF3F8] rounded-[8px] p-4">
+          <div className="xl:w-[480px] h-fit border border-[#EEF3F8] rounded-[8px] p-4">
             <p className="text-sm font-medium text-main">Procedures</p>
             <div className="grid grid-cols-2 gap-2 mt-4">
               {["Abortion", "Adenomyosis", "Armpit Whitening","Autologous Stem Cell Therapy"].map((item) => (
