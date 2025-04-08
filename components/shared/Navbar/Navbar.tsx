@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/public/logo.svg";
 import CustomImage from "@/components/reusable/CustomImage";
+import DropdownProfile from "../DropdownProfile/DropdownProfile";
 
 const menus = [
   { path: "/", label: "Home" },
@@ -20,8 +21,8 @@ const menus = [
   {
     label: "Clinics",
     dropdown: [
-      { path: "#", label: "Seoul Clinics" },
-      { path: "#", label: "Top Rated" },
+      { path: "/clinics", label: "Seoul Clinics" },
+      // { path: "#", label: "Top Rated" },
     ],
   },
   { path: "/procedures", label: "Procedures" },
@@ -56,12 +57,14 @@ export default function Navbar() {
     }));
   };
 
+  const admin = true;
+
   return (
     <nav className="bg-white z-50 relative py-2">
-      <div className="max-w-[86rem] mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <CustomImage src={logo} alt="Logo"  />
+          <CustomImage src={logo} alt="Logo" />
           {/* <Image src={logo} alt="Logo"  /> */}
         </Link>
 
@@ -110,28 +113,44 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Auth */}
-        <div className="hidden lg:flex gap-2">
-          <Link
-            href="/auth/login"
-            className="px-6 py-2.5 primary-bg text-white rounded-full text-sm  transition"
-          >
-            Login
-          </Link>
-          <Link
-            href="/auth/register"
-            className="px-6 py-2.5 border border-[#68B0D4]  rounded-full text-sm hover:bg-sky-50 transition"
-          >
-            Signup
-          </Link>
-        </div>
+        {admin === true ? (
+          <div className="hidden lg:flex items-center gap-4">
+            <div>
+              <DropdownProfile />
+            </div>
+            <button className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 cursor-pointer">
+              Start Enquiry
+            </button>
+          </div>
+        ) : (
+          <div className="hidden lg:flex gap-2">
+            <Link
+              href="/auth/login"
+              className="px-6 py-2.5 primary-bg text-white rounded-full text-sm  transition"
+            >
+              Login
+            </Link>
+            <Link
+              href="/auth/register"
+              className="px-6 py-2.5 border border-[#68B0D4]  rounded-full text-sm hover:bg-sky-50 transition"
+            >
+              Signup
+            </Link>
+          </div>
+        )}
 
         {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden text-gray-700"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={26} /> : <Menu size={26} />}
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="block lg:hidden">
+            <DropdownProfile />
+          </div>
+          <button
+            className="lg:hidden text-gray-700"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}
