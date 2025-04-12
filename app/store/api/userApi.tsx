@@ -15,10 +15,10 @@ export const userApi = baseApi.injectEndpoints({
       invalidatesTags: ["Users"],
     }),
     updateUser: builder.mutation({
-      query: ({ id, ...update }) => ({
+      query: (formData: FormData) => ({
         url: "/auth/update",
         method: "PATCH",
-        body: FormData,
+        body: formData,
       }),
     }),
     deleteUser: builder.mutation({
