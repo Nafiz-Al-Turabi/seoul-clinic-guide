@@ -6,6 +6,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import registerImage from "@/public/assets/images/register.svg";
+import { useSignupMutation } from "@/app/store/api/authApi";
 
 const Register = () => {
   type LoginFormInputs = {
@@ -14,6 +15,8 @@ const Register = () => {
     confirmPassword: string;
   };
 
+  const [signup, { isLoading: isSignupLoading, error: signupError }] =
+  useSignupMutation();
   const {
     register,
     handleSubmit,
@@ -21,8 +24,9 @@ const Register = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     console.log("Register data:", data);
+    await signup(data).unwrap();
     // Handle registration here
   };
 

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { BsSortDown } from "react-icons/bs";
 import { MdOutlineCalendarMonth } from "react-icons/md";
+import { useGetUsersQuery } from "@/app/store/api/userApi";
 
 const data = [
   {
@@ -103,6 +104,7 @@ const data = [
 ];
 
 const Users = () => {
+  // const { data, isLoading  } = useGetUsersQuery(1)
   const columns: TableColumn[] = [
     { key: "image", label: "Image", type: "image" },
     { key: "name", label: "Name", type: "text" },

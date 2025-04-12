@@ -6,6 +6,7 @@ import CustomImage from "@/components/reusable/CustomImage";
 import loginImage from "@/public/assets/images/login.svg";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
+import { useSigninMutation } from "@/app/store/api/authApi";
 
 type LoginFormInputs = {
   email: string;
@@ -18,9 +19,19 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
-
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Login data:", data);
+  const [signin, { isLoading: isLoginLoading, error: loginError }] =
+    useSigninMutation(); // Assuming you have a login mutation defined in your API slice
+  const onSubmit = async (data: LoginFormInputs) => {
+    await signin(data)
+      .unwrap()
+      .then((response) => {
+        console.log("Login response:", response); // Log the response for debugging
+        // Handle successful login here, e.g., redirect to a dashboard
+      })
+      .catch((error) => {
+        console.error("Login error:", error); // Log the error for debugging
+        // Handle login error here, e.g., show an error message to the user
+      });
   };
 
   return (

@@ -7,6 +7,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/public/logo.svg";
 import CustomImage from "@/components/reusable/CustomImage";
 import DropdownProfile from "../DropdownProfile/DropdownProfile";
+import { useGetMeQuery } from "@/app/store/api/authApi";
 
 const menus = [
   { path: "/", label: "Home" },
@@ -36,7 +37,8 @@ export default function Navbar() {
     [key: string]: boolean;
   }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  const { data: user, isLoading } = useGetMeQuery(null);
+  console.log(user, "user data");
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -57,7 +59,7 @@ export default function Navbar() {
     }));
   };
 
-  const admin = true;
+  
 
   return (
     <nav className="bg-white z-50 relative py-2">
@@ -113,7 +115,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Auth */}
-        {admin === true ? (
+        {user ? (
           <div className="hidden lg:flex items-center gap-4">
             <div>
               <DropdownProfile />
