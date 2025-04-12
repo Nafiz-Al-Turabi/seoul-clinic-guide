@@ -7,6 +7,7 @@ import loginImage from "@/public/assets/images/login.svg";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useSigninMutation } from "@/app/store/api/authApi";
+import {  useRouter } from "next/navigation";
 
 type LoginFormInputs = {
   email: string;
@@ -14,23 +15,23 @@ type LoginFormInputs = {
 };
 
 const Login = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
   const [signin, { isLoading: isLoginLoading, error: loginError }] =
-    useSigninMutation(); // Assuming you have a login mutation defined in your API slice
+    useSigninMutation(); 
   const onSubmit = async (data: LoginFormInputs) => {
     await signin(data)
       .unwrap()
       .then((response) => {
-        console.log("Login response:", response); // Log the response for debugging
-        // Handle successful login here, e.g., redirect to a dashboard
+        console.log("Login response:", response); 
+        router.push("/"); 
       })
       .catch((error) => {
-        console.error("Login error:", error); // Log the error for debugging
-        // Handle login error here, e.g., show an error message to the user
+        console.error("Login error:", error); 
       });
   };
 
@@ -94,7 +95,7 @@ const Login = () => {
                 type="submit"
                 className="bg-[#68B0D4] text-white text-lg p-2 lg:p-3 w-full rounded-full hover:bg-[#305162] cursor-pointer duration-300"
               >
-                Login Now
+                {isLoginLoading ? "Loading...": "Login Now"}
               </button>
             </form>
 

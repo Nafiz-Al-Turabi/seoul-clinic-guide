@@ -33,9 +33,7 @@ const menus = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState("");
-  const [mobileDropdowns, setMobileDropdowns] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [mobileDropdowns, setMobileDropdowns] = useState<{[key: string]: boolean;}>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: user, isLoading } = useGetMeQuery(null);
   console.log(user, "user data");
