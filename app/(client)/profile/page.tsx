@@ -1,20 +1,34 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import { useUpdateUserMutation } from "@/app/store/api/userApi";
+import { useGetMeQuery } from "@/app/store/api/authApi";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState("/default-avatar.jpg");
+  const [updateUser, { isLoading, error }] = useUpdateUserMutation();
+  const { data: user } = useGetMeQuery([]);
+ 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
+  useEffect(() => {
+    if (user?.data) {
+      reset({
+        name: user.data.name || "",
+        phone_number: user.data.phone_number || "",
+        region: user.data.region || "",
+        location: user.data.location || "",
+        bio: user.data.bio || "",
+        old_password: "",
+        password: "",
+      });
+    }
+  }, [user, reset]);
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -30,9 +44,40 @@ const Profile = () => {
     setProfileImage("/default-avatar.jpg");
   };
 
+  const onSubmit = async (data) => {
+    try {
+      const payload = {
+        name: data.name,
+        phone_number: data.phone_number,
+        region: data.region,
+        location: data.location,
+        bio: data.bio,
+        // old_password: data.old_password,
+        // password: data.password,
+        profileImage,
+      };
+
+        if (data.password) {
+          payload["password"] = data.password;
+        }
+        if (data.old_password) {
+          payload["old_password"] = data.old_password;
+        }
+
+      const response = await updateUser(payload).unwrap();
+      console.log("User updated:", response);
+      // Optionally show success message or redirect
+    } catch (err) {
+      console.error("Update failed:", err);
+      // Optionally show error message
+    }
+  };
+
   return (
     <div className="px-4 py-10 max-w-[86rem] mx-auto 2xl:mb-44">
-      <p className="text-[2rem] font-semibold primary-text text-center sm:text-left">Account</p>
+      <p className="text-[2rem] font-semibold primary-text text-center sm:text-left">
+        Account
+      </p>
 
       <div className="flex flex-col items-center  sm:flex-row sm:items-center my-6">
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
@@ -76,6 +121,7 @@ const Profile = () => {
             </label>
             <input
               id="name"
+              
               type="text"
               placeholder="Enter your full name"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
@@ -95,13 +141,13 @@ const Profile = () => {
               Contact Number<span className="text-red-500">*</span>
             </label>
             <input
-              id="contactNumber"
+              id="phone_number"
               type="tel"
               placeholder="Enter your contact number"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.contactNumber ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("contactNumber", {
+              {...register("phone_number", {
                 required: "Contact number is required",
               })}
             />
@@ -183,13 +229,13 @@ const Profile = () => {
               Old Password
             </label>
             <input
-              id="oldPassword"
+              id="old_password"
               type="password"
               placeholder="Enter your old password"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.oldPassword ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("oldPassword")}
+              {...register("old_password")}
             />
             {errors.oldPassword && (
               <p className="mt-1 text-red-500 text-sm">
@@ -209,7 +255,7 @@ const Profile = () => {
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.newPassword ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("newPassword")}
+              {...register("password")}
             />
             {errors.newPassword && (
               <p className="mt-1 text-red-500 text-sm">

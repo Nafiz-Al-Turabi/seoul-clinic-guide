@@ -26,7 +26,7 @@ export default function DropdownProfile() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  const { data: user, isLoading } = useGetMeQuery(null);
+  const { data: user } = useGetMeQuery(null);
 
   const handleLogout = useLogout();
 
