@@ -9,7 +9,7 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState("/default-avatar.jpg");
   const [imageFile, setImageFile] = useState(null);
   const [updateUser, { isLoading, error }] = useUpdateUserMutation();
-  const { data: user } = useGetMeQuery([]);
+  const { data: user,refetch } = useGetMeQuery([]);
 
   const {
     register,
@@ -77,6 +77,7 @@ const Profile = () => {
 
       const response = await updateUser(formData).unwrap();
       console.log("User updated:", response);
+      refetch()
     } catch (err) {
       console.error("Update failed:", err);
     }
@@ -94,7 +95,7 @@ const Profile = () => {
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
             <Image
-              src={profileImage}
+              src={imageFile ? profileImage : user?.data?.avatar_url || "/default-avatar.jpg"}
               alt="Profile"
               width={90}
               height={90}

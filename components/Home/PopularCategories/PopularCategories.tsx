@@ -38,9 +38,9 @@ const PopularCategories = () => {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-6 gap-10 ">
                 {categories.map((category, index) => (
-                    <div className='flex flex-col lg:w-[80px] items-center '>
+                    <div  key={index} className='flex flex-col lg:w-[80px] items-center '>
                         <div
-                            key={index}
+                           
                             className=" h-[80px] w-[80px] flex flex-col items-center justify-center p-4 bg-[#E8F7F7] rounded-[10px] border-2 border-[#A1D5F0] hover:bg-[#e8f7f7b2] transition-colors duration-300 cursor-pointer"
                         >
                             <CustomImage src={category.icon} alt={category.label} />

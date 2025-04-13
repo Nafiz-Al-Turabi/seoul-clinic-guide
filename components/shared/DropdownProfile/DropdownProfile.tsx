@@ -37,9 +37,11 @@ export default function DropdownProfile() {
         className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition bg-white border border-[#EEF3F8]"
       >
         <Image
-          src={profileImage}
+          src={user?.data?.avatar_url || profileImage}
           alt="Profile"
-          className="w-8 h-8 lg:w-10 lg:h-10 rounded-full object-cover"
+          width={32}
+          height={32}
+          className="w-8 h-8 lg:w-8 lg:h-8 rounded-full object-cover"
         />
         <IoIosArrowDown />
       </button>
