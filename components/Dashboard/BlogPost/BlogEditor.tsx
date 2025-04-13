@@ -7,13 +7,18 @@ import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 import { FaFacebookF } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import {
+  useBlogCategoriesQuery,
+  useCreateBlogMutation,
+} from "@/app/store/api/blogApi";
 
 type AuthorFormData = {
   title: string;
-  authorName: string;
+  author_name: string;
   email: string;
   facebook: string;
   twitter: string;
+  blog_category_id: string;
 };
 
 export default function BlogEditor() {
@@ -21,7 +26,11 @@ export default function BlogEditor() {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [authorImage, setAuthorImage] = useState<string>("/default-avatar.jpg");
+  const [authorImageFile, setAuthorImageFile] = useState<File | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  const [createblog, { isLoading, error }] = useCreateBlogMutation();
+  const { data: BlogCategories } = useBlogCategoriesQuery(null);
 
   const {
     register,
@@ -40,24 +49,52 @@ export default function BlogEditor() {
     setShowModal(true);
   };
 
-  const onSubmit = (data: AuthorFormData) => {
+  const onSubmit = async (data: AuthorFormData) => {
     const content = editorRef.current?.getContent();
-    console.log("Blog Title:", data.title);
-    console.log("Cover Image:", coverImage);
-    console.log("Content:", content);
-    console.log("Author Info:", data);
-    console.log("Author Image:", authorImage);
-    setShowModal(false);
+    if (!coverImage || !authorImageFile) {
+      alert("Please upload both images.");
+      return;
+    }
+
+    const blogObject = {
+      title: data.title,
+      content: content,
+      author_name: data.author_name,
+      email: data.email,
+      facebook: data.facebook,
+      twitter: data.twitter,
+    };
+
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("content", content || "");
+    formData.append("author_name", data.author_name);
+    formData.append("email", data.email);
+    formData.append("facebook", data.facebook);
+    formData.append("x", data.twitter);
+    formData.append("blog_category_id", data.blog_category_id); 
+    // need blog_category_id
+
+    formData.append("author_picture", authorImageFile);
+
+    await createblog(formData)
+      .unwrap()
+      .then((response) => {
+        console.log("Blog created successfully:", response);
+        alert("Blog created successfully!");
+        setShowModal(false);
+      })
+      .catch((error) => {
+        console.error("Error creating blog:", error);
+        alert("Failed to create blog. Please try again.");
+      });
   };
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault(); 
-      }}
+      onSubmit={handleSubmit(onSubmit)}
       className="p-6 space-y-6 bg-white rounded-2xl shadow"
     >
-      {/* Title */}
       <input
         {...register("title", { required: true })}
         placeholder="Blog title..."
@@ -67,7 +104,6 @@ export default function BlogEditor() {
         <p className="text-red-500 text-sm">Title is required</p>
       )}
 
-      {/* Cover Image */}
       <div className="flex items-center space-x-4">
         <label className="text-xs sm:text-lg px-4 py-2 bg-[#68b0d4] text-white rounded cursor-pointer hover:bg-[#68b0d4]/90 transition duration-300">
           Upload Cover Image
@@ -95,7 +131,27 @@ export default function BlogEditor() {
         )}
       </div>
 
-      {/* TinyMCE Editor */}
+      <div>
+        <label
+          htmlFor="blog_category_id"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Select Category
+        </label>
+        <select
+          id="blog_category_id"
+          {...register("blog_category_id", { required: true })}
+          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 p-2.5"
+        >
+          <option value="">Select a category</option>
+          {BlogCategories?.data?.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <Editor
         apiKey="sk77lbge33d4v322u8sel5ryk6t1j2t298xgizldv4zsv1jl"
         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -122,20 +178,15 @@ export default function BlogEditor() {
             "wordcount",
           ],
           toolbar:
-            "undo redo | blocks | fontsizeselect | " +
-            "bold italic underline | alignleft aligncenter alignright alignjustify | " +
-            "bullist numlist outdent indent | link image media | code preview",
+            "undo redo | blocks | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code preview",
           fontsize_formats:
             "8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 40pt 56pt 64pt 72pt",
           automatic_uploads: true,
-          file_picker_types: "image",
-          images_upload_url: "/api/upload",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
 
-      {/* Publish Button */}
       <div className="text-right">
         <button
           type="button"
@@ -146,11 +197,9 @@ export default function BlogEditor() {
         </button>
       </div>
 
-      {/* Author Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg max-w-5xl w-full relative">
-            {/* Close Button */}
             <button
               className="absolute top-5 right-5 text-gray-500 hover:text-black text-xl"
               type="button"
@@ -159,9 +208,7 @@ export default function BlogEditor() {
               <IoMdClose size={20} />
             </button>
 
-            {/* Modal Content (No nested form) */}
             <div className="flex flex-col md:flex-row gap-6">
-              {/* Author Image */}
               <div className="flex-shrink-0 text-center">
                 <Image
                   src={authorImage}
@@ -178,6 +225,7 @@ export default function BlogEditor() {
                     const file = e.target.files?.[0];
                     if (file) {
                       setAuthorImage(URL.createObjectURL(file));
+                      setAuthorImageFile(file);
                     }
                   }}
                   className="hidden"
@@ -190,18 +238,17 @@ export default function BlogEditor() {
                 </label>
               </div>
 
-              {/* Form Fields */}
               <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-4 h-fit relative">
                 <div>
                   <label className="block font-semibold mb-1">
                     Author name
                   </label>
                   <input
-                    {...register("authorName", { required: true })}
+                    {...register("author_name", { required: true })}
                     placeholder="Please enter full name"
                     className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#68b0d4]"
                   />
-                  {errors.authorName && (
+                  {errors.author_name && (
                     <p className="text-red-500 text-sm">
                       Author name is required
                     </p>
@@ -255,7 +302,6 @@ export default function BlogEditor() {
               </div>
             </div>
 
-            {/* Submit from modal */}
             <div className="md:absolute top-1/2 md:left-[40.6%] lg:left-[30%] xl:left-[29.4%] mt-6 flex justify-end gap-4">
               <button
                 type="button"
@@ -265,8 +311,7 @@ export default function BlogEditor() {
                 Cancel
               </button>
               <button
-                type="button"
-                onClick={handleSubmit(onSubmit)}
+                type="submit"
                 className="bg-[#68b0d4] text-white px-6 py-2 rounded hover:shadow-md hover:bg-[#5aa0c3] transition-all"
               >
                 Publish
