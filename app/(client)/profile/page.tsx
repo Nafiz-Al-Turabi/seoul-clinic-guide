@@ -7,15 +7,17 @@ import { useGetMeQuery } from "@/app/store/api/authApi";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState("/default-avatar.jpg");
+  const [imageFile, setImageFile] = useState(null);
   const [updateUser, { isLoading, error }] = useUpdateUserMutation();
   const { data: user } = useGetMeQuery([]);
- 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
+
   useEffect(() => {
     if (user?.data) {
       reset({
@@ -27,14 +29,19 @@ const Profile = () => {
         old_password: "",
         password: "",
       });
+      if (user.data.imageUrl) {
+        setProfileImage(user.data.imageUrl);
+      }
     }
   }, [user, reset]);
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfileImage(e.target.result as string);
+        setProfileImage(e.target.result);
       };
       reader.readAsDataURL(file);
     }
@@ -42,36 +49,37 @@ const Profile = () => {
 
   const handleDeletePhoto = () => {
     setProfileImage("/default-avatar.jpg");
+    setImageFile(null);
   };
 
   const onSubmit = async (data) => {
     try {
-      const payload = {
-        name: data.name,
-        phone_number: data.phone_number,
-        region: data.region,
-        location: data.location,
-        bio: data.bio,
-        // old_password: data.old_password,
-        // password: data.password,
-        profileImage,
-      };
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("phone_number", data.phone_number);
+      formData.append("region", data.region);
+      formData.append("location", data.location);
+      formData.append("bio", data.bio);
 
-        if (data.password) {
-          payload["password"] = data.password;
-        }
-        if (data.old_password) {
-          payload["old_password"] = data.old_password;
-        }
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
 
-      const response = await updateUser(payload).unwrap();
+      if (data.password) {
+        formData.append("password", data.password);
+      }
+      if (data.old_password) {
+        formData.append("old_password", data.old_password);
+      }
+
+      const response = await updateUser(formData).unwrap();
       console.log("User updated:", response);
-      // Optionally show success message or redirect
     } catch (err) {
       console.error("Update failed:", err);
-      // Optionally show error message
     }
   };
+
+  
 
   return (
     <div className="px-4 py-10 max-w-[86rem] mx-auto 2xl:mb-44">
