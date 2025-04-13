@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useUpdateUserMutation } from "@/app/store/api/userApi";
 import { useGetMeQuery } from "@/app/store/api/authApi";
+import { toast } from "sonner";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState("/default-avatar.jpg");
   const [imageFile, setImageFile] = useState(null);
   const [updateUser, { isLoading, error }] = useUpdateUserMutation();
-  const { data: user,refetch } = useGetMeQuery([]);
+  const { data: user, refetch } = useGetMeQuery([]);
 
   const {
     register,
@@ -76,14 +77,15 @@ const Profile = () => {
       }
 
       const response = await updateUser(formData).unwrap();
-      console.log("User updated:", response);
-      refetch()
+      if (response?.success) {
+        toast.success(response?.message);
+      }
+      refetch();
     } catch (err) {
-      console.error("Update failed:", err);
+      toast.error("Something went wrong. Please try again.");
+      console.error("Error updating user:", err);
     }
   };
-
-  
 
   return (
     <div className="px-4 py-10 max-w-[86rem] mx-auto 2xl:mb-44">
@@ -95,7 +97,11 @@ const Profile = () => {
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
             <Image
-              src={imageFile ? profileImage : user?.data?.avatar_url || "/default-avatar.jpg"}
+              src={
+                imageFile
+                  ? profileImage
+                  : user?.data?.avatar_url || "/default-avatar.jpg"
+              }
               alt="Profile"
               width={90}
               height={90}
@@ -133,7 +139,6 @@ const Profile = () => {
             </label>
             <input
               id="name"
-              
               type="text"
               placeholder="Enter your full name"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
@@ -282,7 +287,7 @@ const Profile = () => {
             type="submit"
             className="bg-[#68B0D4] text-white px-6 py-2 rounded-full hover:bg-[#5093C2] transition cursor-pointer"
           >
-          {isLoading ? "Saving..." : "Save Changes"}
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
 
           <button
