@@ -21,6 +21,7 @@ const Profile = () => {
   useEffect(() => {
     if (user?.data) {
       reset({
+        avatar: user.data.avatar || "",
         name: user.data.name || "",
         phone_number: user.data.phone_number || "",
         region: user.data.region || "",
@@ -41,14 +42,16 @@ const Profile = () => {
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfileImage(e.target.result);
+        if (typeof e.target.result === "string") {
+          setProfileImage(e.target.result);
+        }
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleDeletePhoto = () => {
-    setProfileImage("/default-avatar.jpg");
+    setProfileImage(profileImage);
     setImageFile(null);
   };
 
@@ -278,7 +281,7 @@ const Profile = () => {
             type="submit"
             className="bg-[#68B0D4] text-white px-6 py-2 rounded-full hover:bg-[#5093C2] transition cursor-pointer"
           >
-            Save Changes
+          {isLoading ? "Saving..." : "Save Changes"}
           </button>
 
           <button
