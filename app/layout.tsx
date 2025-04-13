@@ -2,6 +2,7 @@ import { AppConfig } from "@/config/app.config";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./provider";
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: AppConfig().app.name,
@@ -17,6 +18,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body cz-shortcut-listen="true" no-processed="true">
         <Providers>{children}</Providers>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

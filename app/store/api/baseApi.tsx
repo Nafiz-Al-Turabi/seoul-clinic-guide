@@ -7,14 +7,11 @@ export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: (headers, { getState }) => {
-        const token = localStorage.getItem("token");
-      if (token) {  
-      headers.set(
-        "authorization",
-        `Bearer ${token}`
-      );
-    }
+    prepareHeaders: (headers) => {
+        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+        if (token) {
+          headers.set("Authorization", `Bearer ${token}`);
+        }
       return headers;
     },
   }),

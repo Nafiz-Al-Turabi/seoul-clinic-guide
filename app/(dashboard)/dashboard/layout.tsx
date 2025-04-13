@@ -1,6 +1,11 @@
 import React from "react";
 import ClientLayout from "./ClientLayout";
+import ProtectedRoutes from "@/components/private/ProtectedRoutes";
 
 export default function DashboardLayout({ children }) {
-  return <ClientLayout>{children}</ClientLayout>;
+  return (
+    <ProtectedRoutes>
+      <ClientLayout>{children}</ClientLayout>
+    </ProtectedRoutes>
+  );
 }

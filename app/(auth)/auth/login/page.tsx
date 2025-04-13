@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { useSigninMutation } from "@/app/store/api/authApi";
 import {  useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type LoginFormInputs = {
   email: string;
@@ -28,10 +29,15 @@ const Login = () => {
       .unwrap()
       .then((response) => {
         console.log("Login response:", response); 
+        if(response?.success){
+          toast.success(response?.message);
+        }
         router.push("/"); 
       })
       .catch((error) => {
-        console.error("Login error:", error); 
+        if(error?.status === 401) {
+          toast.error(error?.data?.message.message);
+        }
       });
   };
 
