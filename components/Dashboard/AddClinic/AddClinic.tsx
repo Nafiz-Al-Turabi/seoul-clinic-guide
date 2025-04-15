@@ -51,7 +51,7 @@ export default function AddClinicForm() {
     const formData = new FormData();
 
     formData.append("name", data.name);
-    // formData.append("clinic_category_id", data.clinic_category_id);
+    formData.append("clinic_category_id", data.clinic_category_id);
     formData.append("phone", data.phone || "");
     formData.append("website", data.website || "");
     formData.append("address", data.address);
@@ -62,7 +62,6 @@ export default function AddClinicForm() {
       JSON.stringify(data.operating_hours || [])
     );
     formData.append("description", description || "");
-    formData.append("procedures", data.procedures || "");
     formData.append("is_top", data.is_top ? "true" : "false");
 
     const bannerFile = data.banner?.[0];
