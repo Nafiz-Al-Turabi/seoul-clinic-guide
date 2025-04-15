@@ -5,7 +5,6 @@ import { PiHospitalThin } from "react-icons/pi";
 import { TbNotes } from "react-icons/tb";
 import { FaPlus } from "react-icons/fa";
 import { BsSortDown, BsThreeDotsVertical } from "react-icons/bs";
-
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
 import {
   Select,
@@ -22,30 +21,47 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useDeleteClinicMutation, useGetClinicsQuery } from "@/app/store/api/clinicApi";
+import {
+  useDeleteClinicMutation,
+  useGetClinicsQuery,
+} from "@/app/store/api/clinicApi";
+import { toast } from "sonner";
 
 const Clinics = () => {
-  const { data: clinics, isLoading } = useGetClinicsQuery(null);
-  console.log(clinics, "clinics");
+  const { data: clinics, isLoading, refetch } = useGetClinicsQuery(null);
   const [deleteClinic] = useDeleteClinicMutation();
 
   const columns: TableColumn[] = [
-    { key: "clinicName", label: "Clinic Name", type: "text" },
-    { key: "location", label: "Location", type: "text" },
-    { key: "idNumber", label: "ID Number", type: "text" },
-    { key: "joinDateTime", label: "Join Date & Time", type: "text" },
+    { key: "name", label: "Clinic Name", type: "text" },
+    { key: "address", label: "Location", type: "text" },
+    { key: "id", label: "ID Number", type: "text" },
+    { key: "created_at", label: "Join Date & Time", type: "text" },
   ];
 
+  // keep raw clinic objects
   const clinicsData =
     clinics?.data?.clinics?.map((clinic: any) => ({
-      clinicName: clinic.name,
-      location: clinic.address,
-      idNumber: clinic.id,
-      joinDateTime: new Date(clinic.created_at).toLocaleString(),
+      ...clinic,
+      created_at: new Date(clinic.created_at).toLocaleString(),
     })) || [];
 
-    
-  const tableActions = (row: any) => (
+  const handleDelete = async (clinicId: string) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this clinic?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteClinic(clinicId).unwrap();
+      toast.success("Clinic deleted successfully.");
+      refetch();
+    } catch (error) {
+      console.error("Delete failed", error);
+      toast.error("Failed to delete clinic.");
+    }
+  };
+
+  const tableActions = (clinic: any) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="text-[#555F7E] hover:border p-1 rounded-full">
@@ -53,11 +69,11 @@ const Clinics = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem onClick={() => console.log("Update", row)}>
+        <DropdownMenuItem onClick={() => console.log("Update", clinic)}>
           Update
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => console.log("Delete", row)}
+          onClick={() => handleDelete(clinic.id)}
           className="text-red-600"
         >
           Delete
@@ -65,6 +81,7 @@ const Clinics = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
       <div className="flex justify-between items-center pb-4">

@@ -70,6 +70,7 @@ export default function BlogEditor() {
     formData.append("title", data.title);
     formData.append("content", content || "");
     formData.append("author_name", data.author_name);
+    formData.append("banner", coverImage);
     formData.append("email", data.email);
     formData.append("facebook", data.facebook);
     formData.append("x", data.twitter);
