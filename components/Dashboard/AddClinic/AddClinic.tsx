@@ -13,8 +13,13 @@ import {
   Award,
   FileText,
 } from "lucide-react";
-import { useGetProceduresQuery } from "@/app/store/api/clinicApi";
+import {
+  useCreateClinicMutation,
+  useGetCategoriesQuery,
+  useGetProceduresQuery,
+} from "@/app/store/api/clinicApi";
 import { Editor } from "@tinymce/tinymce-react";
+import { toast } from "sonner";
 
 export default function AddClinicForm() {
   const editorRef = useRef<any>(null);
@@ -28,6 +33,8 @@ export default function AddClinicForm() {
   } = useForm();
 
   const { data: procedureList } = useGetProceduresQuery(null);
+  const { data: categoryList } = useGetCategoriesQuery(null);
+  const [createClinic, { isLoading, error }] = useCreateClinicMutation();
   console.log(procedureList);
 
   const { fields, append, remove } = useFieldArray({
@@ -56,11 +63,29 @@ export default function AddClinicForm() {
     formData.append("website", data.website || "");
     formData.append("address", data.address);
     formData.append("subway_station", data.subway_station || "");
-    formData.append("procedures", JSON.stringify(data.procedures || []));
-    formData.append(
-      "operating_hours",
-      JSON.stringify(data.operating_hours || [])
-    );
+    // formData.append("procedures", JSON.stringify(data.procedures || []));
+    // formData.append(
+    //   "operating_hours",
+    //   JSON.stringify(data.operating_hours || [])
+    // );
+
+    // Append procedures as an array of values
+    (data.procedures || []).forEach((procedureId: string, index: number) => {
+      formData.append(`procedures[${index}]`, procedureId);
+    });
+
+    // Append operating_hours as an array of objects
+    (data.operating_hours || []).forEach((item: any, index: number) => {
+      formData.append(`operating_hours[${index}][day]`, item.day || "");
+      formData.append(
+        `operating_hours[${index}][open_time]`,
+        item.open_time || ""
+      );
+      formData.append(
+        `operating_hours[${index}][close_time]`,
+        item.close_time || ""
+      );
+    });
     formData.append("description", description || "");
     formData.append("is_top", data.is_top ? "true" : "false");
 
@@ -70,18 +95,13 @@ export default function AddClinicForm() {
     }
 
     try {
-      const response = await fetch("/api/clinics", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const resData = await response.json();
-        console.log("Clinic submitted:", resData);
-      } else {
-        console.error("Upload failed:", await response.text());
-      }
+      const response = await createClinic(formData).unwrap();
+      console.log(response);
+      if (response.success) {
+        toast.success(response?.message);
+      } 
     } catch (error) {
+        toast.error(error?.data?.message.message);
       console.error("Upload error:", error);
     }
   };
@@ -200,14 +220,11 @@ export default function AddClinicForm() {
                     id="clinic_category_id"
                     className="w-full px-4 py-2 border rounded-lg outline-none"
                   >
-                    <option value="">Select a category</option>
-                    <option value="1">General Practice</option>
-                    <option value="2">Dental Clinic</option>
-                    <option value="3">Pediatric Care</option>
-                    <option value="4">Dermatology</option>
-                    <option value="5">Orthopedic Center</option>
-                    <option value="6">Eye Care</option>
-                    <option value="7">Mental Health</option>
+                    {categoryList?.data?.map((category: any) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                   {errors.clinic_category_id && (
                     <p className="mt-1 text-sm text-red-600">
