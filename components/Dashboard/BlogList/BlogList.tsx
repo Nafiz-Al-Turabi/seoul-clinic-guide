@@ -8,17 +8,25 @@ import {
   SelectLabel,
   SelectTrigger,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { SelectValue } from "@radix-ui/react-select";
-import { BsSortDown } from "react-icons/bs";
+import { BsSortDown, BsThreeDotsVertical } from "react-icons/bs";
 import React from "react";
 import { BiNotepad } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { TbNotes } from "react-icons/tb";
 import Link from "next/link";
-import { useGetBlogsQuery } from "@/app/store/api/blogApi";
+import { useDeleteBlogMutation, useGetBlogsQuery } from "@/app/store/api/blogApi";
+import { toast } from "react-toastify";
 
 const BlogList = () => {
-  const { data: blogs, isLoading } = useGetBlogsQuery(null);
+  const { data: blogs, isLoading,refetch } = useGetBlogsQuery(null);
+  const [deleteBlog ] = useDeleteBlogMutation();
   const columns: TableColumn[] = [
     { key: "banner_url", label: "Thumbnail", type: "image" },
     { key: "title", label: "Blog Title ", type: "text" },
@@ -32,9 +40,43 @@ const BlogList = () => {
       updated_at: new Date(blog.updated_at).toLocaleString(),
     })) || [];
 
-  const tableActions = (row: any) => (
-    <button className="border-b text-[#555F7E] capitalize">View</button>
-  );
+  const handleDelete = async (BlogId: string) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this Blog?"
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteBlog(BlogId).unwrap();
+      toast.success("Clinic deleted successfully.");
+      refetch();
+    } catch (error) {
+      console.error("Delete failed", error);
+      toast.error("Failed to delete clinic.");
+    }
+  };
+
+
+    const tableActions = (blog: any) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="text-[#555F7E] hover:border p-1 rounded-full">
+            <BsThreeDotsVertical size={20} />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-36">
+          <DropdownMenuItem onClick={() => console.log("Update", blog)}>
+            Update
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleDelete(blog.id)}
+            className="text-red-600"
+          >
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center pb-4 ">
