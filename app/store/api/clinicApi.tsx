@@ -12,6 +12,14 @@ export const clinicApi = baseApi.injectEndpoints({
         formData: true,
       }),
     }),
+    getClinics: builder.query({
+      query: () => ({
+        url: "/admin/clinics",
+        method: "GET",
+        providesTags: ["procedures"],
+      }),
+    }),
+
     getProcedures: builder.query({
       query: () => ({
         url: "/admin/procedures",
@@ -29,4 +37,9 @@ export const clinicApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetProceduresQuery, useGetCategoriesQuery,useCreateClinicMutation } = clinicApi;
+export const {
+  useGetProceduresQuery,
+  useGetCategoriesQuery,
+  useCreateClinicMutation,
+  useGetClinicsQuery,
+} = clinicApi;
