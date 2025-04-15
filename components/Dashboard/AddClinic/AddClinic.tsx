@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import Image from "next/image";
 import {
@@ -14,8 +14,11 @@ import {
   FileText,
 } from "lucide-react";
 import { useGetProceduresQuery } from "@/app/store/api/clinicApi";
+import { Editor } from "@tinymce/tinymce-react";
 
 export default function AddClinicForm() {
+  const editorRef = useRef<any>(null);
+  const [description, setDescription] = useState("");
   const {
     register,
     handleSubmit,
@@ -58,7 +61,7 @@ export default function AddClinicForm() {
       "operating_hours",
       JSON.stringify(data.operating_hours || [])
     );
-    formData.append("description", data.description || "");
+    formData.append("description", description || "");
     formData.append("procedures", data.procedures || "");
     formData.append("is_top", data.is_top ? "true" : "false");
 
@@ -402,18 +405,41 @@ export default function AddClinicForm() {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label
-                    htmlFor="description"
-                    className="block text-sm font-medium text- mb-1"
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    {...register("description")}
-                    id="description"
-                    rows={4}
-                    placeholder="Provide a detailed description of the clinic and its services"
-                    className="w-full px-4 py-2 border rounded-lg outline-none resize-none"
+                  <Editor
+                    apiKey="sk77lbge33d4v322u8sel5ryk6t1j2t298xgizldv4zsv1jl"
+                    onInit={(evt, editor) => (editorRef.current = editor)}
+                    value={description}
+                    onEditorChange={(newText) => setDescription(newText)}
+                    init={{
+                      height: 600,
+                      menubar: true,
+                      plugins: [
+                        "advlist",
+                        "autolink",
+                        "lists",
+                        "link",
+                        "image",
+                        "charmap",
+                        "preview",
+                        "anchor",
+                        "searchreplace",
+                        "visualblocks",
+                        "code",
+                        "fullscreen",
+                        "insertdatetime",
+                        "media",
+                        "table",
+                        "help",
+                        "wordcount",
+                      ],
+                      toolbar:
+                        "undo redo | blocks | fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | code preview",
+                      fontsize_formats:
+                        "8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 40pt 56pt 64pt 72pt",
+                      automatic_uploads: true,
+                      content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                    }}
                   />
                 </div>
 
