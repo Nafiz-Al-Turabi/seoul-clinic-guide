@@ -8,6 +8,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import Image from "next/image";
 import React from "react";
 
 export interface TableColumn {
@@ -72,14 +73,30 @@ const CustomTable: React.FC<TableProps> = ({
                 {columns.map((col) => (
                   <TableCell
                     key={col.key}
-                    className="text-left text-[#555F7E] py-4 "
+                    className="text-left text-[#555F7E] py-4"
                   >
                     {col.type === "image" ? (
-                      <img
-                        src={row[col.key]?.src || row[col.key]}
-                        alt="Profile"
-                        className="w-10 h-10 rounded-full object-cover "
-                      />
+                      typeof row[col.key] === "string" &&
+                      row[col.key] !== "" ? (
+                        <Image
+                          src={row[col.key]}
+                          alt="Profile"
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : typeof row[col.key]?.src === "string" &&
+                        row[col.key].src !== "" ? (
+                        <Image
+                          src={row[col.key].src}
+                          alt="Profile"
+                          width={40}
+                          height={40}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        "No Image"
+                      )
                     ) : (
                       row[col.key] ?? "N/A"
                     )}

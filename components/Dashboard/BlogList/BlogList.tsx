@@ -15,15 +15,23 @@ import { BiNotepad } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { TbNotes } from "react-icons/tb";
 import Link from "next/link";
+import { useGetBlogsQuery } from "@/app/store/api/blogApi";
 
 const BlogList = () => {
-  const data = [];
+  const { data: blogs, isLoading } = useGetBlogsQuery(null);
   const columns: TableColumn[] = [
-    { key: "thumbnail", label: "Thumbnail", type: "text" },
-    { key: "blogT itle", label: "Blog Title ", type: "text" },
-    { key: "author Name", label: "Author Name", type: "text" },
-    { key: "date", label: "Date & Time", type: "text" },
+    { key: "banner_url", label: "Thumbnail", type: "image" },
+    { key: "title", label: "Blog Title ", type: "text" },
+    { key: "author_name", label: "Author Name", type: "text" },
+    { key: "updated_at", label: "Date & Time", type: "text" },
   ];
+  
+  const blogsData =
+    blogs?.data?.blogs?.map((blog: any) => ({
+      ...blog,
+      updated_at: new Date(blog.updated_at).toLocaleString(),
+    })) || [];
+
   const tableActions = (row: any) => (
     <button className="border-b text-[#555F7E] capitalize">View</button>
   );
@@ -37,7 +45,13 @@ const BlogList = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
         <div className="flex gap-4 mt-4 sm:mt-0">
-          <Link href="/dashboard/blog-post" className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"><TbNotes />Add New Blog <FaPlus size={10} /></Link>
+          <Link
+            href="/dashboard/blog-post"
+            className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
+          >
+            <TbNotes />
+            Add New Blog <FaPlus size={10} />
+          </Link>
           <Select>
             <SelectTrigger className=" justify-between text-main  py-5">
               <span className="flex items-center gap-2">
@@ -57,7 +71,7 @@ const BlogList = () => {
           </Select>
         </div>
       </div>
-      <CustomTable data={data} columns={columns} actions={tableActions} />
+      <CustomTable data={blogsData} columns={columns} actions={tableActions} />
     </div>
   );
 };

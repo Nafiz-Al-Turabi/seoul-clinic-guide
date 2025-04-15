@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: '4000',
         pathname: '/public/storage/avatar/**',
       },
+      {
+        protocol: 'http',
+        hostname: '192.168.5.8',
+        port: '4000',
+        pathname: '/public/storage/blog-banner/**',
+      },
     ],
   },
 };
