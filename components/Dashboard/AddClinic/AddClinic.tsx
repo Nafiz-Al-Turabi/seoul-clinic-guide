@@ -13,6 +13,7 @@ import {
   Award,
   FileText,
 } from "lucide-react";
+import { useGetProceduresQuery } from "@/app/store/api/clinicApi";
 
 export default function AddClinicForm() {
   const {
@@ -22,6 +23,9 @@ export default function AddClinicForm() {
     control,
     formState: { errors, isSubmitting },
   } = useForm();
+
+  const { data: procedureList } = useGetProceduresQuery(null);
+  console.log(procedureList);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -36,7 +40,7 @@ export default function AddClinicForm() {
       const file = bannerWatch[0];
       const objectUrl = URL.createObjectURL(file);
       setBannerPreview(objectUrl);
-      return () => URL.revokeObjectURL(objectUrl); 
+      return () => URL.revokeObjectURL(objectUrl);
     }
   }, [bannerWatch]);
 
@@ -44,11 +48,12 @@ export default function AddClinicForm() {
     const formData = new FormData();
 
     formData.append("name", data.name);
-    formData.append("clinic_category_id", data.clinic_category_id);
+    // formData.append("clinic_category_id", data.clinic_category_id);
     formData.append("phone", data.phone || "");
     formData.append("website", data.website || "");
     formData.append("address", data.address);
     formData.append("subway_station", data.subway_station || "");
+    formData.append("procedures", JSON.stringify(data.procedures || []));
     formData.append(
       "operating_hours",
       JSON.stringify(data.operating_hours || [])
@@ -413,19 +418,27 @@ export default function AddClinicForm() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="procedures"
-                    className="block text-sm font-medium text- mb-1"
-                  >
+                  <label className="block text-xl font-medium primary-text mb-1">
                     Available Procedures
                   </label>
-                  <textarea
-                    {...register("procedures")}
-                    id="procedures"
-                    rows={3}
-                    placeholder="List the procedures and treatments offered at this clinic"
-                    className="w-full px-4 py-2 border rounded-lg outline-none resize-none"
-                  />
+                  <div className=" grid grid-cols-2 gap-2">
+                    {procedureList?.data?.map((procedure: any) => (
+                      <div
+                        key={procedure.id}
+                        className="flex items-center space-x-2"
+                      >
+                        <input
+                          type="checkbox"
+                          value={procedure.id}
+                          {...register("procedures")}
+                          className="h-6 w-6 rounded border-gray-300 accent-[#68B0D4] "
+                        />
+                        <label className="text-[#68B0D4] text-lg capitalize">
+                          {procedure.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex items-center space-x-2 pt-2">
@@ -439,7 +452,7 @@ export default function AddClinicForm() {
                     htmlFor="is_top"
                     className="text-sm font-medium text- cursor-pointer flex items-center"
                   >
-                    Top?
+                    Top ten?
                   </label>
                 </div>
               </div>
