@@ -34,6 +34,13 @@ export const clinicApi = baseApi.injectEndpoints({
         providesTags: ["procedures"],
       }),
     }),
+
+    deleteClinic: builder.mutation({
+      query: (id) => ({
+        url: `/admin/clinics/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -42,4 +49,5 @@ export const {
   useGetCategoriesQuery,
   useCreateClinicMutation,
   useGetClinicsQuery,
+  useDeleteClinicMutation,
 } = clinicApi;

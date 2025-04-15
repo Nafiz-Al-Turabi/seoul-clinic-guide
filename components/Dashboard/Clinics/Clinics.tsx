@@ -16,12 +16,18 @@ import {
   SelectLabel,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetClinicsQuery } from "@/app/store/api/clinicApi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useDeleteClinicMutation, useGetClinicsQuery } from "@/app/store/api/clinicApi";
 
 const Clinics = () => {
-  const [openButton, setOpenButton] = React.useState(false);
   const { data: clinics, isLoading } = useGetClinicsQuery(null);
   console.log(clinics, "clinics");
+  const [deleteClinic] = useDeleteClinicMutation();
 
   const columns: TableColumn[] = [
     { key: "clinicName", label: "Clinic Name", type: "text" },
@@ -30,18 +36,35 @@ const Clinics = () => {
     { key: "joinDateTime", label: "Join Date & Time", type: "text" },
   ];
 
-  const tableActions = (row: any) => (
-    <button className="border-b text-[#555F7E] capitalize"><BsThreeDotsVertical size={20} /></button>
-  );
-
   const clinicsData =
-  clinics?.data?.clinics?.map((clinic: any) => ({
-    clinicName: clinic.name,
-    location: clinic.address,
-    idNumber: clinic.id,
-    joinDateTime: new Date(clinic.created_at).toLocaleString(),
-  })) || [] ;
+    clinics?.data?.clinics?.map((clinic: any) => ({
+      clinicName: clinic.name,
+      location: clinic.address,
+      idNumber: clinic.id,
+      joinDateTime: new Date(clinic.created_at).toLocaleString(),
+    })) || [];
 
+    
+  const tableActions = (row: any) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="text-[#555F7E] hover:border p-1 rounded-full">
+          <BsThreeDotsVertical size={20} />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-36">
+        <DropdownMenuItem onClick={() => console.log("Update", row)}>
+          Update
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => console.log("Delete", row)}
+          className="text-red-600"
+        >
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
       <div className="flex justify-between items-center pb-4">
@@ -82,7 +105,11 @@ const Clinics = () => {
       {isLoading ? (
         <p className="text-center py-6">Loading clinics...</p>
       ) : (
-        <CustomTable data={clinicsData} columns={columns} actions={tableActions} />
+        <CustomTable
+          data={clinicsData}
+          columns={columns}
+          actions={tableActions}
+        />
       )}
     </div>
   );
