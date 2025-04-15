@@ -11,6 +11,7 @@ import {
   useBlogCategoriesQuery,
   useCreateBlogMutation,
 } from "@/app/store/api/blogApi";
+import { toast } from "sonner";
 
 type AuthorFormData = {
   title: string;
@@ -43,7 +44,7 @@ export default function BlogEditor() {
   const openAuthorModal = () => {
     const title = getValues("title");
     if (!title || title.trim() === "") {
-      alert("Please enter a blog title first.");
+      toast.warning("Please enter a blog title first.");
       return;
     }
     setShowModal(true);
@@ -52,7 +53,7 @@ export default function BlogEditor() {
   const onSubmit = async (data: AuthorFormData) => {
     const content = editorRef.current?.getContent();
     if (!coverImage || !authorImageFile) {
-      alert("Please upload both images.");
+      toast.warning("Please upload both images.");
       return;
     }
 
@@ -80,8 +81,9 @@ export default function BlogEditor() {
     await createblog(formData)
       .unwrap()
       .then((response) => {
-        console.log("Blog created successfully:", response);
-        alert("Blog created successfully!");
+        if(response.success) {
+          toast.success(response.message)
+        }
         setShowModal(false);
       })
       .catch((error) => {
@@ -141,7 +143,7 @@ export default function BlogEditor() {
         <select
           id="blog_category_id"
           {...register("blog_category_id", { required: true })}
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 p-2.5"
+          className="block w- rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/50 p-2.5"
         >
           <option value="">Select a category</option>
           {BlogCategories?.data?.map((category) => (

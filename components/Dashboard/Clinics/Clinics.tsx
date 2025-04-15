@@ -112,7 +112,7 @@ const Clinics = () => {
         </div>
         <div className="flex items-center gap-2">
           <Link
-            href="/dashboard/blog-post"
+            href="/dashboard/add-clinic"
             className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
           >
             <TbNotes />
