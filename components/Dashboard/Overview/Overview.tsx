@@ -10,7 +10,7 @@ import UserConversionChart from "../Charts/UserConversionChart";
 import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi";
 const Overview = () => {
   const {data: searcUserEngagementData} = useGetDashboardUserEngagementQuery(null);
-  console.log(searcUserEngagementData?.data?.newUserInLast7Days, "user_engagements");
+  console.log(searcUserEngagementData?.data, "user_engagements");
   const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0; 
   return (
     <div>
@@ -65,7 +65,7 @@ const Overview = () => {
           </div>
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs primary-text font-medium">
-              User Increased by 10% in last 7 days{" "}
+              User Increased by {totalUsers?.increasePercent}% in last {totalUsers?.days} days{" "}
             </p>
             <Image
               src={chartImage}
