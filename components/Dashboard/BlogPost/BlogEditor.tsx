@@ -29,7 +29,6 @@ interface BlogProps {
 }
 
 export default function BlogEditor({id}: BlogProps) {
-  console.log(id,"blogid");
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -41,7 +40,6 @@ export default function BlogEditor({id}: BlogProps) {
   const [createblog, { isLoading, error }] = useCreateBlogMutation();
   const { data: BlogCategories } = useBlogCategoriesQuery(null);
   const {data: blogData} = useGetBlogByIdQuery(id);
-  console.log(blogData, "blogData");
   const singleBlog = blogData?.data;
   const  [updateBlog, { isLoading: updating }] = useUpdateBlogMutation();
 

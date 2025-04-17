@@ -28,7 +28,6 @@ interface AddClinicProps {
 }
 
 export default function AddClinicForm({ id }: AddClinicProps) {
-  console.log(id, "params");
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");
   const {
@@ -46,7 +45,6 @@ export default function AddClinicForm({ id }: AddClinicProps) {
   const { data: clinic } = useGetClinicByIdQuery(id);
   const singleClinic = clinic?.data;
   const [updateClinic, { isLoading: updating }] = useUpdateClinicMutation();
-  console.log(procedureList);
 
   const { fields, append, remove } = useFieldArray({
     control,

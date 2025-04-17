@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import { baseApi } from "./baseApi";
 type Authorization = {
   token: string;

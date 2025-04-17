@@ -37,8 +37,7 @@ export default function Navbar() {
     [key: string]: boolean;
   }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { data: user, isLoading } = useGetMeQuery(null);
-  console.log(user, "user data");
+  const { data: user } = useGetMeQuery(null);
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (

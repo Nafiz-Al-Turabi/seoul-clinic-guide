@@ -10,6 +10,7 @@ import { CgNotes } from "react-icons/cg";
 import { RiSettingsLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { useGetMeQuery } from "@/app/store/api/authApi";
 
 // Menu and Bottom items
 const menuItems = [
@@ -64,21 +65,24 @@ const bottomMenu = [
 export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const { data: user } = useGetMeQuery(null);
+  console.log(user);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
+  console.log("Current pathname:", pathname);
   const TopBar = () => {
-    const currentPage = menuItems.find((item) =>
-      pathname.startsWith(item.href)
-    )?.label;
+    const currentPage =
+      [...menuItems]
+        .sort((a, b) => b.href.length - a.href.length)
+        .find(
+          (item) => pathname === item.href || pathname.startsWith(item.href)
+        )?.label || "Dashboard";
 
     return (
       <div className="bg-white text-main p-4 flex items-center justify-between border-b border-[#EEF3F8]">
-        <div className="font-semibold text-2xl">
-          {currentPage || "Dashboard"}
-        </div>
+        <div className="font-semibold text-2xl">{currentPage}</div>
       </div>
     );
   };
@@ -154,15 +158,17 @@ export default function ClientLayout({ children }) {
           })}
           <div className="flex items-center p-4">
             <div className="flex-shrink-0">
-              <img
+              <Image
                 className="w-10 h-10 rounded-full"
-                src="https://via.placeholder.com/40"
+                src={user?.data?.avatar_url || "/images/profile.png"}
+                width={40}
+                height={40}
                 alt="User"
               />
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium">User Profile123</p>
-              <p className="text-xs text-gray-500">@userprofile123</p>
+              <p className="text-sm font-medium">{user?.data?.name}</p>
+              <p className="text-xs text-gray-500">{user?.data?.email}</p>
             </div>
           </div>
         </div>
