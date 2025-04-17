@@ -6,6 +6,7 @@ import { ApexOptions } from "apexcharts";
 import { LuChartSpline } from "react-icons/lu";
 import { FiInfo } from "react-icons/fi";
 import { CiCalendar } from "react-icons/ci";
+import { useGetDashboardSearchEngagementQuery } from "@/app/store/api/dashboardApi";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -26,10 +27,6 @@ const months = [
   "Dec",
 ];
 
-const monthlyData = [
-  1000, 2000, 500, 2000, 4500, 2800, 1600, 3500, 3700, 2500, 2900,2000
-];
-
 const formatValue = (val: number) =>
   val >= 1000 ? `${(val / 1000).toFixed(1)}K` : val.toString();
 
@@ -37,11 +34,19 @@ const SearchEngagementChart = () => {
   const [selectedMonth, setSelectedMonth] = useState("Sep");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  const { data: searchEngagementData } = useGetDashboardSearchEngagementQuery(null);
+  console.log(searchEngagementData);
+
+  const monthlyData = useMemo(() => {
+    if (!searchEngagementData || !Array.isArray(searchEngagementData)) return Array(12).fill(0);
+    return searchEngagementData.map((item) => item.searches);
+  }, [searchEngagementData]);
+
   const selectedIndex = months.indexOf(selectedMonth);
-  const selectedValue = monthlyData[selectedIndex];
+  const selectedValue = monthlyData[selectedIndex] || 0;
   const formattedValue = formatValue(selectedValue);
 
-  const chartOptions = useMemo(
+  const chartOptions = useMemo<ApexOptions>(
     () => ({
       chart: {
         type: "area",
@@ -88,10 +93,10 @@ const SearchEngagementChart = () => {
       },
       yaxis: {
         min: 0,
-        max: Math.ceil(Math.max(...monthlyData) / 1000) * 1000,
+        max: Math.ceil(Math.max(...monthlyData, 0) / 1000) * 1000,
         tickAmount: 5,
         labels: {
-          formatter: (val: number) => (val >= 1000 ? `${val / 1000}k` : val),
+          formatter: (val: number) => (val >= 1000 ? `${val / 1000}k` : val.toString()),
           style: {
             colors: "#000",
             fontSize: "12px",
@@ -134,12 +139,12 @@ const SearchEngagementChart = () => {
         ],
       },
     }),
-    [selectedMonth]
+    [selectedMonth, formattedValue, monthlyData]
   );
 
   const series = [
     {
-      name: "",
+      name: "Searches",
       data: monthlyData,
     },
   ];
@@ -147,7 +152,7 @@ const SearchEngagementChart = () => {
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-5 mb-6">
-        <div className="flex  items-center gap-2">
+        <div className="flex items-center gap-2">
           <div className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
             <LuChartSpline size={20} />
           </div>
@@ -163,7 +168,6 @@ const SearchEngagementChart = () => {
             onClick={() => setIsDropdownOpen((prev) => !prev)}
           >
             <CiCalendar size={20} />
-
             <span>{selectedMonth}</span>
             <ArrowDown size={16} className="text-gray-500" />
           </button>
@@ -186,8 +190,9 @@ const SearchEngagementChart = () => {
           )}
         </div>
       </div>
+
       <ReactApexChart
-        options={chartOptions as ApexOptions}
+        options={chartOptions}
         series={series}
         type="area"
         height={330}
