@@ -57,19 +57,19 @@ export default function AddClinicForm({ id }: AddClinicProps) {
     if (!clinic) return;
 
     reset({
-      name: singleClinic.name,
-      clinic_category_id: String(singleClinic.clinic_category_id),
-      phone: singleClinic.phone || "",
-      website: singleClinic.website || "",
-      address: singleClinic.address,
-      subway_station: singleClinic.subway_station || "",
-      operating_hours: singleClinic.operating_hours || [],
-      is_top: singleClinic.is_top,
-      procedures: singleClinic.procedures?.map((p: any) => String(p.id)) || [],
+      name: singleClinic?.name,
+      clinic_category_id: String(singleClinic?.clinic_category_id),
+      phone: singleClinic?.phone || "",
+      website: singleClinic?.website || "",
+      address: singleClinic?.address,
+      subway_station: singleClinic?.subway_station || "",
+      operating_hours: singleClinic?.operating_hours || [],
+      is_top: singleClinic?.is_top,
+      procedures: singleClinic?.procedures?.map((p: any) => String(p.id)) || [],
     });
 
-    setDescription(singleClinic.description || "");
-    setBannerPreview(singleClinic.banner_url || null);
+    setDescription(singleClinic?.description || "");
+    setBannerPreview(singleClinic?.banner_url || null);
   }, [singleClinic, reset]);
 
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
