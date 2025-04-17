@@ -89,33 +89,31 @@ export default function BlogEditor({id}: BlogProps) {
 
   const onSubmit = async (data: AuthorFormData) => {
     const content = editorRef.current?.getContent();
-    if (!coverImage || !authorImageFile) {
+  
+    // Only show warning if both new images are missing AND no existing images
+    if ((!coverImage && !coverPreview) || (!authorImageFile && authorImage === "/default-avatar.jpg")) {
       toast.warning("Please upload both images.");
       return;
     }
-
-    const blogObject = {
-      title: data.title,
-      content: content,
-      author_name: data.author_name,
-      email: data.email,
-      facebook: data.facebook,
-      twitter: data.twitter,
-    };
-
+  
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("content", content || "");
     formData.append("author_name", data.author_name);
-    formData.append("banner", coverImage);
     formData.append("author_email", data.email);
     formData.append("facebook", data.facebook);
     formData.append("x", data.twitter);
-    formData.append("blog_category_id", data.blog_category_id); 
-    // need blog_category_id
-
-    formData.append("author_picture", authorImageFile);
-
+    formData.append("blog_category_id", data.blog_category_id);
+  
+    // Append only if a new image was uploaded
+    if (coverImage) {
+      formData.append("banner", coverImage);
+    }
+  
+    if (authorImageFile) {
+      formData.append("author_picture", authorImageFile);
+    }
+  
     try {
       let response;
       if (id) {
@@ -123,7 +121,7 @@ export default function BlogEditor({id}: BlogProps) {
       } else {
         response = await createblog(formData).unwrap();
       }
-
+  
       if (response.success) {
         toast.success(response.message);
       }
@@ -134,7 +132,6 @@ export default function BlogEditor({id}: BlogProps) {
       console.error("Submit error:", error);
     }
   };
-
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
