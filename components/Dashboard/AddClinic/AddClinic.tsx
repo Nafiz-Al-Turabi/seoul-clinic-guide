@@ -16,12 +16,19 @@ import {
 import {
   useCreateClinicMutation,
   useGetCategoriesQuery,
+  useGetClinicByIdQuery,
   useGetProceduresQuery,
+  useUpdateClinicMutation,
 } from "@/app/store/api/clinicApi";
 import { Editor } from "@tinymce/tinymce-react";
 import { toast } from "sonner";
 
-export default function AddClinicForm() {
+interface AddClinicProps {
+  id: string;
+}
+
+export default function AddClinicForm({ id }: AddClinicProps) {
+  console.log(id, "params");
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");
   const {
@@ -29,18 +36,41 @@ export default function AddClinicForm() {
     handleSubmit,
     watch,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
   const { data: procedureList } = useGetProceduresQuery(null);
   const { data: categoryList } = useGetCategoriesQuery(null);
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
+  const { data: clinic } = useGetClinicByIdQuery(id);
+  const singleClinic = clinic?.data;
+  const [updateClinic, { isLoading: updating }] = useUpdateClinicMutation();
   console.log(procedureList);
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "operating_hours",
   });
+  //it is using for updating clinic
+  useEffect(() => {
+    if (!clinic) return;
+
+    reset({
+      name: singleClinic.name,
+      clinic_category_id: String(singleClinic.clinic_category_id),
+      phone: singleClinic.phone || "",
+      website: singleClinic.website || "",
+      address: singleClinic.address,
+      subway_station: singleClinic.subway_station || "",
+      operating_hours: singleClinic.operating_hours || [],
+      is_top: singleClinic.is_top,
+      procedures: singleClinic.procedures?.map((p: any) => String(p.id)) || [],
+    });
+
+    setDescription(singleClinic.description || "");
+    setBannerPreview(singleClinic.banner_url || null);
+  }, [singleClinic, reset]);
 
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
   const bannerWatch = watch("banner");
@@ -63,18 +93,10 @@ export default function AddClinicForm() {
     formData.append("website", data.website || "");
     formData.append("address", data.address);
     formData.append("subway_station", data.subway_station || "");
-    // formData.append("procedures", JSON.stringify(data.procedures || []));
-    // formData.append(
-    //   "operating_hours",
-    //   JSON.stringify(data.operating_hours || [])
-    // );
-
-    // Append procedures as an array of values
     (data.procedures || []).forEach((procedureId: string, index: number) => {
       formData.append(`procedures[${index}]`, procedureId);
     });
 
-    // Append operating_hours as an array of objects
     (data.operating_hours || []).forEach((item: any, index: number) => {
       formData.append(`operating_hours[${index}][day]`, item.day || "");
       formData.append(
@@ -86,6 +108,7 @@ export default function AddClinicForm() {
         item.close_time || ""
       );
     });
+
     formData.append("description", description || "");
     formData.append("is_top", data.is_top ? "true" : "false");
 
@@ -95,14 +118,19 @@ export default function AddClinicForm() {
     }
 
     try {
-      const response = await createClinic(formData).unwrap();
-      console.log(response);
+      let response;
+      if (id) {
+        response = await updateClinic({ id,  formData }).unwrap();
+      } else {
+        response = await createClinic(formData).unwrap();
+      }
+
       if (response.success) {
-        toast.success(response?.message);
-      } 
-    } catch (error) {
-        toast.error(error?.data?.message.message);
-      console.error("Upload error:", error);
+        toast.success(response.message);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+      console.error("Submit error:", error);
     }
   };
 
@@ -110,7 +138,9 @@ export default function AddClinicForm() {
     <div className="bg-gray-50 min-h-screen ">
       <div className=" bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-[#68B0D4] to-[#68B0D4]/90 p-6 text-white">
-          <h1 className="text-3xl font-bold">Add New Clinic</h1>
+          <h3 className="text-3xl font-bold">
+            {id ? "Update Clinic" : "Add New Clinic"}
+          </h3>
           <p className="mt-2 opacity-90">
             Enter the details to register a new healthcare facility
           </p>
@@ -540,10 +570,7 @@ export default function AddClinicForm() {
                   Submitting...
                 </>
               ) : (
-                <>
-                  <Check size={18} className="mr-2" />
-                  Save Clinic
-                </>
+                <>{id ? "Update Clinic" : "Add Clinic"}</>
               )}
             </button>
           </div>

@@ -26,8 +26,10 @@ import {
   useGetClinicsQuery,
 } from "@/app/store/api/clinicApi";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const Clinics = () => {
+  const router = useRouter();
   const { data: clinics, isLoading, refetch } = useGetClinicsQuery(null);
   const [deleteClinic] = useDeleteClinicMutation();
 
@@ -69,7 +71,7 @@ const Clinics = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem onClick={() => console.log("Update", clinic)}>
+        <DropdownMenuItem onClick={() => router.push(`/dashboard/add-clinic/${clinic.id}`)}>
           Update
         </DropdownMenuItem>
         <DropdownMenuItem
