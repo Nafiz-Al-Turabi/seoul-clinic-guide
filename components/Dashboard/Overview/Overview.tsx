@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { PiShareFat, PiUsersThree } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
@@ -6,7 +7,11 @@ import chartImage from "@/public/chart.svg";
 import { TbUsersPlus } from "react-icons/tb";
 import SearchEngagementChart from "../Charts/SearchEngagementChart";
 import UserConversionChart from "../Charts/UserConversionChart";
+import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi";
 const Overview = () => {
+  const {data: searcUserEngagementData} = useGetDashboardUserEngagementQuery(null);
+  console.log(searcUserEngagementData?.data?.newUserInLast7Days, "user_engagements");
+  const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0; 
   return (
     <div>
       <header className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -53,7 +58,7 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-            <p className="text-[2rem] font-bold ">5.3k</p>
+            <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
               +100
             </p>
