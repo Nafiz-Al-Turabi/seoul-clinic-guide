@@ -1,8 +1,8 @@
 "use client";
 
 import { Editor } from "@tinymce/tinymce-react";
-import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { set, useForm } from "react-hook-form";
+import { use, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 import { FaFacebookF } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { FaXTwitter } from "react-icons/fa6";
 import {
   useBlogCategoriesQuery,
   useCreateBlogMutation,
+  useGetBlogByIdQuery,
+  useUpdateBlogMutation,
 } from "@/app/store/api/blogApi";
 import { toast } from "sonner";
 
@@ -22,8 +24,14 @@ type AuthorFormData = {
   blog_category_id: string;
 };
 
-export default function BlogEditor() {
+interface BlogProps {
+  id: string;
+}
+
+export default function BlogEditor({id}: BlogProps) {
+  console.log(id,"blogid");
   const editorRef = useRef<any>(null);
+  const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [authorImage, setAuthorImage] = useState<string>("/default-avatar.jpg");
@@ -32,12 +40,17 @@ export default function BlogEditor() {
 
   const [createblog, { isLoading, error }] = useCreateBlogMutation();
   const { data: BlogCategories } = useBlogCategoriesQuery(null);
+  const {data: blogData} = useGetBlogByIdQuery(id);
+  console.log(blogData, "blogData");
+  const singleBlog = blogData?.data;
+  const  [updateBlog, { isLoading: updating }] = useUpdateBlogMutation();
 
   const {
     register,
     handleSubmit,
     setValue,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<AuthorFormData>();
 
@@ -49,6 +62,30 @@ export default function BlogEditor() {
     }
     setShowModal(true);
   };
+
+  useEffect(() => {
+    if (!singleBlog) return;
+  
+    reset({
+      title: singleBlog.title,
+      author_name: singleBlog.author_name,
+      email: singleBlog.author_email,
+      facebook: singleBlog.facebook,
+      twitter: singleBlog.x,
+      blog_category_id: singleBlog.blog_category_id,
+    });
+  
+    setContent(singleBlog?.content || "");
+  
+    if (singleBlog.banner_url) {
+      setCoverPreview(singleBlog.banner_url);
+    }
+  
+    if (singleBlog.author_picture) {
+      setAuthorImage(singleBlog.author_picture); 
+    }
+  }, [singleBlog, reset]);
+  
 
   const onSubmit = async (data: AuthorFormData) => {
     const content = editorRef.current?.getContent();
@@ -71,7 +108,7 @@ export default function BlogEditor() {
     formData.append("content", content || "");
     formData.append("author_name", data.author_name);
     formData.append("banner", coverImage);
-    formData.append("email", data.email);
+    formData.append("author_email", data.email);
     formData.append("facebook", data.facebook);
     formData.append("x", data.twitter);
     formData.append("blog_category_id", data.blog_category_id); 
@@ -79,18 +116,23 @@ export default function BlogEditor() {
 
     formData.append("author_picture", authorImageFile);
 
-    await createblog(formData)
-      .unwrap()
-      .then((response) => {
-        if(response.success) {
-          toast.success(response.message)
-        }
-        setShowModal(false);
-      })
-      .catch((error) => {
-        console.error("Error creating blog:", error);
-        alert("Failed to create blog. Please try again.");
-      });
+    try {
+      let response;
+      if (id) {
+        response = await updateBlog({ id, formData }).unwrap();
+      } else {
+        response = await createblog(formData).unwrap();
+      }
+
+      if (response.success) {
+        toast.success(response.message);
+      }
+      setShowModal(false);
+      reset();
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+      console.error("Submit error:", error);
+    }
   };
 
   return (
@@ -158,6 +200,8 @@ export default function BlogEditor() {
       <Editor
         apiKey="sk77lbge33d4v322u8sel5ryk6t1j2t298xgizldv4zsv1jl"
         onInit={(evt, editor) => (editorRef.current = editor)}
+        onEditorChange={(newText) => setContent(newText)}
+        initialValue={content}
         init={{
           height: 600,
           menubar: true,
@@ -317,7 +361,7 @@ export default function BlogEditor() {
                 type="submit"
                 className="bg-[#68b0d4] text-white px-6 py-2 rounded hover:shadow-md hover:bg-[#5aa0c3] transition-all"
               >
-                Publish
+                {isLoading || updating ? "Publishing..." : "Publish"}
               </button>
             </div>
           </div>

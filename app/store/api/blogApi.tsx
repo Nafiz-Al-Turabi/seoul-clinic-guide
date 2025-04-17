@@ -60,4 +60,6 @@ export const {
   useCreateBlogMutation,
   useBlogCategoriesQuery,
   useDeleteBlogMutation,
+  useGetBlogByIdQuery,
+  useUpdateBlogMutation,
 } = blogApi;

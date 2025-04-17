@@ -23,10 +23,14 @@ import { TbNotes } from "react-icons/tb";
 import Link from "next/link";
 import { useDeleteBlogMutation, useGetBlogsQuery } from "@/app/store/api/blogApi";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const BlogList = () => {
+  const router  = useRouter()
   const { data: blogs, isLoading,refetch } = useGetBlogsQuery(null);
   const [deleteBlog ] = useDeleteBlogMutation();
+
+
   const columns: TableColumn[] = [
     { key: "banner_url", label: "Thumbnail", type: "image" },
     { key: "title", label: "Blog Title ", type: "text" },
@@ -65,7 +69,7 @@ const BlogList = () => {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-36">
-          <DropdownMenuItem onClick={() => console.log("Update", blog)}>
+          <DropdownMenuItem onClick={() => router.push(`/dashboard/blog-post/${blog.id}`)}>
             Update
           </DropdownMenuItem>
           <DropdownMenuItem
