@@ -4,22 +4,6 @@ import { create } from "domain";
 
 export const clinicApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createClinic: builder.mutation({
-      query: (formData) => ({
-        url: "/admin/clinics",
-        method: "POST",
-        body: formData,
-        formData: true,
-      }),
-    }),
-    getClinics: builder.query({
-      query: () => ({
-        url: "/admin/clinics",
-        method: "GET",
-        providesTags: ["procedures"],
-      }),
-    }),
-
     getProcedures: builder.query({
       query: () => ({
         url: "/admin/procedures",
@@ -27,6 +11,7 @@ export const clinicApi = baseApi.injectEndpoints({
         providesTags: ["procedures"],
       }),
     }),
+
     getCategories: builder.query({
       query: () => ({
         url: "/admin/clinic-categories",
@@ -35,11 +20,40 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getClinics: builder.query({
+      query: () => ({
+        url: "/admin/clinics",
+        method: "GET",
+      }),
+      providesTags: ["Clinics"],
+    }),
+
+    createClinic: builder.mutation({
+      query: (formData) => ({
+        url: "/admin/clinics",
+        method: "POST",
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: ["Clinics"],
+    }),
+
+    updateClinic: builder.mutation({
+      query:({id,formData}) => ({
+        url: `/admin/clinics/${id}`,
+        method: "PATCH",
+        body: formData,
+        formData: true,
+      }),
+      invalidatesTags: ["Clinics"],
+    }),
+
     deleteClinic: builder.mutation({
       query: (id) => ({
         url: `/admin/clinics/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Clinics"],
     }),
   }),
 });

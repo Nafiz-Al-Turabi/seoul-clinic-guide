@@ -7,8 +7,8 @@ export const blogApi = baseApi.injectEndpoints({
             query:()=>({
                 url:"/admin/blogs",
                 method:"GET",
-                providesTags:["Blogs"]
-            })
+            }),
+            providesTags:["Blogs"]
         }),
         
         createBlog: builder.mutation({
@@ -18,14 +18,15 @@ export const blogApi = baseApi.injectEndpoints({
                 body:formData,
                 formData:true,
             }),
+            invalidatesTags:["Blogs"]
         }),
 
         BlogCategories: builder.query({
             query:()=>({
                 url:"/admin/blog-categories",
                 method:"GET",
-                providesTags:["BlogCategories"]
-            })
+            }),
+            providesTags:["BlogCategories"]
         }),
 
         deleteBlog: builder.mutation({
