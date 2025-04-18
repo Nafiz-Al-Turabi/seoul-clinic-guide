@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         port: '4000',
         pathname: '/public/storage/blog-author-picture/**',
       },
+      {
+        protocol: 'http',
+        hostname: '192.168.5.8',
+        port: '4000',
+        pathname: '/public/storage/clinic-banner/**',
+      },
     ],
   },
 };

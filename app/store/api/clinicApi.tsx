@@ -81,4 +81,5 @@ export const {
   useDeleteClinicMutation,
   useUpdateClinicMutation,
   useGetClinicByIdQuery,
+  useGetTopClinicsQuery,
 } = clinicApi;

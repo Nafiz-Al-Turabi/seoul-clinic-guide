@@ -11,39 +11,7 @@ import clinicImage4 from "@/public/assets/topClinicImages/top-clinic-4.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ClinicCard from "@/components/ui/Cards/ClinicCard";
-
-const topClinics = [
-  {
-    id: 1,
-    image: clinicImage,
-    name: "Three Wishes Clinic - Myeongdong",
-    address: "2900 Ritter Street, Huntsville, AL 35802",
-  },
-  {
-    id: 2,
-    image: clinicImage2,
-    name: "B.V Clinic",
-    address: "4093 Overlook Drive, Richmond, IN 47374",
-  },
-  {
-    id: 3,
-    image: clinicImage3,
-    name: "Seojin Plastic Surgery Clinic",
-    address: "2323 Dancing Dove Lane, Long Island City, NY 11101",
-  },
-  {
-    id: 4,
-    image: clinicImage4,
-    name: "Haru Clinic",
-    address: "591 Joanne Lane, Wilmington, MA 01887",
-  },
-  {
-    id: 5,
-    image: clinicImage4,
-    name: "Haru Clinic",
-    address: "591 Joanne Lane, Wilmington, MA 01887",
-  },
-];
+import { useGetTopClinicsQuery } from "@/app/store/api/clinicApi";
 
 const PrevArrow = ({ onClick, isDisabled }: any) => (
   <button
@@ -80,6 +48,11 @@ const NextArrow = ({ onClick, isDisabled }: any) => (
 const TopClinics = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(4);
+
+  const {data:topClinic, isLoading}=useGetTopClinicsQuery(null)
+
+  const topClinics = topClinic?.data || [];
+  console.log(topClinics);
 
   useEffect(() => {
     const updateSlidesToShow = () => {
@@ -143,7 +116,7 @@ const TopClinics = () => {
         </div>
         <div className="relative">
           <Slider {...settings}>
-            {topClinics.map((clinic) => (
+            {topClinics?.map((clinic) => (
               <ClinicCard key={clinic.id} clinic={clinic} />
             ))}
           </Slider>
