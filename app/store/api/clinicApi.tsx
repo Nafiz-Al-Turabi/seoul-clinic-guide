@@ -28,6 +28,14 @@ export const clinicApi = baseApi.injectEndpoints({
       providesTags: ["Clinics"],
     }),
 
+    getTopClinics: builder.query({
+      query: () => ({
+        url: "/clinics/top-clinics",
+        method: "GET",
+      }),
+      providesTags: ["Clinics"],
+    }),
+
     createClinic: builder.mutation({
       query: (formData) => ({
         url: "/admin/clinics",
@@ -43,7 +51,7 @@ export const clinicApi = baseApi.injectEndpoints({
       query: (id) => `/admin/clinics/${id}`,
       providesTags: (result, error, id) => [{ type: "Clinics", id }],
     }),
-    
+
     // Update clinic
     updateClinic: builder.mutation({
       query: ({ id, formData }) => ({
@@ -54,7 +62,7 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Clinics", id }],
     }),
-    
+
     deleteClinic: builder.mutation({
       query: (id) => ({
         url: `/admin/clinics/${id}`,
