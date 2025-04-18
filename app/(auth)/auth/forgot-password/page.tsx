@@ -56,24 +56,24 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-50 px-4">
+      <div className="bg-white  rounded-2xl p-8 w-full max-w-md">
         {step === 1 ? (
           <form onSubmit={handleEmailSubmit} className="space-y-6">
-            <h2 className="text-2xl font-extrabold text-gray-800 text-center">
+            <h5 className="text-2xl font-extrabold primary-text text-center">
               Forgot Password
-            </h2>
+            </h5>
             <input
               type="email"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmailInput(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#68B0D4]"
               required
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white font-semibold py-2 rounded-lg"
+              className="w-full bg-[#68B0D4] hover:bg-[#5093C2] transition-colors text-white font-semibold py-2 rounded-lg"
               disabled={loadingEmail}
             >
               {loadingEmail ? "Sending Reset Link..." : "Send Reset Link"}
@@ -86,15 +86,15 @@ const ForgotPassword = () => {
           </form>
         ) : (
           <form onSubmit={handleResetSubmit} className="space-y-6">
-            <h2 className="text-2xl font-extrabold text-gray-800 text-center">
+            <h5 className="text-2xl font-extrabold primary-text text-center">
               Reset Password
-            </h2>
+            </h5>
             <input
               type="text"
-              placeholder="Enter Token from Email"
+              placeholder="Enter Token number"
               value={token}
               onChange={(e) => setToken(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#68B0D4]"
               required
             />
             <input
@@ -102,7 +102,7 @@ const ForgotPassword = () => {
               placeholder="New Password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#68B0D4]"
               required
             />
             <button
