@@ -12,6 +12,22 @@ export const blogApi = baseApi.injectEndpoints({
       providesTags: ["Blogs"],
     }),
 
+    getRecentBlogs: builder.query({
+      query: () => ({
+        url: "/blogs/recent-blogs",
+        method: "GET",
+      }),
+      providesTags: ["Blogs"],
+    }),
+
+    getBlogDetails: builder.query({
+      query: (slug) => ({
+        url: `/blogs/${slug}`,
+        method: "GET",
+      }),
+      providesTags: ["Blogs"],
+    }),
+
     createBlog: builder.mutation({
       query: (formData) => ({
         url: "/admin/blogs",
@@ -37,7 +53,7 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Blogs"],
     }),
-    
+
     getBlogById: builder.query({
       query: (id) => `/admin/blogs/${id}`,
       providesTags: (result, error, id) => [{ type: "Blogs", id }],
@@ -62,4 +78,6 @@ export const {
   useDeleteBlogMutation,
   useGetBlogByIdQuery,
   useUpdateBlogMutation,
+  useGetRecentBlogsQuery,
+  useGetBlogDetailsQuery,
 } = blogApi;

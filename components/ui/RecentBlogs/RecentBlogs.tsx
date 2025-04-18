@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import blog1 from "@/public/assets/recentBlog/recent-blog1.png";
 import blog2 from "@/public/assets/recentBlog/recent-blog2.png";
 import { HiArrowUpRight } from "react-icons/hi2";
 import BlogCard from "../Cards/BlogCard";
+import { useGetRecentBlogsQuery } from "@/app/store/api/blogApi";
 
 const blogs = [
   {
@@ -37,6 +39,10 @@ const blogs = [
 ];
 
 const RecentBlogs = () => {
+  const { data: recentBlogs } = useGetRecentBlogsQuery(null);
+  const recentBlogsData = recentBlogs?.data || [];
+  console.log(recentBlogsData);
+
   return (
     <section className="w-full px-4  py-16 bg-white">
       <div className="max-w-[86rem] mx-auto">
@@ -48,7 +54,7 @@ const RecentBlogs = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {blogs.map((blog) => (
+          {recentBlogsData?.map((blog) => (
             <BlogCard key={blog.id} blog={blog} />
           ))}
         </div>
