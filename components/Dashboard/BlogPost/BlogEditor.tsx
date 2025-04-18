@@ -17,6 +17,7 @@ import { toast } from "sonner";
 
 type AuthorFormData = {
   title: string;
+  short_description: string;
   author_name: string;
   email: string;
   facebook: string;
@@ -28,7 +29,7 @@ interface BlogProps {
   id: string;
 }
 
-export default function BlogEditor({id}: BlogProps) {
+export default function BlogEditor({ id }: BlogProps) {
   const editorRef = useRef<any>(null);
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
@@ -39,9 +40,10 @@ export default function BlogEditor({id}: BlogProps) {
 
   const [createblog, { isLoading, error }] = useCreateBlogMutation();
   const { data: BlogCategories } = useBlogCategoriesQuery(null);
-  const {data: blogData} = useGetBlogByIdQuery(id);
+  const { data: blogData } = useGetBlogByIdQuery(id);
   const singleBlog = blogData?.data;
-  const  [updateBlog, { isLoading: updating }] = useUpdateBlogMutation();
+  console.log(singleBlog, "singleBlog");
+  const [updateBlog, { isLoading: updating }] = useUpdateBlogMutation();
 
   const {
     register,
@@ -63,55 +65,59 @@ export default function BlogEditor({id}: BlogProps) {
 
   useEffect(() => {
     if (!singleBlog) return;
-  
+
     reset({
       title: singleBlog.title,
+      short_description: singleBlog.short_description,
       author_name: singleBlog.author_name,
       email: singleBlog.author_email,
       facebook: singleBlog.facebook,
       twitter: singleBlog.x,
       blog_category_id: singleBlog.blog_category_id,
     });
-  
+
     setContent(singleBlog?.content || "");
-  
+
     if (singleBlog.banner_url) {
       setCoverPreview(singleBlog.banner_url);
     }
-  
+
     if (singleBlog.author_picture) {
-      setAuthorImage(singleBlog.author_picture); 
+      setAuthorImage(singleBlog.author_picture);
     }
   }, [singleBlog, reset]);
-  
 
   const onSubmit = async (data: AuthorFormData) => {
     const content = editorRef.current?.getContent();
-  
+
     // Only show warning if both new images are missing AND no existing images
-    if ((!coverImage && !coverPreview) || (!authorImageFile && authorImage === "/default-avatar.jpg")) {
+    if (
+      (!coverImage && !coverPreview) ||
+      (!authorImageFile && authorImage === "/default-avatar.jpg")
+    ) {
       toast.warning("Please upload both images.");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("title", data.title);
+    formData.append("short_description", data.short_description || "");
     formData.append("content", content || "");
     formData.append("author_name", data.author_name);
     formData.append("author_email", data.email);
     formData.append("facebook", data.facebook);
     formData.append("x", data.twitter);
     formData.append("blog_category_id", data.blog_category_id);
-  
+
     // Append only if a new image was uploaded
     if (coverImage) {
       formData.append("banner", coverImage);
     }
-  
+
     if (authorImageFile) {
       formData.append("author_picture", authorImageFile);
     }
-  
+
     try {
       let response;
       if (id) {
@@ -119,7 +125,7 @@ export default function BlogEditor({id}: BlogProps) {
       } else {
         response = await createblog(formData).unwrap();
       }
-  
+
       if (response.success) {
         toast.success(response.message);
       }
@@ -139,6 +145,11 @@ export default function BlogEditor({id}: BlogProps) {
         {...register("title", { required: true })}
         placeholder="Blog title..."
         className="w-full text-4xl font-extrabold text-gray-800 outline-none placeholder-gray-500 border-b pb-2"
+      />
+      <textarea
+        {...register("short_description", { required: true })}
+        placeholder="Short description..."
+        className="w-full h-32 text-base font-extrabold text-gray-800 outline-none placeholder-gray-500 border p-2"
       />
       {errors.title && (
         <p className="text-red-500 text-sm">Title is required</p>
@@ -195,8 +206,8 @@ export default function BlogEditor({id}: BlogProps) {
       <Editor
         apiKey="sk77lbge33d4v322u8sel5ryk6t1j2t298xgizldv4zsv1jl"
         onInit={(evt, editor) => (editorRef.current = editor)}
+        value={content}
         onEditorChange={(newText) => setContent(newText)}
-        initialValue={content}
         init={{
           height: 600,
           menubar: true,
@@ -224,6 +235,37 @@ export default function BlogEditor({id}: BlogProps) {
           fontsize_formats:
             "8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 40pt 56pt 64pt 72pt",
           automatic_uploads: true,
+          paste_data_images: true,
+          images_reuse_filename: true,
+          file_picker_types: "image",
+          images_upload_handler: async (blobInfo) => {
+            return new Promise((resolve, reject) => {
+              const formData = new FormData();
+              formData.append("image", blobInfo.blob(), blobInfo.filename());
+              console.log(formData, "formData");
+
+              fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/blogs/upload`, {
+                method: "POST",
+                body: formData,
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              })
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
+                  }
+                  return response.json();
+                })
+                .then((data) => {
+                  resolve(data.data.url);
+                })
+                .catch((err) => {
+                  console.error("Image upload failed", err);
+                  reject(`Image upload failed: ${err.message}`);
+                });
+            });
+          },
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
