@@ -57,11 +57,22 @@ const DetailsOfBlog = ({ slug }) => {
                     </div>
                 </div>
                 <div
-                    className="my-12 [&_ul]:list-disc [&_ol]:list-decimal [&_li]:ml-6"
+                    className="my-12 
+                    [&_ol]:list-decimal 
+                    [&_ul]:list-disc 
+                    [&_li]:ml-6 
+                    [&_h1]:font-semibold 
+                    [&_h2]:font-semibold 
+                    [&_h3]:font-semibold 
+                    [&_h4]:font-semibold 
+                    [&_h5]:font-semibold 
+                    [&_h6]:font-semibold
+             "
                     dangerouslySetInnerHTML={{
                         __html: blogDetails?.content || "",
                     }}
                 />
+
             </section>
         </div>
     );
