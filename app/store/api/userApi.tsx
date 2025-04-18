@@ -21,6 +21,7 @@ export const userApi = baseApi.injectEndpoints({
         body: formData,
         formData: true,
       }),
+      invalidatesTags: ["Users"],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({

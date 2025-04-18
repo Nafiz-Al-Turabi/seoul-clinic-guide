@@ -24,6 +24,7 @@ const Login = () => {
   } = useForm<LoginFormInputs>();
   const [signin, { isLoading: isLoginLoading, error: loginError }] =
     useSigninMutation(); 
+
   const onSubmit = async (data: LoginFormInputs) => {
     await signin(data)
       .unwrap()
@@ -105,7 +106,11 @@ const Login = () => {
               </button>
             </form>
 
-            <button className="flex items-center justify-center gap-2 w-full text-lg p-2 lg:p-3 text-center border border-[#151623] rounded-full mt-7 cursor-pointer active:bg-[#EEF3F8] active:border-[#EEF3F8] duration-300">
+            <button 
+            onClick={() => {
+              window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
+            }}
+            className="flex items-center justify-center gap-2 w-full text-lg p-2 lg:p-3 text-center border border-[#151623] rounded-full mt-7 cursor-pointer active:bg-[#EEF3F8] active:border-[#EEF3F8] duration-300">
               <FcGoogle className="text-sm lg:text-2xl" />
               Login With Google
             </button>
@@ -113,7 +118,7 @@ const Login = () => {
             <p className="mt-5 text-center text-[#93949A]">
               Forget Password?
               <Link
-                href={"/reset-password"}
+                href={"/auth/forgot-password"}
                 className="text-main border-b font-medium "
               >
                 {" "}
