@@ -1,34 +1,92 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
+import { useUpdateUserMutation } from "@/app/store/api/userApi";
+import { useGetMeQuery } from "@/app/store/api/authApi";
+import { toast } from "sonner";
 
 const DashboardSettings = () => {
   const [profileImage, setProfileImage] = useState("/default-avatar.jpg");
+  const [imageFile, setImageFile] = useState(null);
+  const [updateUser, { isLoading, error }] = useUpdateUserMutation();
+  const { data: user, refetch } = useGetMeQuery([]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    if (user?.data) {
+      reset({
+        avatar: user.data.avatar || "",
+        name: user.data.name || "",
+        phone_number: user.data.phone_number || "",
+        region: user.data.region || "",
+        location: user.data.location || "",
+        bio: user.data.bio || "",
+        old_password: "",
+        password: "",
+      });
+      if (user.data.imageUrl) {
+        setProfileImage(user.data.imageUrl);
+      }
+    }
+  }, [user, reset]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfileImage(e.target.result as string);
+        if (typeof e.target.result === "string") {
+          setProfileImage(e.target.result);
+        }
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleDeletePhoto = () => {
-    setProfileImage("/default-avatar.jpg");
+    setProfileImage(profileImage);
+    setImageFile(null);
   };
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("phone_number", data.phone_number);
+      formData.append("region", data.region);
+      formData.append("location", data.location);
+      formData.append("bio", data.bio);
+
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      if (data.password) {
+        formData.append("password", data.password);
+      }
+      if (data.old_password) {
+        formData.append("old_password", data.old_password);
+      }
+
+      const response = await updateUser(formData).unwrap();
+      if (response?.success) {
+        toast.success(response?.message);
+      }
+      refetch();
+    } catch (err) {
+      toast.error("Something went wrong. Please try again.");
+      console.error("Error updating user:", err);
+    }
+  };
+
   return (
     <div className="">
       <p className="text-[2rem] font-semibold primary-text text-center sm:text-left">
@@ -39,7 +97,11 @@ const DashboardSettings = () => {
         <div className="relative mb-4 sm:mb-0 sm:mr-6">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
             <Image
-              src={profileImage}
+              src={
+                imageFile
+                  ? profileImage
+                  : user?.data?.avatar_url || "/default-avatar.jpg"
+              }
               alt="Profile"
               width={90}
               height={90}
@@ -96,13 +158,13 @@ const DashboardSettings = () => {
               Contact Number<span className="text-red-500">*</span>
             </label>
             <input
-              id="contactNumber"
+              id="phone_number"
               type="tel"
               placeholder="Enter your contact number"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.contactNumber ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("contactNumber", {
+              {...register("phone_number", {
                 required: "Contact number is required",
               })}
             />
@@ -184,13 +246,13 @@ const DashboardSettings = () => {
               Old Password
             </label>
             <input
-              id="oldPassword"
+              id="old_password"
               type="password"
               placeholder="Enter your old password"
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.oldPassword ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("oldPassword")}
+              {...register("old_password")}
             />
             {errors.oldPassword && (
               <p className="mt-1 text-red-500 text-sm">
@@ -210,7 +272,7 @@ const DashboardSettings = () => {
               className={`w-full p-3 border focus:outline-none focus:border-[#68B0D4] ${
                 errors.newPassword ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              {...register("newPassword")}
+              {...register("password")}
             />
             {errors.newPassword && (
               <p className="mt-1 text-red-500 text-sm">
@@ -225,7 +287,7 @@ const DashboardSettings = () => {
             type="submit"
             className="bg-[#68B0D4] text-white px-6 py-2 rounded-full hover:bg-[#5093C2] transition cursor-pointer"
           >
-            Save Changes
+            {isLoading ? "Saving..." : "Save Changes"}
           </button>
 
           <button
