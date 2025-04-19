@@ -3,14 +3,13 @@ import React from "react";
 
 const ClinicCard = ({clinic}) => {
   return (
-    <div key={clinic?.id} className="px-2">
-      <div className="">
+    <div key={clinic?.id} className="px-2 flex flex-col justify-between">
+      <div className="relative w-full h-48 rounded-xl overflow-hidden mb-3">
         <Image
-          src={clinic?.banner_url}
-          width={400}
-          height={400}
-          alt="clinic-image"
-          className="aspect-auto rounded-xl"
+          src={clinic?.banner_url || "/placeholder.jpg"}
+          alt={clinic?.name || "Clinic Image"}
+          fill
+          className="object-cover object-center rounded-xl transition-transform duration-300 group-hover:scale-105"
         />
       </div>
       <div>

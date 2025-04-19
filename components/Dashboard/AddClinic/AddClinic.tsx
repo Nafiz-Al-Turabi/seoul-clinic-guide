@@ -127,8 +127,19 @@ export default function AddClinicForm({ id }: AddClinicProps) {
         toast.success(response.message);
       }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Something went wrong");
-      console.error("Submit error:", error);
+      const messages = error?.data?.message?.message;
+    
+      if (Array.isArray(messages)) {
+        messages.forEach((msg) => toast.error(msg));
+      } else {
+        toast.error(
+          typeof messages === "string"
+            ? messages
+            : "Something went wrong. Please try again."
+        );
+      }
+    
+      console.error("Submit error (raw):", error);
     }
   };
 
