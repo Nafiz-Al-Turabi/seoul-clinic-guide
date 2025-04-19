@@ -11,6 +11,8 @@ import { RiSettingsLine } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { useGetMeQuery } from "@/app/store/api/authApi";
+import useLogout from "@/hooks/useLogout";
+import { on } from "events";
 
 // Menu and Bottom items
 const menuItems = [
@@ -36,6 +38,7 @@ const bottomMenu = [
   },
   {
     href: "/logout",
+    click:true,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -67,11 +70,11 @@ export default function ClientLayout({ children }) {
   const pathname = usePathname();
   const { data: user } = useGetMeQuery(null);
   console.log(user);
-
+  const handleLogout = useLogout();
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  console.log("Current pathname:", pathname);
+  // console.log("Current pathname:", pathname);
   const TopBar = () => {
     const currentPage =
       [...menuItems]
@@ -144,6 +147,7 @@ export default function ClientLayout({ children }) {
               <div className="px-2 py-1" key={index}>
                 <Link
                   href={item.href}
+                  onClick={item.click ? handleLogout : undefined}
                   className={`flex items-center text-base font-medium px-4 py-3 rounded-md gap-1 ${
                     isActive
                       ? "bg-[#E7F2F8] primary-text font-medium"
