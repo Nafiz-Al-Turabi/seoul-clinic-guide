@@ -14,11 +14,11 @@ const DetailsOfBlog = ({ slug }) => {
     const { data } = useGetBlogDetailsQuery(slug);
 
     const blogDetails = data?.data || {};
-    console.log(blogDetails, "blogDetails");
+    // console.log(blogDetails, "blogDetails");
 
     return (
         <div>
-            <header style={{ backgroundImage: `url(${blogHeroImage.src})` }}
+            <header style={{ backgroundImage: `url(${blogDetails?.banner_url})` }}
                 className="relative w-full bg-position-center bg-cover bg-center bg-no-repeat h-[30vh] sm:h-[40vh] lg:h-[70.7vh]">
                 <div className="absolute inset-0 bg-gradient-to-l to-black/10 from-transparent z-0"></div>
                 <div className="max-w-[86rem] mx-auto px-4 2xl:px-0 flex flex-col justify-center h-full relative z-10">
