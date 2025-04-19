@@ -33,12 +33,13 @@ const NewsLetter = () => {
       );
 
       const responseData = await response.json();
+      console.log(responseData);
 
-      if (response.ok) {
+      if (responseData?.success) {
         toast.success("Subscribed successfully");
         reset();
       } else {
-        alert(responseData.message);
+        toast.info("You're already subscribed.");
       }
     } catch (error) {
       console.error("Subscription error:", error);

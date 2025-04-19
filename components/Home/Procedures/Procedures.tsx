@@ -31,12 +31,12 @@ const Procedures = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
-    <div className="">
-      <h3 className="max-w-[86rem] mx-auto px-4 2xl:px-0 primary-text font-bold mb-8">
+    <div className="max-w-[86rem] mx-auto">
+      <h3 className=" px-4 2xl:px-0 primary-text font-bold mb-8">
         Procedures
       </h3>
-      <div className="xl:ml-12 2xl:ml-[260px] overflow-x-auto mb-6 pl-4 xl:pl-0">
-        <div className="flex gap-4 w-max min-w-full">
+      <div className="overflow-x-auto  mb-6 pl-4 xl:pl-0">
+        <div className="flex xl:flex-wrap gap-4  ">
           {tabs.map((tab) => (
             <button
               key={tab}
