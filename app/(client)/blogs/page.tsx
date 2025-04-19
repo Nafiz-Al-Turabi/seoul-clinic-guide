@@ -8,7 +8,7 @@ const Blogs = ({params}) => {
   return (
     <div>
       <BlogHero />
-      <BlogCategories params={params} />
+      <BlogCategories />
       <NewsLetter /> 
       <TopClinics />
       <TestimonialSlider />
