@@ -44,7 +44,7 @@ const DetailsOfBlog = ({ slug }) => {
                                 />
                             ) : (
                                 <Image
-                                    src={image} 
+                                    src={image}
                                     height={67}
                                     width={67}
                                     alt="Default Author"

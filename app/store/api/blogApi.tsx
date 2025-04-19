@@ -13,10 +13,13 @@ export const blogApi = baseApi.injectEndpoints({
     }),
 
     getBlogsByCategory: builder.query({
-      query: (categoryId) => ({
+      query: (categoryId = null, currentPage = 1) => ({
         url: `/blogs`,
         method: "GET",
-        params: categoryId ? { category: categoryId } : {},
+        params: {
+          ...(categoryId && { category: categoryId }),
+          page: currentPage,
+        },
       }),
       providesTags: ["Blogs"],
     }),
