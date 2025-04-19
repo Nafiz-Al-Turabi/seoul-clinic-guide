@@ -70,6 +70,26 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Clinics"],
     }),
+
+    // procedure ..............................
+
+    getClinicCategory: builder.query({
+      query: (i) => ({
+        url: "/clinic-categories",
+        method: "GET",
+      }),
+    }),
+
+    getProcedureByCategory: builder.query({
+      query: (clinic_category_id) => ({
+        url: `/procedures/by-category/${clinic_category_id}`,
+        method: "GET",
+        params: {
+          ...(clinic_category_id && { category: clinic_category_id }),
+          page: 1,
+        },
+      }),
+    }),
   }),
 });
 
@@ -82,4 +102,6 @@ export const {
   useUpdateClinicMutation,
   useGetClinicByIdQuery,
   useGetTopClinicsQuery,
+  useGetClinicCategoryQuery,
+  useGetProcedureByCategoryQuery,
 } = clinicApi;
