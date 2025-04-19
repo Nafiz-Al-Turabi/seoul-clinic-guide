@@ -14,21 +14,20 @@ interface Category {
 
 const Procedures = () => {
   const [activeTab, setActiveTab] = useState<Category | null>(null);
-  const { data: clinic_category, isLoading: loadingCategories } = useGetClinicCategoryQuery(null);
+  const { data: clinic_category, isLoading: loadingCategories } =
+    useGetClinicCategoryQuery(null);
   const categories: Category[] = clinic_category?.data || [];
-  
+
   useEffect(() => {
     if (categories.length > 0 && !activeTab) {
       setActiveTab({ id: categories[0].id, name: categories[0].name });
     }
   }, [categories]);
 
-  const {
-    data: procedures,
-    isLoading: loadingProcedures,
-  } = useGetProcedureByCategoryQuery(activeTab?.id, {
-    skip: !activeTab?.id,
-  });
+  const { data: procedures, isLoading: loadingProcedures } =
+    useGetProcedureByCategoryQuery(activeTab?.id, {
+      skip: !activeTab?.id,
+    });
 
   const proceduresData = procedures?.data || [];
 
