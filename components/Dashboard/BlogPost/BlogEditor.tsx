@@ -285,7 +285,7 @@ export default function BlogEditor({ id }: BlogProps) {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
           <div className="bg-white p-6 rounded-lg max-w-5xl w-full relative">
             <button
-              className="absolute top-5 right-5 text-gray-500 hover:text-black text-xl"
+              className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl cursor-pointer border p-1 rounded-full transition duration-300 group group:hover:bg-gray-100"
               type="button"
               onClick={() => setShowModal(false)}
             >

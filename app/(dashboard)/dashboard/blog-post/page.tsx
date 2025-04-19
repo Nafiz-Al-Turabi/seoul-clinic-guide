@@ -1,10 +1,10 @@
 import BlogEditor from '@/components/Dashboard/BlogPost/BlogEditor';
 import React from 'react';
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
     return (
         <div>
-            <BlogEditor/>
+            <BlogEditor id={params.id}/>
         </div>
     );
 };
