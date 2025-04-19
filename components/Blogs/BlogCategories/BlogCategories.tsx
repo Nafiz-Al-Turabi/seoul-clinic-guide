@@ -5,7 +5,7 @@ import {
   useGetBlogsByCategoryQuery,
 } from "@/app/store/api/blogApi";
 import BlogCard from "@/components/ui/Cards/BlogCard";
-import { useState, useEffect, useMemo } from "react";
+import { useState,  useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const BlogCategories = () => {
