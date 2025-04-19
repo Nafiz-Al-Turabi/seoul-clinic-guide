@@ -6,6 +6,7 @@ import blog2 from "@/public/assets/recentBlog/recent-blog2.png";
 import { HiArrowUpRight } from "react-icons/hi2";
 import BlogCard from "../Cards/BlogCard";
 import { useGetRecentBlogsQuery } from "@/app/store/api/blogApi";
+import Link from "next/link";
 
 const blogs = [
   {
@@ -48,9 +49,9 @@ const RecentBlogs = () => {
       <div className="max-w-[86rem] mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h3 className="primary-text font-bold">Recent Blogs</h3>
-          <button className="primary-bg text-white font-medium px-5 py-2 rounded-full hover:bg-blue-200 transition cursor-pointer">
+          <Link href="/blogs" className="primary-bg text-white font-medium px-5 py-2 rounded-full hover:bg-blue-200 transition cursor-pointer">
             View All
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

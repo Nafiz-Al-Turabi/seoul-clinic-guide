@@ -4,11 +4,11 @@ import TestimonialSlider from "@/components/ui/Testimonials/TestimonialSlider";
 import React from "react";
 import BlogHero from "@/components/Blogs/BlogHero/BlogHero";
 import BlogCategories from "@/components/Blogs/BlogCategories/BlogCategories";
-const Blogs = () => {
+const Blogs = ({params}) => {
   return (
     <div>
       <BlogHero />
-      <BlogCategories />
+      <BlogCategories params={params} />
       <NewsLetter /> 
       <TopClinics />
       <TestimonialSlider />

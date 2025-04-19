@@ -12,6 +12,15 @@ export const blogApi = baseApi.injectEndpoints({
       providesTags: ["Blogs"],
     }),
 
+    getBlogsByCategory: builder.query({
+      query: (category) => ({
+        url: "/blogs",
+        method: "GET",
+        params: { category },
+      }),
+      providesTags: ["Blogs"],
+    }),
+
     getRecentBlogs: builder.query({
       query: () => ({
         url: "/blogs/recent-blogs",
@@ -80,4 +89,5 @@ export const {
   useUpdateBlogMutation,
   useGetRecentBlogsQuery,
   useGetBlogDetailsQuery,
+  useGetBlogsByCategoryQuery,
 } = blogApi;
