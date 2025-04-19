@@ -2,7 +2,7 @@
 import React from 'react';
 import blogHeroImage from "@/public/assets/images/blogHero.png";
 import Image from 'next/image';
-import image from '@/public/profile.png'
+import image from '@/public/placeholder.png'
 import image2 from '@/public/assets/stemCellImages/stem-cell.jpg'
 import { useGetBlogDetailsQuery } from '@/app/store/api/blogApi';
 import { FaFacebookF } from 'react-icons/fa';
@@ -35,7 +35,21 @@ const DetailsOfBlog = ({ slug }) => {
                 <div className='flex justify-between py-[32px]  border-b border-[#D7D7D7]'>
                     <div className='flex items-center gap-3  '>
                         <div className='w-[67px] h-[67px] rounded-full overflow-hidden flex items-center justify-center'>
-                            <Image src={blogDetails?.author_picture_url} height={67} width={67} alt="" />
+                            {blogDetails?.author_picture_url ? (
+                                <Image
+                                    src={blogDetails.author_picture_url}
+                                    height={67}
+                                    width={67}
+                                    alt={blogDetails?.title || 'Author'}
+                                />
+                            ) : (
+                                <Image
+                                    src={image} 
+                                    height={67}
+                                    width={67}
+                                    alt="Default Author"
+                                />
+                            )}
                         </div>
                         <div>
                             <h5 className='text-lg font-semibold primary-text'>{blogDetails?.author_name}</h5>
