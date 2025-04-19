@@ -8,7 +8,7 @@ const ClinicCard = ({clinic}) => {
         <Image
           src={clinic?.banner_url}
           width={400}
-          height={300}
+          height={400}
           alt="clinic-image"
           className="aspect-auto rounded-xl"
         />

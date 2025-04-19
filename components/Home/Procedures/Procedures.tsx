@@ -16,9 +16,7 @@ const Procedures = () => {
   const [activeTab, setActiveTab] = useState<Category | null>(null);
   const { data: clinic_category, isLoading: loadingCategories } = useGetClinicCategoryQuery(null);
   const categories: Category[] = clinic_category?.data || [];
-  console.log(categories);
   
-
   useEffect(() => {
     if (categories.length > 0 && !activeTab) {
       setActiveTab({ id: categories[0].id, name: categories[0].name });
@@ -33,7 +31,6 @@ const Procedures = () => {
   });
 
   const proceduresData = procedures?.data || [];
-  console.log(proceduresData);
 
   return (
     <div className="max-w-[86rem] mx-auto">
