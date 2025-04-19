@@ -8,29 +8,24 @@ import logo from "@/public/logo.svg";
 import CustomImage from "@/components/reusable/CustomImage";
 import DropdownProfile from "../DropdownProfile/DropdownProfile";
 import { useGetMeQuery } from "@/app/store/api/authApi";
+import { usePathname } from "next/navigation";
 
 const menus = [
   { path: "/", label: "Home" },
   {
     label: "Categories",
-    dropdown: [
-      { path: "/categories", label: "All Categories" },
-      // { path: "#", label: "Skincare" },
-      // { path: "#", label: "Hair" },
-    ],
+    dropdown: [{ path: "/categories", label: "All Categories" }],
   },
   {
     label: "Clinics",
-    dropdown: [
-      { path: "/clinics", label: "Seoul Clinics" },
-      // { path: "#", label: "Top Rated" },
-    ],
+    dropdown: [{ path: "/clinics", label: "Seoul Clinics" }],
   },
   { path: "/procedures", label: "Procedures" },
   { path: "/blogs", label: "Blogs" },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState("");
   const [mobileDropdowns, setMobileDropdowns] = useState<{
@@ -38,6 +33,7 @@ export default function Navbar() {
   }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data: user } = useGetMeQuery(null);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -58,13 +54,17 @@ export default function Navbar() {
     }));
   };
 
+  const isActive = (path: string) =>
+    pathname === path || pathname.startsWith(path + "/");
+
+  const isDropdownActive = (items: { path: string }[]) =>
+    items.some((item) => isActive(item.path));
+
   return (
     <nav className="bg-white z-50 relative py-2">
       <div className="max-w-[86rem] mx-auto px-4 2xl:px-0 py-3 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <CustomImage src={logo} alt="Logo" />
-          {/* <Image src={logo} alt="Logo"  /> */}
         </Link>
 
         {/* Desktop Nav */}
@@ -81,17 +81,25 @@ export default function Navbar() {
                       dropdownOpen === menu.label ? "" : menu.label
                     )
                   }
-                  className="flex items-center gap-1 text-base text-gray-700 hover:text-[#68B0D4] duration-300 cursor-pointer"
+                  className={`flex items-center gap-1 text-base duration-300 cursor-pointer ${
+                    isDropdownActive(menu.dropdown)
+                      ? "text-[#68B0D4]"
+                      : "text-gray-700 hover:text-[#68B0D4]"
+                  }`}
                 >
                   {menu.label} <ChevronDown size={14} />
                 </button>
                 {dropdownOpen === menu.label && (
-                  <div className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md  py-2 z-40 animate-fadeIn">
+                  <div className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md py-2 z-40 animate-fadeIn">
                     {menu.dropdown.map((item, subIdx) => (
                       <Link
                         key={subIdx}
                         href={item.path}
-                        className="block px-4 py-2.5 text-base text-gray-700 hover:bg-gray-100"
+                        className={`block px-4 py-2.5 text-base hover:bg-gray-100 ${
+                          isActive(item.path)
+                            ? "text-[#68B0D4]"
+                            : "text-gray-700"
+                        }`}
                       >
                         {item.label}
                       </Link>
@@ -103,7 +111,11 @@ export default function Navbar() {
               <Link
                 key={idx}
                 href={menu.path}
-                className="text-base p-2.5  hover:text-[#68B0D4] duration-300"
+                className={`text-base p-2.5 duration-300 ${
+                  isActive(menu.path)
+                    ? "text-[#68B0D4]"
+                    : "text-gray-700 hover:text-[#68B0D4]"
+                }`}
               >
                 {menu.label}
               </Link>
@@ -114,15 +126,16 @@ export default function Navbar() {
         {/* Desktop Auth */}
         {user ? (
           <div className="hidden lg:flex items-center gap-4">
-            <div>
-              <DropdownProfile />
-            </div>
+            <DropdownProfile />
             {user?.data.type === "admin" ? (
-              <Link href='/dashboard' className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 cursor-pointer">
+              <Link
+                href="/dashboard"
+                className="primary-bg text-white py-2.5 px-6 rounded-full duration-300"
+              >
                 Dashboard
               </Link>
             ) : (
-              <button className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 cursor-pointer">
+              <button className="primary-bg text-white py-2.5 px-6 rounded-full duration-300">
                 Start Enquiry
               </button>
             )}
@@ -131,20 +144,20 @@ export default function Navbar() {
           <div className="hidden lg:flex gap-2">
             <Link
               href="/auth/login"
-              className="px-6 py-2.5 primary-bg text-white rounded-full text-sm  transition"
+              className="px-6 py-2.5 primary-bg text-white rounded-full text-sm"
             >
               Login
             </Link>
             <Link
               href="/auth/register"
-              className="px-6 py-2.5 border border-[#68B0D4]  rounded-full text-sm hover:bg-sky-50 transition"
+              className="px-6 py-2.5 border border-[#68B0D4] rounded-full text-sm hover:bg-sky-50"
             >
               Signup
             </Link>
           </div>
         )}
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <div className="flex items-center gap-2">
           <div className="block lg:hidden">
             <DropdownProfile />
@@ -175,7 +188,11 @@ export default function Navbar() {
             menu.dropdown ? (
               <div key={idx} className="mb-3">
                 <button
-                  className="flex items-center justify-between w-full text-gray-700 font-medium"
+                  className={`flex items-center justify-between w-full font-medium ${
+                    isDropdownActive(menu.dropdown)
+                      ? "text-[#68B0D4]"
+                      : "text-gray-700"
+                  }`}
                   onClick={() => toggleMobileDropdown(menu.label)}
                 >
                   {menu.label}
@@ -193,7 +210,11 @@ export default function Navbar() {
                         key={subIdx}
                         href={item.path}
                         onClick={() => setMenuOpen(false)}
-                        className="block text-sm text-gray-600"
+                        className={`block text-sm ${
+                          isActive(item.path)
+                            ? "text-[#68B0D4] font-semibold"
+                            : "text-gray-600"
+                        }`}
                       >
                         {item.label}
                       </Link>
@@ -206,7 +227,11 @@ export default function Navbar() {
                 key={idx}
                 href={menu.path}
                 onClick={() => setMenuOpen(false)}
-                className="text-gray-700 mb-3"
+                className={`text-base mb-3 ${
+                  isActive(menu.path)
+                    ? "text-[#68B0D4]"
+                    : "text-gray-700"
+                }`}
               >
                 {menu.label}
               </Link>
@@ -216,21 +241,21 @@ export default function Navbar() {
           <Link
             href="/login"
             onClick={() => setMenuOpen(false)}
-            className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500 transition"
+            className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
           >
             Login
           </Link>
           <Link
             href="/signup"
             onClick={() => setMenuOpen(false)}
-            className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50 transition"
+            className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
           >
             Signup
           </Link>
         </div>
       </div>
 
-      {/* Fade Animation */}
+      {/* Animations */}
       <style jsx>{`
         .animate-fadeIn {
           animation: fadeIn 0.2s ease-in-out;
