@@ -85,11 +85,16 @@ export const clinicApi = baseApi.injectEndpoints({
         url: `/procedures/by-category/${clinic_category_id}`,
         method: "GET",
         params: {
-          ...(clinic_category_id && { category: clinic_category_id }),
           page: 1,
         },
       }),
     }),
+
+
+
+
+
+    
   }),
 });
 

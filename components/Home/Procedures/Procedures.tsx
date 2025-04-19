@@ -1,21 +1,39 @@
 "use client";
 
-import React, { useState, useEffect, JSX } from "react";
-import StemCell from "./Tabcomponents/StemCell";
-import { useGetClinicCategoryQuery } from "@/app/store/api/clinicApi";
+import React, { useState, useEffect } from "react";
 import ProcedureCard from "@/components/ui/Cards/ProcedureCard";
+import {
+  useGetClinicCategoryQuery,
+  useGetProcedureByCategoryQuery,
+} from "@/app/store/api/clinicApi";
+
+interface Category {
+  id: string;
+  name: string;
+}
 
 const Procedures = () => {
-  const [activeTab, setActiveTab] = useState<string>("");
-  const { data: clinic_category, isLoading } = useGetClinicCategoryQuery(null);
-  const categories = clinic_category?.data || [];
-
+  const [activeTab, setActiveTab] = useState<Category | null>(null);
+  const { data: clinic_category, isLoading: loadingCategories } = useGetClinicCategoryQuery(null);
+  const categories: Category[] = clinic_category?.data || [];
+  console.log(categories);
+  
 
   useEffect(() => {
-    if (categories.length > 0) {
-      setActiveTab(categories[0].name); 
+    if (categories.length > 0 && !activeTab) {
+      setActiveTab({ id: categories[0].id, name: categories[0].name });
     }
   }, [categories]);
+
+  const {
+    data: procedures,
+    isLoading: loadingProcedures,
+  } = useGetProcedureByCategoryQuery(activeTab?.id, {
+    skip: !activeTab?.id,
+  });
+
+  const proceduresData = procedures?.data || [];
+  console.log(proceduresData);
 
   return (
     <div className="max-w-[86rem] mx-auto">
@@ -24,12 +42,12 @@ const Procedures = () => {
       {/* Tabs */}
       <div className="overflow-x-auto mb-6 pl-4 xl:pl-0">
         <div className="flex xl:flex-wrap gap-4">
-          {categories.map((cat: { name: string }) => (
+          {categories.map((cat) => (
             <button
-              key={cat.name}
-              onClick={() => setActiveTab(cat.name)}
+              key={cat.id}
+              onClick={() => setActiveTab(cat)}
               className={`text-xs sm:text-sm lg:text-lg whitespace-nowrap rounded-full px-6 py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === cat.name
+                activeTab?.id === cat.id
                   ? "bg-[#68B0D4] text-white shadow-md border-transparent"
                   : "border-[#EEF3F8] text-main"
               }`}
@@ -40,16 +58,18 @@ const Procedures = () => {
         </div>
       </div>
 
-      {/* Dynamic Tab Content */}
+      {/* Procedures Grid */}
       <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
-        {isLoading ? (
+        {loadingProcedures ? (
           <p>Loading...</p>
-        ) : (
+        ) : proceduresData?.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
-            <ProcedureCard />
-            <ProcedureCard />
-            <ProcedureCard />
+            {proceduresData.map((procedure: any) => (
+              <ProcedureCard key={procedure.id} procedure={procedure} />
+            ))}
           </div>
+        ) : (
+          <p className="text-center text-gray-500">No procedures found.</p>
         )}
       </div>
     </div>
