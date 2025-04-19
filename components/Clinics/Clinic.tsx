@@ -8,9 +8,9 @@ const Clinic = () => {
   console.log(clinics, "clinics");
   const clinicsData = clinics?.data?.clinics || [];
   return (
-    <div>
+    <div className="mb-20">
       <div className="w-full px-4  mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
           {clinicsData.map((clinic) => (
             <ClinicCard key={clinic.id} clinic={clinic} />
           ))}

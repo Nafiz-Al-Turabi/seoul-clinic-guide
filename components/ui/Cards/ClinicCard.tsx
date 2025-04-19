@@ -3,7 +3,7 @@ import React from "react";
 
 const ClinicCard = ({clinic}) => {
   return (
-    <div key={clinic?.id} className="px-2 flex flex-col justify-between">
+    <div key={clinic?.id} className="px-2 flex flex-col justify-between group">
       <div className="relative w-full h-48 rounded-xl overflow-hidden mb-3">
         <Image
           src={clinic?.banner_url || "/placeholder.jpg"}

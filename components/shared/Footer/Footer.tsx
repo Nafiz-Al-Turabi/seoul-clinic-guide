@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 const Footer = () => {
@@ -23,21 +24,21 @@ const Footer = () => {
 
           {/* Nav links */}
           <div className="text-base flex flex-wrap justify-center gap-6">
-            <a href="#" className="hover:underline">
+            <Link href="/" className="hover:underline">
               Home
-            </a>
-            <a href="#" className="hover:underline">
+            </Link>
+            <Link href="/categories" className="hover:underline">
               Categories
-            </a>
-            <a href="#" className="hover:underline">
+            </Link>
+            <Link href="/clinics" className="hover:underline">
               Seoul
-            </a>
-            <a href="#" className="hover:underline">
+            </Link>
+            <Link href="/procedures" className="hover:underline">
               Procedures
-            </a>
-            <a href="#" className="hover:underline">
+            </Link>
+            <Link href="/blogs" className="hover:underline">
               Blogs
-            </a>
+            </Link>
           </div>
         </div>
       </div>
