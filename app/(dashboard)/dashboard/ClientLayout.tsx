@@ -23,13 +23,13 @@ const menuItems = [
     icon: <HiOutlineUsers size={18} />,
     label: "User list",
   },
+  { href: "/dashboard/procedures", icon: <LiaProceduresSolid  size={18} />, label: "Procedures" },
   {
     href: "/dashboard/clinics",
     icon: <PiHospitalThin size={18} />,
     label: "Clinic List",
   },
   { href: "/dashboard/blogs", icon: <CgNotes size={18} />, label: "Blogs" },
-  { href: "/dashboard/procedures", icon: <LiaProceduresSolid  size={18} />, label: "Procedures" },
 ];
 
 const bottomMenu = [

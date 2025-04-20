@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { PiShareFat, PiUsersThree } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
@@ -8,10 +8,12 @@ import { TbUsersPlus } from "react-icons/tb";
 import SearchEngagementChart from "../Charts/SearchEngagementChart";
 import UserConversionChart from "../Charts/UserConversionChart";
 import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi";
+import Subscribers from "../Subscribers/Subscribers";
 const Overview = () => {
-  const {data: searcUserEngagementData} = useGetDashboardUserEngagementQuery(null);
+  const { data: searcUserEngagementData } =
+    useGetDashboardUserEngagementQuery(null);
   console.log(searcUserEngagementData?.data, "user_engagements");
-  const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0; 
+  const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0;
   return (
     <div>
       <header className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -58,13 +60,13 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-          <p className="text-[2rem] font-bold ">273</p>
+            <p className="text-[2rem] font-bold ">273</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
               +100
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-          <p className="text-xs primary-text font-medium">
+            <p className="text-xs primary-text font-medium">
               User Increased by 10% in last 7 days{" "}
             </p>
             <Image
@@ -88,15 +90,15 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-          <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
+            <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
               +60
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-           
             <p className="text-xs primary-text font-medium">
-              User Increased by {totalUsers?.increasePercent}% in last {totalUsers?.days} days{" "}
+              User Increased by {totalUsers?.increasePercent}% in last{" "}
+              {totalUsers?.days} days{" "}
             </p>
             <Image
               src={chartImage}
@@ -113,6 +115,11 @@ const Overview = () => {
         </div>
         <div className=" col-span-12 xl:col-span-5 2xl:col-span-4">
           <UserConversionChart />
+        </div>
+      </div>
+      <div className="mt-4">
+        <div>
+          <Subscribers />
         </div>
       </div>
     </div>
