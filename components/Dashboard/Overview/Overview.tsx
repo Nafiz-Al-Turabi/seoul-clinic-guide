@@ -58,14 +58,14 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-            <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
+          <p className="text-[2rem] font-bold ">273</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
               +100
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs primary-text font-medium">
-              User Increased by {totalUsers?.increasePercent}% in last {totalUsers?.days} days{" "}
+          <p className="text-xs primary-text font-medium">
+              User Increased by 10% in last 7 days{" "}
             </p>
             <Image
               src={chartImage}
@@ -88,14 +88,15 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-            <p className="text-[2rem] font-bold ">273</p>
+          <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
               +60
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
+           
             <p className="text-xs primary-text font-medium">
-              User Increased by 10% in last 7 days{" "}
+              User Increased by {totalUsers?.increasePercent}% in last {totalUsers?.days} days{" "}
             </p>
             <Image
               src={chartImage}
