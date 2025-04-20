@@ -43,7 +43,7 @@ const Subscribers = () => {
 
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm text-left text-gray-600">
-            <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
+            <thead className="bg-gray-50 text-gray-700 uppercase text-xs">
               <tr>
                 <th className="px-5 py-3 border-b">#</th>
                 <th className="px-5 py-3 border-b">Email Address</th>
@@ -65,7 +65,7 @@ const Subscribers = () => {
                   .map((subscriber: any, index: number) => (
                     <tr
                       key={index}
-                      className="hover:bg-gray-50 border-t transition duration-150"
+                      className="hover:bg-gray-50  transition duration-150"
                     >
                       <td className="px-5 py-3">{index + 1}</td>
                       <td className="px-5 py-3">{subscriber.email}</td>
