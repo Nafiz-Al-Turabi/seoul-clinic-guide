@@ -3,18 +3,27 @@ import React, { useState } from "react";
 import ClinicCard from "../ui/Cards/ClinicCard";
 import { useGetUsersClinicsQuery } from "@/app/store/api/clinicApi";
 import ReactPaginate from "react-paginate";
-import "./Clinic.css"; 
+import "./Clinic.css";
+import { useRouter } from "next/navigation";
 
-const TOTAL_PAGES = 10;
+const LIMIT = 48; // Number of clinics per page
 
 const Clinic = () => {
-  const [page, setPage] = useState(0);
-  const { data: clinics, isLoading, isError } = useGetUsersClinicsQuery(null); 
-  const clinicsData = clinics?.data?.clinics || [];
+  const router = useRouter();
+  const [page, setPage] = useState(0); 
+
+  const { data, isLoading, isError } = useGetUsersClinicsQuery({ page: page + 1, limit: LIMIT });
+
+  const clinicsData = data?.data?.clinics || [];
+  const totalPages = data?.data?.totalPages || 1;
 
   const handlePageClick = (event: { selected: number }) => {
     setPage(event.selected);
+    router.push(`?page=${event.selected + 1}` );
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Something went wrong.</p>;
 
   return (
     <div className="mb-20">
@@ -26,28 +35,31 @@ const Clinic = () => {
         </div>
 
         {/* Pagination UI */}
-        <div className="flex justify-center mt-10">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel="›"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={1}
-            marginPagesDisplayed={1}
-            pageCount={TOTAL_PAGES}
-            previousLabel="‹"
-            renderOnZeroPageCount={null}
-            containerClassName="custom-pagination"
-            pageClassName="page-item"
-            pageLinkClassName="page-link"
-            previousClassName="page-item"
-            previousLinkClassName="page-link"
-            nextClassName="page-item"
-            nextLinkClassName="page-link"
-            breakClassName="page-item"
-            breakLinkClassName="page-link"
-            activeClassName="active"
-          />
-        </div>
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-10">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="›"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={2}
+              marginPagesDisplayed={1}
+              pageCount={totalPages}
+              forcePage={page}
+              previousLabel="‹"
+              renderOnZeroPageCount={null}
+              containerClassName="custom-pagination"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              activeClassName="active"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

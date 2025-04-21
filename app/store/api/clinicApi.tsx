@@ -81,12 +81,16 @@ export const clinicApi = baseApi.injectEndpoints({
     }),
 
     getUsersClinics: builder.query({
-      query: () => ({
+      query: ({ page = 1, limit = 48 }) => ({
         url: "/clinics",
         method: "GET",
-        
+        params: {
+          page,
+          limit,
+        },
       }),
     }),
+    
 
     getClinicsByCategory: builder.query({
       query: (categoryId) => ({
