@@ -38,7 +38,7 @@ const Procedures = () => {
       {/* Tabs */}
       <div className="overflow-x-auto mb-6 pl-4 xl:pl-0">
         <div className="flex xl:flex-wrap gap-4">
-          {categories.map((cat) => (
+          {categories.slice(0,8).map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveTab(cat)}

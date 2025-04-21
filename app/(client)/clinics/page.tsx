@@ -1,5 +1,7 @@
 import Clinic from "@/components/Clinics/Clinic";
 import ClinicCard from "@/components/ui/Cards/ClinicCard";
+import RecentBlogs from "@/components/ui/RecentBlogs/RecentBlogs";
+import TestimonialSlider from "@/components/ui/Testimonials/TestimonialSlider";
 import React from "react";
 
 const Clinics = () => {
@@ -10,6 +12,8 @@ const Clinics = () => {
         <p className="text-gray-600">Explore our top clinics</p>
       </div>
       <Clinic />
+      <RecentBlogs />
+      <TestimonialSlider />
     </div>
   );
 };

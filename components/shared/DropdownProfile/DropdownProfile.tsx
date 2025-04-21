@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
-import profileImage from "@/public/girl.jpg";
+import profileImage from "@/public/placeholder.png";
 import Image from "next/image";
 import useLogout from "@/hooks/useLogout";
 import { useGetMeQuery } from "@/app/store/api/authApi";

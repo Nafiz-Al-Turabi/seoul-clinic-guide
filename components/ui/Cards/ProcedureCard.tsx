@@ -16,7 +16,7 @@ const ProcedureCard = ({procedure}) => {
         />
       </div>
       <h5 className="text-base primary-text font-bold">{procedure?.name}</h5>
-      <p className="text-sm text-gray-400">{procedure?.clinic_count}</p>
+      <p className="text-sm text-gray-400">{procedure?.clinic_count} Clinics</p>
     </div>
   );
 };

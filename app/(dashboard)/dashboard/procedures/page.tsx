@@ -1,11 +1,12 @@
-import React from 'react';
+import Procedures from "@/components/Dashboard/Procedures/Procedures";
+import React from "react";
 
 const procedures = () => {
-    return (
-        <div>
-            This is procedures page
-        </div>
-    );
+  return (
+    <div>
+      <Procedures />
+    </div>
+  );
 };
 
 export default procedures;

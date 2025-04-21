@@ -58,7 +58,7 @@ const NextArrow = ({ onClick }: any) => (
 
 const TestimonialSlider = () => {
   const settings = {
-    dots: true,
+    // dots: true,
     arrows: true,
     infinite: true,
     speed: 500,

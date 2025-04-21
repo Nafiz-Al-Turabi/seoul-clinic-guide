@@ -80,6 +80,14 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getUsersClinics: builder.query({
+      query: () => ({
+        url: "/clinics",
+        method: "GET",
+        
+      }),
+    }),
+
     getClinicsByCategory: builder.query({
       query: (categoryId) => ({
         url: `/clinics`,
@@ -97,12 +105,6 @@ export const clinicApi = baseApi.injectEndpoints({
         },
       }),
     }),
-
-
-
-
-
-    
   }),
 });
 
@@ -118,4 +120,5 @@ export const {
   useGetClinicCategoryQuery,
   useGetProcedureByCategoryQuery,
   useGetClinicsByCategoryQuery,
+  useGetUsersClinicsQuery,
 } = clinicApi;
