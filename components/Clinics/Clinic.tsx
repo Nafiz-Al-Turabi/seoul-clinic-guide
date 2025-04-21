@@ -4,22 +4,29 @@ import ClinicCard from "../ui/Cards/ClinicCard";
 import { useGetUsersClinicsQuery } from "@/app/store/api/clinicApi";
 import ReactPaginate from "react-paginate";
 import "./Clinic.css";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const LIMIT = 48; // Number of clinics per page
+const LIMIT = 48;
 
 const Clinic = () => {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [page, setPage] = useState(0); 
+  const pageFromURL = parseInt(searchParams.get("page") || "1", 10);
+  const search = searchParams.get("search") || "";
+  const [page, setPage] = useState(pageFromURL - 1);
 
-  const { data, isLoading, isError } = useGetUsersClinicsQuery({ page: page + 1, limit: LIMIT });
+  const { data, isLoading, isError } = useGetUsersClinicsQuery({
+    page: page + 1,
+    limit: LIMIT,
+    search,
+  });
 
   const clinicsData = data?.data?.clinics || [];
   const totalPages = data?.data?.totalPages || 1;
 
   const handlePageClick = (event: { selected: number }) => {
     setPage(event.selected);
-    router.push(`?page=${event.selected + 1}` );
+    router.push(`?page=${event.selected + 1}`);
   };
 
   if (isLoading) return <p>Loading...</p>;

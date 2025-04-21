@@ -1,12 +1,13 @@
 import Image from "next/image";
 import React from "react";
+import placeholder from "@/public/clinic.png";
 
 const ClinicCard = ({clinic}) => {
   return (
     <div key={clinic?.id} className="px-2 flex flex-col justify-between group">
       <div className="relative w-full h-48 rounded-xl overflow-hidden mb-3">
         <Image
-          src={clinic?.banner_url || "/placeholder.jpg"}
+          src={clinic?.banner_url || placeholder}
           alt={clinic?.name || "Clinic Image"}
           fill
           className="object-cover object-center rounded-xl transition-transform duration-300 group-hover:scale-105"
