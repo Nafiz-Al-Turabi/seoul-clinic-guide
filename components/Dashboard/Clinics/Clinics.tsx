@@ -36,7 +36,7 @@ const Clinics = () => {
   const columns: TableColumn[] = [
     { key: "name", label: "Clinic Name", type: "text" },
     { key: "address", label: "Location", type: "text" },
-    { key: "id", label: "ID Number", type: "text" },
+    // { key: "id", label: "ID Number", type: "text" },
     { key: "created_at", label: "Join Date & Time", type: "text" },
   ];
 
@@ -46,6 +46,8 @@ const Clinics = () => {
       ...clinic,
       created_at: new Date(clinic.created_at).toLocaleString(),
     })) || [];
+
+    console.log("From clinic page....",clinicsData);
 
   const handleDelete = async (clinicId: string) => {
     const confirmed = window.confirm(

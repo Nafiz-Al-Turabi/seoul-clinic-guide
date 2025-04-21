@@ -499,10 +499,10 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                 </div>
 
                 <div>
-                  <label className="block text-xl font-medium primary-text mb-1">
+                  <label className="block text-xl font-medium primary-text my-4">
                     Available Procedures
                   </label>
-                  <div className=" grid grid-cols-2 gap-2">
+                  <div className=" grid grid-cols-4 gap-2">
                     {procedureList?.data?.map((procedure: any) => (
                       <div
                         key={procedure.id}
