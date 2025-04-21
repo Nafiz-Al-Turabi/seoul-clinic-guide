@@ -10,6 +10,7 @@ import UserConversionChart from "../Charts/UserConversionChart";
 import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi";
 import Subscribers from "../Subscribers/Subscribers";
 import MostSearchClinic from "../MostSearchClinic/MostSearchClinic";
+import OverviewUsers from "../OverviewUsers/OverviewUsers";
 const Overview = () => {
   const { data: searcUserEngagementData } =
     useGetDashboardUserEngagementQuery(null);
@@ -121,6 +122,7 @@ const Overview = () => {
       <div className="grid grid-cols-12 mt-4 gap-4">
         <div className="col-span-12 xl:col-span-7 2xl:col-span-8">
           {/* <MostSearchClinic /> */}
+          <OverviewUsers />
         </div>
         <div className=" col-span-12 xl:col-span-5 2xl:col-span-4">
           <Subscribers />

@@ -127,7 +127,7 @@ export default function Navbar() {
         {user ? (
           <div className="hidden lg:flex items-center gap-4">
             <DropdownProfile />
-            {user?.data.type === "admin" ? (
+            {user?.data?.type === "admin" ? (
               <Link
                 href="/dashboard"
                 className="primary-bg text-white py-2.5 px-6 rounded-full duration-300"
