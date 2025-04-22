@@ -82,7 +82,7 @@ const ClinicDetails = ({ slug }) => {
                     [&_ul]:list-disc 
                     [&_li]:ml-6 
                     [&_p]:mt-6
-                    [&_p]:text-justify
+                    lg:[&_p]:text-justify
                     [&_h1]:font-semibold 
                     [&_h2]:font-semibold 
                     [&_h3]:font-semibold 
@@ -98,7 +98,7 @@ const ClinicDetails = ({ slug }) => {
                 <div className="xl:w-[27.5%] h-fit border border-[#EEF3F8] rounded-[8px] p-4">
                     <p className="text-sm font-medium text-main">Procedures</p>
                     <div className="grid grid-cols-2 gap-4">
-                        {procedure_clinic_relation.map((item) => (
+                        {procedure_clinic_relation?.map((item) => (
                             <div
                                 key={item.procedure_id}
                                 className="flex items-center gap-2 text-sm font-medium text-gray-800"
