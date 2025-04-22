@@ -51,30 +51,24 @@ const ProceduresCategories = () => {
 
   return (
     <div className="max-w-[86rem] mx-auto px-4 pb-6 pt-20 flex gap-10 relative">
-      {/* Toggle Button (Mobile) */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="lg:hidden absolute top-6 items-center gap-2 px-4 py-2 bg-[#68B0D4] text-white rounded-full shadow-md"
       >
         <MdMenu size={20} />
       </button>
-
-      {/* Overlay (Mobile) */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
-
-      {/* Sidebar */}
       <div
         ref={menuRef}
         className={`fixed lg:static top-0 left-0 h-full lg:h-auto lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none transition-transform duration-300 ease-in-out p-6 lg:p-0  lg:rounded-none z-50 ${
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Close Button (Mobile) */}
         <div className="lg:hidden flex justify-between items-center mb-4">
           <h4 className="text-lg font-semibold text-[#305162]">Procedures</h4>
           <button onClick={() => setIsOpen(false)} className="text-[#305162]">
@@ -103,8 +97,6 @@ const ProceduresCategories = () => {
           ))}
         </div>
       </div>
-
-      {/* Right Content */}
       <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
       <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
           Clinics <MdKeyboardArrowRight /> {activeTab?.name}
