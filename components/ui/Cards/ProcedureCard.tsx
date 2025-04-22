@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const ProcedureCard = ({procedure}) => {
   return (
-    <Link href={`/clinics?procedure=${procedure?.id}`}>
+    <Link href={`/clinics?procedure=${procedure?.id}`} className="bg-transparent p-1 hover:bg-[#68b0d421] duration-300 rounded-lg">
       <div>
         <Image
           src={procedure?.image_url || stemCell}
