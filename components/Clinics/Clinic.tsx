@@ -6,7 +6,7 @@ import ReactPaginate from "react-paginate";
 import "./Clinic.css";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const LIMIT = 48;
+const LIMIT = 24;
 
 const Clinic = () => {
   const searchParams = useSearchParams();
@@ -28,7 +28,14 @@ const Clinic = () => {
 
   const handlePageClick = (event: { selected: number }) => {
     setPage(event.selected);
-    router.push(`?page=${event.selected + 1}`);
+
+    const queryParams = new URLSearchParams();
+
+    if (procedure) queryParams.set("procedure", procedure);
+    if (search) queryParams.set("search", search);
+    queryParams.set("page", (event.selected + 1).toString());
+
+    router.push(`?${queryParams.toString()}`);
   };
 
   if (isLoading) return <p>Loading...</p>;

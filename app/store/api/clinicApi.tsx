@@ -81,7 +81,7 @@ export const clinicApi = baseApi.injectEndpoints({
     }),
 
     getUsersClinics: builder.query({
-      query: ({ page = 1, limit, search,procedure }) => ({
+      query: ({ page = 1, limit, search, procedure }) => ({
         url: "/clinics",
         method: "GET",
         params: {
@@ -100,7 +100,6 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
     }),
 
-
     getClinicsByCategory: builder.query({
       query: (categoryId) => ({
         url: `/clinics`,
@@ -113,11 +112,20 @@ export const clinicApi = baseApi.injectEndpoints({
       query: (clinic_category_id) => ({
         url: `/procedures/by-category/${clinic_category_id}`,
         method: "GET",
+      }),
+    }),
+    getClientProcedures: builder.query({
+      query: ({ clinic_category_id, page = 1, limit = 12 }) => ({
+        url: `/procedures`,
+        method: "GET",
         params: {
-          page: 1,
+          page,
+          limit,
+          category: clinic_category_id,
         },
       }),
     }),
+    
   }),
 });
 
@@ -131,8 +139,9 @@ export const {
   useGetClinicByIdQuery,
   useGetTopClinicsQuery,
   useGetClinicCategoryQuery,
-  useGetProcedureByCategoryQuery,
+  useGetProcedureByCategoryQuery, //this is for procedures
   useGetClinicsByCategoryQuery,
   useGetUsersClinicsQuery,
   useGetClinicDetailsQuery,
+  useGetClientProceduresQuery,
 } = clinicApi;

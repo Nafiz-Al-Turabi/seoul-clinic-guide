@@ -1,25 +1,30 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import StemCell from "../Home/Procedures/Tabcomponents/StemCell";
 import { MdClose, MdKeyboardArrowRight, MdMenu } from "react-icons/md";
 import {
+  useGetClientProceduresQuery,
   useGetClinicCategoryQuery,
-  useGetProcedureByCategoryQuery,
 } from "@/app/store/api/clinicApi";
 import ProcedureCard from "../ui/Cards/ProcedureCard";
 import { useRouter, useSearchParams } from "next/navigation";
+import ReactPaginate from "react-paginate";
+import "./ProceduresCategories.css";
 
 interface Category {
   id: string;
   name: string;
 }
 
+const limit = 12;
+
 const ProceduresCategories = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Category | null>(null);
+  const pageFromURL = parseInt(searchParams.get("page") || "1", 10);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(pageFromURL - 1);
 
   const { data: clinic_category, isLoading: loadingCategories } =
     useGetClinicCategoryQuery(null);
@@ -29,22 +34,23 @@ const ProceduresCategories = () => {
     const idFromUrl = searchParams.get("id");
     if (idFromUrl && categories.length > 0) {
       const matched = categories.find((cat) => cat.id === idFromUrl);
-      if (matched) {
-        setActiveTab(matched);
-      } else {
-        setActiveTab(categories[0]);
-      }
+      setActiveTab(matched || categories[0]);
     } else if (categories.length > 0 && !activeTab) {
       setActiveTab(categories[0]);
     }
   }, [categories, searchParams]);
 
   const { data: procedures, isLoading: loadingProcedures } =
-    useGetProcedureByCategoryQuery(activeTab?.id, {
+    useGetClientProceduresQuery({
+      clinic_category_id: activeTab?.id,
+      page: page + 1,
+      limit,
+    }, {
       skip: !activeTab?.id,
     });
 
-  const proceduresData = procedures?.data || [];
+  const proceduresData = procedures?.data?.procedures || [];
+  const totalPages = procedures?.data?.totalPages || 1;
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -60,6 +66,11 @@ const ProceduresCategories = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setPage(selected);
+    router.push(`?id=${activeTab?.id}&page=${selected + 1}`);
+  };
+
   return (
     <div className="max-w-[86rem] mx-auto px-4 pb-6 pt-20 flex gap-10 relative">
       <button
@@ -68,12 +79,14 @@ const ProceduresCategories = () => {
       >
         <MdMenu size={20} />
       </button>
+
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
+
       <div
         ref={menuRef}
         className={`fixed lg:static top-0 left-0 h-full lg:h-auto lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none transition-transform duration-300 ease-in-out p-6 lg:p-0  lg:rounded-none z-50 ${
@@ -91,16 +104,17 @@ const ProceduresCategories = () => {
           Procedures
         </h4>
 
-        <div className="lg:w-56 xl:w-72 flex flex-col gap-3">
+        <div className="lg:w-56 xl:w-72 h-[50%] overflow-auto custom-scroll flex flex-col gap-3">
           {categories?.map((item) => (
             <button
               key={item.id}
               onClick={() => {
                 setActiveTab(item);
-                router.push(`/procedures?id=${item.id}`);
+                setPage(0);
+                router.push(`/procedures?id=${item.id}&page=1`);
                 setIsOpen(false);
               }}
-              className={`text-left px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm xl:text-lg cursor-pointer ${
+              className={`text-left mr-2 px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm xl:text-lg cursor-pointer ${
                 activeTab?.id === item.id
                   ? "bg-[#68B0D4] text-white"
                   : "text-[#305162] hover:text-[#B4B4B4]"
@@ -111,18 +125,45 @@ const ProceduresCategories = () => {
           ))}
         </div>
       </div>
-      <div className=" px-4 2xl:px-0">
+
+      <div className="px-4 2xl:px-0 flex-1">
         <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
           Procedures <MdKeyboardArrowRight /> {activeTab?.name}
         </p>
+
         {loadingProcedures ? (
           <p>Loading...</p>
         ) : proceduresData?.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
-            {proceduresData.map((procedure: any) => (
-              <ProcedureCard key={procedure.id} procedure={procedure} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
+              {proceduresData.map((procedure: any) => (
+                <ProcedureCard key={procedure.id} procedure={procedure} />
+              ))}
+            </div>
+            <div className="flex justify-center mt-10">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="›"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
+                pageCount={totalPages}
+                forcePage={page}
+                previousLabel="‹"
+                renderOnZeroPageCount={null}
+                containerClassName="custom-pagination"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                activeClassName="active"
+              />
+            </div>
+          </>
         ) : (
           <p className="text-center text-gray-500">No procedures found.</p>
         )}
