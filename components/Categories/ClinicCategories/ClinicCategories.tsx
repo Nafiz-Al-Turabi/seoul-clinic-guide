@@ -8,6 +8,8 @@ import {
 import { MdKeyboardArrowRight, MdMenu, MdClose } from "react-icons/md";
 import ClinicCard from "@/components/ui/Cards/ClinicCard";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
+import ErrorComponent from "@/components/shared/ErrorComponent/ErrorComponent";
 
 const ClinicCategories = () => {
   const router = useRouter();
@@ -19,7 +21,7 @@ const ClinicCategories = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const { data: clinicsByCategory, isLoading } = useGetClinicsByCategoryQuery(
+  const { data: clinicsByCategory, isLoading, error } = useGetClinicsByCategoryQuery(
     activeCategoryId,
     {
       refetchOnMountOrArgChange: true,
@@ -48,8 +50,11 @@ const ClinicCategories = () => {
     router.push(`${queryParam}`, { scroll: false });
   };
 
-  if (!clinicCategories) {
-    return <p className="text-center py-10">Loading categories...</p>;
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  if (isLoading) {
+    return <ErrorComponent />;
   }
 
   return (
