@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { use, useEffect } from "react";
 import { PiShareFat, PiUsersThree } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
 import Image from "next/image";
@@ -12,10 +12,17 @@ import Subscribers from "../Subscribers/Subscribers";
 import MostSearchClinic from "../MostSearchClinic/MostSearchClinic";
 import OverviewUsers from "../OverviewUsers/OverviewUsers";
 const Overview = () => {
-  const { data: searcUserEngagementData } =
-    useGetDashboardUserEngagementQuery(null);
+  const { data: searcUserEngagementData,refetch } = useGetDashboardUserEngagementQuery(null);
   console.log(searcUserEngagementData?.data, "user_engagements");
   const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0;
+  const searches = searcUserEngagementData?.data?.searches || 0;
+  const totalUsersInLast30Days = searcUserEngagementData?.data?.totalUsersInLast30Days || 0;
+
+  useEffect(() => {
+    refetch();
+  },[refetch]);
+
+
   return (
     <div>
       <header className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -25,21 +32,21 @@ const Overview = () => {
               <span className="bg-[#F0F6F9] rounded-md p-2 secondary-text">
                 <PiUsersThree size={20} />
               </span>
-              <h5 className="text-base font-bold">User Engagements</h5>
+              <h5 className="text-base font-bold">User Searches</h5>
             </div>
             <button className="text-main cursor-pointer">
               <FiInfo size={20} />
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-            <p className="text-[2rem] font-bold ">1.273</p>
+            <p className="text-[2rem] font-bold ">{searches?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +55
+              +{searches?.increaseRaw}
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs primary-text font-medium">
-              User Increased by 10% in last 7 days
+              User Increased by {searches?.increasePercent}% in last {searches?.days} days
             </p>
             <Image
               src={chartImage}
@@ -62,14 +69,14 @@ const Overview = () => {
             </button>
           </div>
           <div className="my-4 flex items-center gap-2">
-            <p className="text-[2rem] font-bold ">273</p>
+            <p className="text-[2rem] font-bold ">{totalUsersInLast30Days?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +100
+              +{totalUsersInLast30Days?.increaseRaw}
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs primary-text font-medium">
-              User Increased by 10% in last 7 days{" "}
+              User Increased by {totalUsersInLast30Days?.increasePercent}% in last {totalUsersInLast30Days?.days} days{" "}
             </p>
             <Image
               src={chartImage}

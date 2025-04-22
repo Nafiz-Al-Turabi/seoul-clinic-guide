@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useGetSubscriptionsQuery } from "@/app/store/api/subscriptionApi";
 import { MdOutlineUnsubscribe } from "react-icons/md";
 
 const Subscribers = () => {
-  const { data: subscribers } = useGetSubscriptionsQuery(null);
+  const { data: subscribers,refetch } = useGetSubscriptionsQuery(null);
   const subscribersData = subscribers?.data || [];
   const token = localStorage.getItem("token");
 
@@ -22,6 +22,10 @@ const Subscribers = () => {
     const url = URL.createObjectURL(blob);
     window.open(url, "_blank");
   };
+
+  useEffect(() => {
+      refetch();
+    },[refetch]);
 
   return (
     <div className="  ">

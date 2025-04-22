@@ -9,6 +9,7 @@ export const dashboardApi = baseApi.injectEndpoints({
         url: "/admin/dashboard/search-engagement",
         method: "GET",
       }),
+      providesTags: ["SearchEngagement"],
     }),
 
     getDashboardUserEngagement: builder.query({
@@ -16,6 +17,7 @@ export const dashboardApi = baseApi.injectEndpoints({
         url: "/admin/dashboard",
         method: "GET",
       }),
+      providesTags: ["SearchEngagement"],
     }),
   }),
 });

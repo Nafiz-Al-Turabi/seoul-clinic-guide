@@ -36,11 +36,15 @@ const SearchEngagementChart = () => {
 
   const { data: searchEngagementData } = useGetDashboardSearchEngagementQuery(null);
   console.log(searchEngagementData);
+  const searchData = searchEngagementData?.data || [];
 
   const monthlyData = useMemo(() => {
-    if (!searchEngagementData || !Array.isArray(searchEngagementData)) return Array(12).fill(0);
-    return searchEngagementData.map((item) => item.searches);
-  }, [searchEngagementData]);
+    if (!searchData || !Array.isArray(searchData)) return Array(12).fill(0);
+    return months.map((monthLabel) => {
+      const found = searchData.find((item) => item.label === monthLabel);
+      return found ? found.searches : 0;
+    });
+  }, [searchData]);
 
   const selectedIndex = months.indexOf(selectedMonth);
   const selectedValue = monthlyData[selectedIndex] || 0;

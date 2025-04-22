@@ -16,7 +16,7 @@ export const baseApi = createApi({
     },
   }),
   endpoints: () => ({}),
-  tagTypes: ["Users","Blogs","Procedures", "BlogCategories", "Clinics", "Doctors", "Patients","Subscriptions"],
+  tagTypes: ["Users","Blogs","Procedures", "BlogCategories", "Clinics", "Doctors", "Patients","Subscriptions,","SearchEngagement"],
 });
 
 export const { useQuery, useMutation } = baseApi as any;
