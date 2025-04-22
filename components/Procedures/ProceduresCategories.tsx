@@ -9,6 +9,7 @@ import ProcedureCard from "../ui/Cards/ProcedureCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactPaginate from "react-paginate";
 import "./ProceduresCategories.css";
+import LoadingSpinner from "../shared/Loading/Loading";
 
 interface Category {
   id: string;
@@ -71,8 +72,12 @@ const ProceduresCategories = () => {
     router.push(`?id=${activeTab?.id}&page=${selected + 1}`);
   };
 
+  if (loadingCategories) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <div className="max-w-[86rem] mx-auto px-4 pb-6 pt-20 flex gap-10 relative">
+    <div className="max-w-[86rem] mx-auto px-4 pb-6 pt-20 flex gap-10 relative ">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="lg:hidden absolute top-6 items-center gap-2 px-4 py-2 bg-[#68B0D4] text-white rounded-full shadow-md"
@@ -104,7 +109,7 @@ const ProceduresCategories = () => {
           Procedures
         </h4>
 
-        <div className="lg:w-56 xl:w-72 h-[50%] overflow-auto custom-scroll flex flex-col gap-3">
+        <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-3">
           {categories?.map((item) => (
             <button
               key={item.id}
@@ -132,7 +137,7 @@ const ProceduresCategories = () => {
         </p>
 
         {loadingProcedures ? (
-          <p>Loading...</p>
+          <LoadingSpinner/>
         ) : proceduresData?.length > 0 ? (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">

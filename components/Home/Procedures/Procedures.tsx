@@ -6,6 +6,7 @@ import {
   useGetClinicCategoryQuery,
   useGetProcedureByCategoryQuery,
 } from "@/app/store/api/clinicApi";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 interface Category {
   id: string;
@@ -30,6 +31,10 @@ const Procedures = () => {
     });
 
   const proceduresData = procedures?.data || [];
+
+  if (loadingCategories) {
+    return <LoadingSpinner/>
+  }
 
   return (
     <div className="max-w-[86rem] mx-auto">

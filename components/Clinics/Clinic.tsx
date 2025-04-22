@@ -5,6 +5,8 @@ import { useGetUsersClinicsQuery } from "@/app/store/api/clinicApi";
 import ReactPaginate from "react-paginate";
 import "./Clinic.css";
 import { useRouter, useSearchParams } from "next/navigation";
+import LoadingSpinner from "../shared/Loading/Loading";
+import ErrorComponent from "../shared/ErrorComponent/ErrorComponent";
 
 const LIMIT = 24;
 
@@ -38,8 +40,8 @@ const Clinic = () => {
     router.push(`?${queryParams.toString()}`);
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Something went wrong.</p>;
+  if (isLoading) return <LoadingSpinner/>;
+  if (isError) return <ErrorComponent/>;
 
   return (
     <div className="mb-20">
