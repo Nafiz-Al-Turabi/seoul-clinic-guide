@@ -13,12 +13,14 @@ const Clinic = () => {
   const router = useRouter();
   const pageFromURL = parseInt(searchParams.get("page") || "1", 10);
   const search = searchParams.get("search") || "";
+  const procedure = searchParams.get("procedure") || "";
   const [page, setPage] = useState(pageFromURL - 1);
 
   const { data, isLoading, isError } = useGetUsersClinicsQuery({
     page: page + 1,
     limit: LIMIT,
     search,
+    procedure,
   });
 
   const clinicsData = data?.data?.clinics || [];

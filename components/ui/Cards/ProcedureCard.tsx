@@ -2,10 +2,11 @@ import Image from "next/image";
 import React from "react";
 import stemCell from "@/public/assets/stemCellImages/stem-cell.jpg";
 import stemCell2 from "@/public/assets/stemCellImages/filler.png";
+import Link from "next/link";
 
 const ProcedureCard = ({procedure}) => {
   return (
-    <div>
+    <Link href={`/clinics?procedure=${procedure?.id}`}>
       <div>
         <Image
           src={procedure?.image_url || stemCell}
@@ -17,7 +18,7 @@ const ProcedureCard = ({procedure}) => {
       </div>
       <h5 className="text-base primary-text font-bold">{procedure?.name}</h5>
       <p className="text-sm text-gray-400">{procedure?.clinic_count} Clinics</p>
-    </div>
+    </Link>
   );
 };
 
