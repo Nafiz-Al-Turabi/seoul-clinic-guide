@@ -86,7 +86,11 @@ export default function AddClinicForm({ id }: AddClinicProps) {
     const formData = new FormData();
 
     formData.append("name", data.name);
-    formData.append("clinic_category_id", data.clinic_category_id);
+    (data.clinic_category_id || []).forEach(
+      (categoriesId: string, index: number) => {
+        formData.append(`categories[${index}]`, categoriesId);
+      }
+    );
     formData.append("phone", data.phone || "");
     formData.append("website", data.website || "");
     formData.append("address", data.address);
@@ -118,7 +122,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
     try {
       let response;
       if (id) {
-        response = await updateClinic({ id,  formData }).unwrap();
+        response = await updateClinic({ id, formData }).unwrap();
       } else {
         response = await createClinic(formData).unwrap();
       }
@@ -128,7 +132,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
       }
     } catch (error: any) {
       const messages = error?.data?.message?.message;
-    
+
       if (Array.isArray(messages)) {
         messages.forEach((msg) => toast.error(msg));
       } else {
@@ -138,7 +142,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
             : "Something went wrong. Please try again."
         );
       }
-    
+
       console.error("Submit error (raw):", error);
     }
   };
@@ -158,7 +162,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
         <form
           onSubmit={handleSubmit(onSubmit)}
           encType="multipart/form-data"
-          className="p-8"
+          className="p-4 xl:p-8"
         >
           {/* Banner Image Upload */}
           <div className="mb-8">
@@ -216,7 +220,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                 <FileText size={20} className="mr-2 text-[#68B0D4]" />
                 Basic Information
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label
                     htmlFor="name"
@@ -244,34 +248,6 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                     </p>
                   )}
                 </div>
-
-                <div>
-                  <label
-                    htmlFor="clinic_category_id"
-                    className="block text-sm font-medium text- mb-1"
-                  >
-                    Clinic Category*
-                  </label>
-                  <select
-                    {...register("clinic_category_id", {
-                      required: "Category is required",
-                    })}
-                    id="clinic_category_id"
-                    className="w-full px-4 py-2 border rounded-lg outline-none"
-                  >
-                    {categoryList?.data?.map((category: any) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.clinic_category_id && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {String(errors.clinic_category_id.message)}
-                    </p>
-                  )}
-                </div>
-
                 <div>
                   <label
                     htmlFor="phone"
@@ -331,6 +307,36 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                   {errors.website && (
                     <p className="mt-1 text-sm text-red-600">
                       {String(errors.website.message)}
+                    </p>
+                  )}
+                </div>
+                <div className="md:col-span-3">
+                  <label className="block text-sm font-medium mb-1">
+                    Clinic Category*
+                  </label>
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-2 border px-4 py-2 rounded-lg">
+                    {categoryList?.data?.map((category: any) => (
+                      <label
+                        key={category.id}
+                        className="inline-flex items-center gap-2"
+                      >
+                        <input
+                          type="checkbox"
+                          value={category.id}
+                          {...register("clinic_category_id", {
+                            validate: (value) =>
+                              value?.length > 0 ||
+                              "At least one category must be selected",
+                          })}
+                          className="h-6 w-6 rounded border-gray-300 accent-[#68B0D4] "
+                        />
+                        <span>{category.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errors.clinic_category_id && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {String(errors.clinic_category_id.message)}
                     </p>
                   )}
                 </div>
@@ -502,7 +508,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                   <label className="block text-xl font-medium primary-text my-4">
                     Available Procedures
                   </label>
-                  <div className=" grid grid-cols-4 gap-2">
+                  <div className=" grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                     {procedureList?.data?.map((procedure: any) => (
                       <div
                         key={procedure.id}
@@ -520,21 +526,6 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                       </div>
                     ))}
                   </div>
-                </div>
-
-                <div className="flex items-center space-x-2 pt-2">
-                  <input
-                    type="checkbox"
-                    id="is_top"
-                    {...register("is_top")}
-                    className="h-5 w-5 text-[#68B0D4] rounded focus:ring-blue-500 border-gray-300 cursor-pointer"
-                  />
-                  <label
-                    htmlFor="is_top"
-                    className="text-sm font-medium text- cursor-pointer flex items-center"
-                  >
-                    Top ten?
-                  </label>
                 </div>
               </div>
             </div>
