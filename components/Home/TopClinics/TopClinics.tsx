@@ -12,6 +12,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ClinicCard from "@/components/ui/Cards/ClinicCard";
 import { useGetTopClinicsQuery } from "@/app/store/api/clinicApi";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const PrevArrow = ({ onClick, isDisabled }: any) => (
   <button
@@ -49,7 +50,7 @@ const TopClinics = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(4);
 
-  const {data:topClinic, isLoading}=useGetTopClinicsQuery(null)
+  const { data: topClinic, isLoading } = useGetTopClinicsQuery(null);
 
   const topClinics = topClinic?.data || [];
   console.log(topClinics);
@@ -108,6 +109,9 @@ const TopClinics = () => {
     ],
   };
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="py-[100px] bg-[#F9FDFD]">
       <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">

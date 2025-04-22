@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import ClinicCard from "../ui/Cards/ClinicCard";
 import { useGetUsersClinicsQuery } from "@/app/store/api/clinicApi";
 import ReactPaginate from "react-paginate";
-import "./Clinic.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoadingSpinner from "../shared/Loading/Loading";
 import ErrorComponent from "../shared/ErrorComponent/ErrorComponent";

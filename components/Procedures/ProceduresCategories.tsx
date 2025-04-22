@@ -8,7 +8,6 @@ import {
 import ProcedureCard from "../ui/Cards/ProcedureCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactPaginate from "react-paginate";
-import "./ProceduresCategories.css";
 import LoadingSpinner from "../shared/Loading/Loading";
 
 interface Category {
