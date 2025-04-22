@@ -174,3 +174,27 @@ h4{
     @apply bg-background text-foreground;
     }
 }
+
+.my-class>p>strong{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.my-class li {
+    position: relative;
+    padding-left: 2rem; 
+    list-style: none;
+    font-size: 18px;
+    margin-bottom: .5rem;
+  }
+  
+  .my-class li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.35rem; 
+    width: 24px;
+    height: 24px;
+    background-image: url('/injection.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
