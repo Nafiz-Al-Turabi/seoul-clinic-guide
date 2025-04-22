@@ -1,12 +1,13 @@
-'use client';
-import React, { useState, useRef, useEffect } from 'react';
-import StemCell from '../Home/Procedures/Tabcomponents/StemCell';
-import { MdClose, MdKeyboardArrowRight, MdMenu } from 'react-icons/md';
+"use client";
+import React, { useState, useRef, useEffect } from "react";
+import StemCell from "../Home/Procedures/Tabcomponents/StemCell";
+import { MdClose, MdKeyboardArrowRight, MdMenu } from "react-icons/md";
 import {
   useGetClinicCategoryQuery,
   useGetProcedureByCategoryQuery,
-} from '@/app/store/api/clinicApi';
-import ProcedureCard from '../ui/Cards/ProcedureCard';
+} from "@/app/store/api/clinicApi";
+import ProcedureCard from "../ui/Cards/ProcedureCard";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Category {
   id: string;
@@ -14,6 +15,8 @@ interface Category {
 }
 
 const ProceduresCategories = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<Category | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -23,10 +26,18 @@ const ProceduresCategories = () => {
   const categories: Category[] = clinic_category?.data || [];
 
   useEffect(() => {
-    if (categories.length > 0 && !activeTab) {
-      setActiveTab({ id: categories[0].id, name: categories[0].name });
+    const idFromUrl = searchParams.get("id");
+    if (idFromUrl && categories.length > 0) {
+      const matched = categories.find((cat) => cat.id === idFromUrl);
+      if (matched) {
+        setActiveTab(matched);
+      } else {
+        setActiveTab(categories[0]);
+      }
+    } else if (categories.length > 0 && !activeTab) {
+      setActiveTab(categories[0]);
     }
-  }, [categories]);
+  }, [categories, searchParams]);
 
   const { data: procedures, isLoading: loadingProcedures } =
     useGetProcedureByCategoryQuery(activeTab?.id, {
@@ -36,7 +47,7 @@ const ProceduresCategories = () => {
   const proceduresData = procedures?.data || [];
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    document.body.style.overflow = isOpen ? "hidden" : "";
   }, [isOpen]);
 
   useEffect(() => {
@@ -45,8 +56,8 @@ const ProceduresCategories = () => {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -66,7 +77,7 @@ const ProceduresCategories = () => {
       <div
         ref={menuRef}
         className={`fixed lg:static top-0 left-0 h-full lg:h-auto lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none transition-transform duration-300 ease-in-out p-6 lg:p-0  lg:rounded-none z-50 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
         <div className="lg:hidden flex justify-between items-center mb-4">
@@ -76,20 +87,23 @@ const ProceduresCategories = () => {
           </button>
         </div>
 
-        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">Procedures</h4>
+        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">
+          Procedures
+        </h4>
 
-        <div className="flex flex-col gap-3">
-          {categories.map((item) => (
+        <div className="lg:w-56 xl:w-72 flex flex-col gap-3">
+          {categories?.map((item) => (
             <button
               key={item.id}
               onClick={() => {
                 setActiveTab(item);
+                router.push(`/procedures?id=${item.id}`);
                 setIsOpen(false);
               }}
-              className={`text-left px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm lg:text-lg cursor-pointer ${
+              className={`text-left px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm xl:text-lg cursor-pointer ${
                 activeTab?.id === item.id
-                  ? 'bg-[#68B0D4] text-white'
-                  : 'text-[#305162] hover:text-[#B4B4B4]'
+                  ? "bg-[#68B0D4] text-white"
+                  : "text-[#305162] hover:text-[#B4B4B4]"
               }`}
             >
               {item.name}
@@ -97,14 +111,14 @@ const ProceduresCategories = () => {
           ))}
         </div>
       </div>
-      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
-      <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
-          Clinics <MdKeyboardArrowRight /> {activeTab?.name}
+      <div className=" px-4 2xl:px-0">
+        <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
+          Procedures <MdKeyboardArrowRight /> {activeTab?.name}
         </p>
         {loadingProcedures ? (
           <p>Loading...</p>
         ) : proceduresData?.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
             {proceduresData.map((procedure: any) => (
               <ProcedureCard key={procedure.id} procedure={procedure} />
             ))}
