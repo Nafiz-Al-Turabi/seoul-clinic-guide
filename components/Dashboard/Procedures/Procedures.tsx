@@ -42,10 +42,11 @@ const Procedures = () => {
   const [deleteProcedure] = useDeleteProcedureMutation();
 
   const data = procedures?.data?.procedures || [];
+  console.log(data);
   const totalPages = procedures?.data?.totalPages || 0;
 
   const columns: TableColumn[] = [
-    // { key: "image", label: "Image", type: "image" },
+    { key: "image_url", label: "Image", type: "image" },
     { key: "name", label: "Procedures Name", type: "text" },
     { key: "clinic_count", label: "Clinics", type: "text" },
     { key: "created_at", label: "Join Date & Time", type: "text" },
