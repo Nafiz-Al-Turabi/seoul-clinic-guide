@@ -6,12 +6,18 @@ export const userApi = baseApi.injectEndpoints({
     //   query: (page = 1) => `admin/user?page=${page}`,
     //   providesTags: ["Users"],
     // }),
-    getusers:builder.query({
-      query:()=>({
-        url:"/admin/users",
-        method:"GET",
+    getusers: builder.query({
+      query: ({ page = 1, limit, sortBy, month }) => ({
+        url: "/admin/users",
+        method: "GET",
+        params: {
+          page,
+          limit,
+          sortBy,
+          month,
+        },
       }),
-      providesTags:["Users"],
+      providesTags: ["Users"],
     }),
     createUser: builder.mutation({
       query: (user) => ({
@@ -37,20 +43,17 @@ export const userApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Users"],
     }),
-    
-    roleUpdate:builder.mutation({
-      query:(data)=>({
-        url:`/admin/users/update-user-type/${data.id}`,
-        method:"PATCH",
-        body:{
-          type:data.type,
+
+    roleUpdate: builder.mutation({
+      query: (data) => ({
+        url: `/admin/users/update-user-type/${data.id}`,
+        method: "PATCH",
+        body: {
+          type: data.type,
         },
       }),
-      invalidatesTags:["Users"],
+      invalidatesTags: ["Users"],
     }),
-
-
-
   }),
 });
 

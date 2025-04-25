@@ -28,7 +28,7 @@ import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const Procedures = () => {
   const [page, setPage] = useState(1);
-  const limit = 40;
+  const limit = 10;
   const [sortBy, setSortBy] = useState("");
   const router = useRouter();
 
@@ -55,6 +55,8 @@ const Procedures = () => {
     created_at: new Date(procedur.created_at).toLocaleString(),
   }));
 
+
+
   const handleDelete =  async (procedureId: string)=>{
     const confirmed = window.confirm("Are you sure you want to delete this procedure?");
     if(!confirmed) return;
@@ -68,6 +70,10 @@ const Procedures = () => {
       toast.error("Failed to delete procedure.");
   }}
 
+
+  const handleUpdate = (procedureId: string) => {
+    router.push(`/dashboard/procedures/${procedureId}`);
+  };
 
   const tableActions = (procedure: any) => (
     <DropdownMenu>

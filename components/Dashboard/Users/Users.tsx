@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import CustomTable, { TableColumn } from "../../reusable/CustomTable";
 import { PiUsersThree } from "react-icons/pi";
 import placeholder from "@/public/placeholder.png";
@@ -26,10 +26,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import ReactPaginate from "react-paginate";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const Users = () => {
-  const { data, isLoading } = useGetusersQuery(1);
+  const [page, setPage] = useState(1);
+  const limit = 40;
+  const [sortBy, setSortBy] = useState("");
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const router = useRouter();
+
+  const { data, isLoading } = useGetusersQuery({ page, limit, sortBy, month });
   const users = data?.data?.users || [];
+  const totalPages = data?.data?.totalPages || 0;
+  
 
   const [roleUpdate] = useRoleUpdateMutation();
 
@@ -76,7 +87,9 @@ const Users = () => {
                   id: user.id,
                   type: checked ? "admin" : "user",
                 }).unwrap();
-                toast.success(`User is now ${checked ? "an Admin" : "a regular User"}`);
+                toast.success(
+                  `User is now ${checked ? "an Admin" : "a regular User"}`
+                );
               } catch (err) {
                 console.error("Failed to update role", err);
               }
@@ -86,6 +99,15 @@ const Users = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setPage(selectedItem.selected + 1);
+    router.push(`/dashboard/users?page=${selectedItem.selected + 1}&sortBy=${sortBy}&month=${month}`);
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
@@ -97,7 +119,7 @@ const Users = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Users</h5>
         </div>
         <div className="flex gap-4 mt-4 sm:mt-0">
-          <Select>
+          <Select onValueChange={(value) => setMonth(Number(value))}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <MdOutlineCalendarMonth size={20} />
@@ -107,22 +129,22 @@ const Users = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Months</SelectLabel>
-                <SelectItem value="january">January</SelectItem>
-                <SelectItem value="february">February</SelectItem>
-                <SelectItem value="march">March</SelectItem>
-                <SelectItem value="april">April</SelectItem>
-                <SelectItem value="may">May</SelectItem>
-                <SelectItem value="june">June</SelectItem>
-                <SelectItem value="july">July</SelectItem>
-                <SelectItem value="august">August</SelectItem>
-                <SelectItem value="september">September</SelectItem>
-                <SelectItem value="october">October</SelectItem>
-                <SelectItem value="november">November</SelectItem>
-                <SelectItem value="december">December</SelectItem>
+                <SelectItem value="1">January</SelectItem>
+                <SelectItem value="2">February</SelectItem>
+                <SelectItem value="3">March</SelectItem>
+                <SelectItem value="4">April</SelectItem>
+                <SelectItem value="5">May</SelectItem>
+                <SelectItem value="6">June</SelectItem>
+                <SelectItem value="7">July</SelectItem>
+                <SelectItem value="8">August</SelectItem>
+                <SelectItem value="9">September</SelectItem>
+                <SelectItem value="10">October</SelectItem>
+                <SelectItem value="11">November</SelectItem>
+                <SelectItem value="12">December</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Select>
+          <Select onValueChange={(value) => setSortBy(value)}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />
@@ -132,16 +154,41 @@ const Users = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Sort</SelectLabel>
-                <SelectItem value="apple">Ascending</SelectItem>
-                <SelectItem value="banana">Descending</SelectItem>
-                <SelectItem value="blueberry">Sort by Date</SelectItem>
-                <SelectItem value="grapes">Sort by Name</SelectItem>
+                <SelectItem value="asc">Ascending</SelectItem>
+                <SelectItem value="desc">Descending</SelectItem>
+                <SelectItem value="date">Sort by Date</SelectItem>
+                <SelectItem value="name">Sort by Name</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
       </div>
       <CustomTable data={usersData} columns={columns} actions={tableActions} />
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-10">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="›"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            pageCount={totalPages}
+            forcePage={page - 1}
+            previousLabel="‹"
+            renderOnZeroPageCount={null}
+            containerClassName="custom-pagination"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            activeClassName="active"
+          />
+        </div>
+      )}
     </div>
   );
 };
