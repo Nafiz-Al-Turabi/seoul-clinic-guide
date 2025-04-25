@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useGetProceduresQuery } from "@/app/store/api/adminProcedureApi";
+import { useDeleteProcedureMutation, useGetProceduresQuery } from "@/app/store/api/adminProcedureApi";
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
@@ -22,12 +22,22 @@ import { FaPlus } from "react-icons/fa";
 import { PiHospitalThin } from "react-icons/pi";
 import { TbNotes } from "react-icons/tb";
 import ReactPaginate from "react-paginate";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Procedures = () => {
-  const [page, setPage] = useState(1); 
+  const [page, setPage] = useState(1);
   const limit = 40;
+  const [sortBy, setSortBy] = useState("");
+  const router = useRouter();
 
-  const { data: procedures, isLoading } = useGetProceduresQuery({ page ,limit}); 
+  const { data: procedures, isLoading, refetch } = useGetProceduresQuery({
+    page,
+    limit,
+    sortBy,
+  });
+
+  const [deleteProcedure] = useDeleteProcedureMutation();
 
   const data = procedures?.data?.procedures || [];
   const totalPages = procedures?.data?.totalPages || 0;
@@ -44,6 +54,20 @@ const Procedures = () => {
     created_at: new Date(procedur.created_at).toLocaleString(),
   }));
 
+  const handleDelete =  async (procedureId: string)=>{
+    const confirmed = window.confirm("Are you sure you want to delete this procedure?");
+    if(!confirmed) return;
+
+    try {
+      await deleteProcedure(procedureId).unwrap();
+      toast.success("Procedure deleted successfully.");
+      refetch();
+    } catch (error) {
+      console.error("Delete failed", error);
+      toast.error("Failed to delete procedure.");
+  }}
+
+
   const tableActions = (procedure: any) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -53,13 +77,14 @@ const Procedures = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
         <DropdownMenuItem className="cursor-pointer">Update</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">Delete</DropdownMenuItem>
+        <DropdownMenuItem onClick={()=>handleDelete(procedure.id)} className="cursor-pointer">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 
   const handlePageClick = (selectedItem: { selected: number }) => {
-    setPage(selectedItem.selected + 1); 
+    setPage(selectedItem.selected + 1);
+    router.push(`/dashboard/procedures?page=${selectedItem.selected + 1}&sortBy=${sortBy}`);
   };
 
   return (
@@ -76,7 +101,7 @@ const Procedures = () => {
             <TbNotes />
             Add Procedures <FaPlus size={10} />
           </button>
-          <Select>
+          <Select onValueChange={(value) => setSortBy(value)}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />

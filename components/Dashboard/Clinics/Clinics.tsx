@@ -36,11 +36,9 @@ const Clinics = () => {
   const columns: TableColumn[] = [
     { key: "name", label: "Clinic Name", type: "text" },
     { key: "address", label: "Location", type: "text" },
-    // { key: "id", label: "ID Number", type: "text" },
     { key: "created_at", label: "Join Date & Time", type: "text" },
   ];
 
-  // keep raw clinic objects
   const clinicsData =
     clinics?.data?.clinics?.map((clinic: any) => ({
       ...clinic,
