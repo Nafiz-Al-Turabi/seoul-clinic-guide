@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { PiHospitalThin } from "react-icons/pi";
 import { TbNotes } from "react-icons/tb";
@@ -27,10 +27,18 @@ import {
 } from "@/app/store/api/clinicApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import ReactPaginate from "react-paginate";
 
 const Clinics = () => {
+  const [page, setPage] = useState(1);
+  const limit = 40;
+  const [sortBy, setSortBy] = useState("");
   const router = useRouter();
-  const { data: clinics, isLoading, refetch } = useGetClinicsQuery(null);
+  const {
+    data: clinics,
+    isLoading,
+    refetch,
+  } = useGetClinicsQuery({ page, limit, sortBy });
   const [deleteClinic] = useDeleteClinicMutation();
 
   const columns: TableColumn[] = [
@@ -42,10 +50,14 @@ const Clinics = () => {
   const clinicsData =
     clinics?.data?.clinics?.map((clinic: any) => ({
       ...clinic,
+      address: clinic.address.split(",").slice(0, 2).join(", "),
       created_at: new Date(clinic.created_at).toLocaleString(),
     })) || [];
 
-    console.log("From clinic page....",clinicsData);
+  const totalPages = clinics?.data?.totalPages || 0;
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setPage(selectedItem.selected + 1);
+  };
 
   const handleDelete = async (clinicId: string) => {
     const confirmed = window.confirm(
@@ -71,7 +83,9 @@ const Clinics = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem onClick={() => router.push(`/dashboard/add-clinic/${clinic.id}`)}>
+        <DropdownMenuItem
+          onClick={() => router.push(`/dashboard/add-clinic/${clinic.id}`)}
+        >
           Update
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -101,7 +115,7 @@ const Clinics = () => {
             <TbNotes />
             Add New Clinic <FaPlus size={10} />
           </Link>
-          <Select>
+          <Select onValueChange={(value) => setSortBy(value)}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />
@@ -113,7 +127,6 @@ const Clinics = () => {
                 <SelectLabel>Sort</SelectLabel>
                 <SelectItem value="asc">Ascending</SelectItem>
                 <SelectItem value="desc">Descending</SelectItem>
-                <SelectItem value="date">Sort by Date</SelectItem>
                 <SelectItem value="name">Sort by Name</SelectItem>
               </SelectGroup>
             </SelectContent>
@@ -129,6 +142,31 @@ const Clinics = () => {
           columns={columns}
           actions={tableActions}
         />
+      )}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-10">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="›"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            pageCount={totalPages}
+            forcePage={page - 1}
+            previousLabel="‹"
+            renderOnZeroPageCount={null}
+            containerClassName="custom-pagination"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            activeClassName="active"
+          />
+        </div>
       )}
     </div>
   );
