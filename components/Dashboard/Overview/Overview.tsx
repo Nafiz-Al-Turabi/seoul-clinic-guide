@@ -11,8 +11,9 @@ import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi
 import Subscribers from "../Subscribers/Subscribers";
 import MostSearchClinic from "../MostSearchClinic/MostSearchClinic";
 import OverviewUsers from "../OverviewUsers/OverviewUsers";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 const Overview = () => {
-  const { data: searcUserEngagementData,refetch } = useGetDashboardUserEngagementQuery(null);
+  const { data: searcUserEngagementData,refetch,isLoading } = useGetDashboardUserEngagementQuery(null);
   console.log(searcUserEngagementData?.data, "user_engagements");
   const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0;
   const searches = searcUserEngagementData?.data?.searches || 0;
@@ -21,6 +22,10 @@ const Overview = () => {
   useEffect(() => {
     refetch();
   },[refetch]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
 
   return (
@@ -101,7 +106,7 @@ const Overview = () => {
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +60
+              +{totalUsers?.increaseRaw}
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">

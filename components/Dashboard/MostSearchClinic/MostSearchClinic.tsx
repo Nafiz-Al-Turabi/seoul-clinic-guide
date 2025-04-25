@@ -9,6 +9,9 @@ const MostSearchClinic = () => {
     const { data: searcUserEngagementData } = useGetDashboardUserEngagementQuery(null);
     console.log(searcUserEngagementData);
     const topClinic = searcUserEngagementData?.data?.topClinic || 0;
+
+
+    // siteVisit userSearchIncrease userSearchAverage userSearch siteVisitIncrease siteVisitAverage
   
   return (
     <div>
@@ -22,7 +25,7 @@ const MostSearchClinic = () => {
               <h5 className="text-xl font-semibold main-text">
                 Most Searched Clinic
               </h5>
-              <p className="text-sm text-[#44454F]">Seoul Global Center</p>
+              <p className="text-sm text-[#44454F]">{topClinic?.clinic?.name}</p>
             </div>
           </div>
           <div className="w-24 rounded-md overflow-hidden">
@@ -43,12 +46,12 @@ const MostSearchClinic = () => {
         <div className="flex justify-between items-center">
           <div>
             <p className="text-base text-[#44454F]">User Search</p>
-            <p className="text-2xl font-semibold text-main">2,40,437</p>
+            <p className="text-2xl font-semibold text-main">{topClinic?.userSearch}</p>
           </div>
           <div className="text-right">
             <p className="text-base text-[#44454F]">Average</p>
-            <p className="text-sm font-medium text-gray-700">37%</p>
-            <p className="text-xs text-green-500 font-medium">+40%</p>
+            <p className="text-sm font-medium text-gray-700">{topClinic?.userSearchAverage}%</p>
+            <p className="text-xs text-green-500 font-medium">+{topClinic?.userSearchIncrease}%</p>
           </div>
         </div>
 
@@ -59,12 +62,12 @@ const MostSearchClinic = () => {
         <div className="flex justify-between items-center">
           <div>
             <p className="text-base text-[#44454F]">Site Visit</p>
-            <p className="text-2xl font-semibold text-main">1,03,258</p>
+            <p className="text-2xl font-semibold text-main">{topClinic?.siteVisit}</p>
           </div>
           <div className="text-right">
             <p className="text-xs text-[#44454F]">Average</p>
-            <p className="text-sm font-medium text-gray-700">90%</p>
-            <p className="text-xs text-green-500 font-medium">+10%</p>
+            <p className="text-sm font-medium text-gray-700">{topClinic?.siteVisitAverage}%</p>
+            <p className="text-xs text-green-500 font-medium">+{topClinic?.siteVisitIncrease}%</p>
           </div>
         </div>
       </div>
