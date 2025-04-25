@@ -26,11 +26,15 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    
     getProcedureById: builder.query({
-      query: ({id}) => ({
-        url: `/admin/procedures/${id}`,
-        method: "GET",
-      }),
+      query: ({id}) => {
+        console.log("32",id)
+        return {
+          url: `/admin/procedures/${id}`,
+          method: "GET",
+        }
+      }
     }),
 
     getProcedures: builder.query({

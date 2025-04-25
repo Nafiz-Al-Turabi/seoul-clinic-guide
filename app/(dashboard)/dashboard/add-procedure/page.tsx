@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaNoteSticky } from "react-icons/fa6";
-import { FiCamera, FiUser, FiFileText, FiTag } from "react-icons/fi";
+import { FiCamera, FiFileText, FiTag } from "react-icons/fi";
 import { toast } from "sonner";
 
 type FormValues = {
@@ -20,7 +20,6 @@ type FormValues = {
 };
 
 const AddProcedure = (id) => {
-  console.log(id)
   const {
     register,
     handleSubmit,
@@ -29,17 +28,31 @@ const AddProcedure = (id) => {
     reset,
     formState: { errors },
   } = useForm<FormValues>();
+
   const [createProcedure, { isLoading }] = useCreateProcedureMutation();
-  const [updateProcedure, { isLoading: isUpdating }] = useUpdateProcedureMutation();
-  const { data: clinicCategories } = useGetClinicCategoriesQuery(null);
+  const [updateProcedure, { isLoading: isUpdating }] =
+    useUpdateProcedureMutation();
+  const { data: clinicCategories, refetch } = useGetClinicCategoriesQuery(null);
   const clinicCategoriesData = clinicCategories?.data;
 
-  const { data: singleProcedure } = useGetProcedureByIdQuery(id);
-  const singleProcedureData = singleProcedure;
-  console.log(singleProcedureData)
+  console.log(38, id);
+  const { data: singleProcedure, isFetching } = useGetProcedureByIdQuery(id);
+  console.log(singleProcedure);
 
   const [preview, setPreview] = useState<string | null>(null);
   const image = watch("image");
+
+  useEffect(() => {
+    if (id && singleProcedure) {
+      reset({
+        name: singleProcedure?.data.name || "",
+        description: singleProcedure?.data.description || "",
+        clinicId: String(singleProcedure?.data.clinic_category_id || ""),
+        image: null,
+      });
+      setPreview(singleProcedure?.data.image_url || null);
+    }
+  }, [id, singleProcedure, reset]);
 
   useEffect(() => {
     if (image && image.length > 0) {
@@ -58,44 +71,62 @@ const AddProcedure = (id) => {
   };
 
   const onSubmit = async (data: FormValues) => {
-    if (!data.image || data.image.length === 0) {
-      alert("Image is required");
-      return;
-    }
-
     const formData = new FormData();
-    formData.append("image", data.image[0]);
+
+    if (data.image && data.image.length > 0) {
+      formData.append("image", data.image[0]);
+    } else if (id) {
+      formData.append("remove_image", "true");
+    }
 
     formData.append("name", data.name);
     formData.append("description", data.description);
     formData.append("clinic_category_id", data.clinicId);
 
     try {
-      const response = await createProcedure(formData).unwrap();
-      if (response.success) {
+      let response;
+      if (id) {
+        response = await updateProcedure({ id, formData }).unwrap();
+        toast.success("Procedure updated successfully");
+        refetch();
+      } else {
+        if (!data.image || data.image.length === 0) {
+          toast.error("Image is required for new procedures");
+          return;
+        }
+        response = await createProcedure(formData).unwrap();
         toast.success("Procedure created successfully");
+        reset();
+        setPreview(null);
+        refetch();
       }
-      reset();
     } catch (error: any) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message || "Something went wrong");
     }
   };
 
+  if (id && isFetching) {
+    return <div className="p-6 text-gray-700">Loading procedure data...</div>;
+  }
+
   return (
-    <div className="">
-        <div className="bg-gradient-to-r from-[#68B0D4] to-[#68B0D4]/90 p-4 xl:p-6 text-white rounded-t-xl">
-          <h3 className="text-3xl font-bold">
-            Add Procedure
-          </h3>
-          <p className="mt-2 opacity-90">
-            Enter the details to register a new healthcare facility
-          </p>
-        </div>
+    <div>
+      <div className="bg-gradient-to-r from-[#68B0D4] to-[#68B0D4]/90 p-4 xl:p-6 text-white rounded-t-xl">
+        <h3 className="text-3xl font-bold">
+          {id ? "Update Procedure" : "Add Procedure"}
+        </h3>
+        <p className="mt-2 opacity-90">
+          {id
+            ? "Update the details of this procedure"
+            : "Enter the details to register a new healthcare facility"}
+        </p>
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full bg-white/80 backdrop-blur-xl  rounded-xl p-4 xl:p-8 space-y-6 border border-white/30"
+        className="w-full bg-white/80 backdrop-blur-xl rounded-xl p-4 xl:p-8 space-y-6 border border-white/30"
       >
-        {/* Image Upload / Preview */}
+        {/* Image Upload */}
         {!preview ? (
           <label
             htmlFor="imageUpload"
@@ -124,7 +155,9 @@ const AddProcedure = (id) => {
               id="imageUpload"
               type="file"
               accept="image/*"
-              {...register("image", { required: "Image is required" })}
+              {...register("image", {
+                required: !id ? "Image is required" : false,
+              })}
               className="hidden"
             />
           </label>
@@ -151,7 +184,7 @@ const AddProcedure = (id) => {
         {/* Name */}
         <div>
           <label className="flex items-center gap-2 text-sm text-gray-700 mb-1">
-            <FaNoteSticky /> Procedure Name 
+            <FaNoteSticky /> Procedure Name
           </label>
           <input
             type="text"
@@ -184,30 +217,24 @@ const AddProcedure = (id) => {
           )}
         </div>
 
-        {/* Clinic ID */}
+        {/* Clinic Categories */}
         <div>
           <label className="flex items-center gap-2 text-sm text-gray-700 mb-1">
             <FiTag /> Clinic Categories
           </label>
-          <div className="relative">
-            <select
-              {...register("clinicId", {
-                required: "Please select at least one clinic category",
-              })}
-              className="w-full  px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4] bg-white text-gray-800"
-            >
-              <option value="">Select Clinic Category</option>
-              {clinicCategoriesData?.map((category: any) => (
-                <option
-                  key={category.id}
-                  value={category.id}
-                  className="text-lg py-1 flex"
-                >
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            {...register("clinicId", {
+              required: "Please select at least one clinic category",
+            })}
+            className="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4] bg-white text-gray-800"
+          >
+            <option value="">Select Clinic Category</option>
+            {clinicCategoriesData?.map((category: any) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
           {errors.clinicId && (
             <p className="text-red-500 text-sm mt-1">
               {(errors.clinicId as any).message}
@@ -220,9 +247,15 @@ const AddProcedure = (id) => {
           <button
             type="submit"
             className="bg-[#68B0D4] text-white px-6 py-2 rounded-md hover:bg-[#68B0D4]/90 transition-all shadow-sm cursor-pointer"
-            disabled={isLoading}
+            disabled={isLoading || isUpdating}
           >
-            {isLoading ? "Submitting..." : "Submit Procedure"}
+            {isLoading || isUpdating
+              ? id
+                ? "Updating..."
+                : "Submitting..."
+              : id
+              ? "Update Procedure"
+              : "Submit Procedure"}
           </button>
         </div>
       </form>

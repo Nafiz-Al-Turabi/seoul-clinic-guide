@@ -71,7 +71,7 @@ export default function ClientLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const { data: user } = useGetMeQuery(null);
-  console.log(user);
+  // console.log(user);
   const handleLogout = useLogout();
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
