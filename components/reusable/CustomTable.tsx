@@ -118,6 +118,7 @@ const CustomTable: React.FC<TableProps> = ({
             </TableRow>
           )}
         </TableBody>
+        
       </Table>
     </div>
   );
