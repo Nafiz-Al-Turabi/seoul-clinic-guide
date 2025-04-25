@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import { useGetProceduresQuery } from "@/app/store/api/adminProcedureApi";
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -16,18 +17,20 @@ import {
   SelectLabel,
   SelectValue,
 } from "@/components/ui/select";
-import React from "react";
 import { BsSortDown, BsThreeDotsVertical } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
 import { PiHospitalThin } from "react-icons/pi";
 import { TbNotes } from "react-icons/tb";
+import ReactPaginate from "react-paginate";
 
 const Procedures = () => {
-  const { data: procedures, isLoading } = useGetProceduresQuery(null);
-  console.log(procedures?.data);
+  const [page, setPage] = useState(1); 
+  const limit = 40;
 
-  const data = procedures?.data?.procedures;
-  
+  const { data: procedures, isLoading } = useGetProceduresQuery({ page ,limit}); 
+
+  const data = procedures?.data?.procedures || [];
+  const totalPages = procedures?.data?.totalPages || 0;
 
   const columns: TableColumn[] = [
     { key: "image", label: "Image", type: "image" },
@@ -36,11 +39,10 @@ const Procedures = () => {
     { key: "created_at", label: "Join Date & Time", type: "text" },
   ];
 
-  const proceduresData =
-    data?.map((procedur: any) => ({
-      ...procedur,
-      created_at: new Date(procedur.created_at).toLocaleString(),
-    })) || [];
+  const proceduresData = data.map((procedur: any) => ({
+    ...procedur,
+    created_at: new Date(procedur.created_at).toLocaleString(),
+  }));
 
   const tableActions = (procedure: any) => (
     <DropdownMenu>
@@ -56,6 +58,10 @@ const Procedures = () => {
     </DropdownMenu>
   );
 
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setPage(selectedItem.selected + 1); 
+  };
+
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
       <div className="flex justify-between items-center pb-4">
@@ -66,9 +72,7 @@ const Procedures = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Procedures</h5>
         </div>
         <div className="flex items-center gap-2">
-          <button
-            className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
-          >
+          <button className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer">
             <TbNotes />
             Add Procedures <FaPlus size={10} />
           </button>
@@ -90,11 +94,38 @@ const Procedures = () => {
           </Select>
         </div>
       </div>
+
       <CustomTable
         data={proceduresData}
         columns={columns}
         actions={tableActions}
       />
+
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-10">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="›"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            pageCount={totalPages}
+            forcePage={page - 1}
+            previousLabel="‹"
+            renderOnZeroPageCount={null}
+            containerClassName="custom-pagination"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            activeClassName="active"
+          />
+        </div>
+      )}
     </div>
   );
 };
