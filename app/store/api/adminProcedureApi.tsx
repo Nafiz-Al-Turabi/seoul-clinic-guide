@@ -10,13 +10,16 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
       }),
     }),
 
-    updateProcedure: builder.mutation({
-      query: (data) => ({
-        url: "/admin/procedures",
-        method: "PATCH",
-        body: data,
+      updateProcedure: builder.mutation({
+        query: ({id, formData}) => ({
+          url: `/admin/procedures/${id}`,
+          method: "PATCH",
+          body: formData,
+          formData: true,
+        }),
+        invalidatesTags: (result, error, { id }) => [{ type: "Procedures", id }],
       }),
-    }),
+
     deleteProcedure: builder.mutation({
       query: (id) => ({
         url: `/admin/procedures/${id}`,
@@ -24,7 +27,7 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
       }),
     }),
     getProcedureById: builder.query({
-      query: (id) => ({
+      query: ({id}) => ({
         url: `/admin/procedures/${id}`,
         method: "GET",
       }),

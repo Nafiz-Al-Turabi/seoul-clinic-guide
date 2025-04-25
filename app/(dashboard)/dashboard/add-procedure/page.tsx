@@ -3,6 +3,8 @@
 import {
   useCreateProcedureMutation,
   useGetClinicCategoriesQuery,
+  useGetProcedureByIdQuery,
+  useUpdateProcedureMutation,
 } from "@/app/store/api/adminProcedureApi";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +19,8 @@ type FormValues = {
   clinicId: string;
 };
 
-const AddProcedure = () => {
+const AddProcedure = (id) => {
+  console.log(id)
   const {
     register,
     handleSubmit,
@@ -27,8 +30,13 @@ const AddProcedure = () => {
     formState: { errors },
   } = useForm<FormValues>();
   const [createProcedure, { isLoading }] = useCreateProcedureMutation();
+  const [updateProcedure, { isLoading: isUpdating }] = useUpdateProcedureMutation();
   const { data: clinicCategories } = useGetClinicCategoriesQuery(null);
   const clinicCategoriesData = clinicCategories?.data;
+
+  const { data: singleProcedure } = useGetProcedureByIdQuery(id);
+  const singleProcedureData = singleProcedure;
+  console.log(singleProcedureData)
 
   const [preview, setPreview] = useState<string | null>(null);
   const image = watch("image");

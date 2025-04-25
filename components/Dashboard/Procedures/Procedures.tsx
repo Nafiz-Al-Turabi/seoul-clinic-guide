@@ -84,7 +84,7 @@ const Procedures = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem className="cursor-pointer">Update</DropdownMenuItem>
+        <DropdownMenuItem  onClick={() => router.push(`/dashboard/add-procedure/${procedure.id}`)} className="cursor-pointer">Update</DropdownMenuItem>
         <DropdownMenuItem onClick={()=>handleDelete(procedure.id)} className="cursor-pointer">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
