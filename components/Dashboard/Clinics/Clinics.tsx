@@ -28,11 +28,12 @@ import {
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const Clinics = () => {
   const [page, setPage] = useState(1);
   const limit = 40;
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("desc");
   const router = useRouter();
   const {
     data: clinics,
@@ -57,6 +58,7 @@ const Clinics = () => {
   const totalPages = clinics?.data?.totalPages || 0;
   const handlePageClick = (selectedItem: { selected: number }) => {
     setPage(selectedItem.selected + 1);
+    router.push(`/dashboard/clinics?page=${selectedItem.selected + 1}&sortBy=${sortBy}`);
   };
 
   const handleDelete = async (clinicId: string) => {
@@ -97,6 +99,10 @@ const Clinics = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">
