@@ -12,7 +12,6 @@ import { useGetClinicDetailsQuery } from "@/app/store/api/clinicApi";
 const ClinicDetails = ({ slug }) => {
 
     const { data } = useGetClinicDetailsQuery(slug);
-    console.log(data);
     const clinicDetails = data?.data || {};
     const { name, address, subway_station, phone, clinic_category_relation, procedure_clinic_relation, description, location, map_link, operating_hours, website } = clinicDetails || {};
     return (

@@ -14,7 +14,6 @@ import OverviewUsers from "../OverviewUsers/OverviewUsers";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
 const Overview = () => {
   const { data: searcUserEngagementData,refetch,isLoading } = useGetDashboardUserEngagementQuery(null);
-  console.log(searcUserEngagementData?.data, "user_engagements");
   const totalUsers = searcUserEngagementData?.data?.newUserInLast7Days || 0;
   const searches = searcUserEngagementData?.data?.searches || 0;
   const totalUsersInLast30Days = searcUserEngagementData?.data?.totalUsersInLast30Days || 0;

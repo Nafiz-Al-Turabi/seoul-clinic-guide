@@ -42,7 +42,6 @@ const Procedures = () => {
   const [deleteProcedure] = useDeleteProcedureMutation();
 
   const data = procedures?.data?.procedures || [];
-  console.log(data);
   const totalPages = procedures?.data?.totalPages || 0;
 
   const columns: TableColumn[] = [

@@ -7,7 +7,6 @@ import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi
 
 const MostSearchClinic = () => {
     const { data: searcUserEngagementData } = useGetDashboardUserEngagementQuery(null);
-    console.log(searcUserEngagementData);
     const topClinic = searcUserEngagementData?.data?.topClinic || 0;
 
 

@@ -29,7 +29,6 @@ const Login = () => {
     await signin(data)
       .unwrap()
       .then((response) => {
-        console.log("Login response:", response); 
         if(response?.success){
           toast.success(response?.message);
         }

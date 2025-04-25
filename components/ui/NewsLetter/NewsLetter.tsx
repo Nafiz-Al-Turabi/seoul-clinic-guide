@@ -33,7 +33,6 @@ const NewsLetter = () => {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (responseData?.success) {
         toast.success("Subscribed successfully");

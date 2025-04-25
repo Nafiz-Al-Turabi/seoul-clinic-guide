@@ -53,7 +53,6 @@ const TopClinics = () => {
   const { data: topClinic, isLoading } = useGetTopClinicsQuery(null);
 
   const topClinics = topClinic?.data || [];
-  console.log(topClinics);
 
   useEffect(() => {
     const updateSlidesToShow = () => {

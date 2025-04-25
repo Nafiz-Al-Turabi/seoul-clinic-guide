@@ -76,7 +76,6 @@ export default function ClientLayout({ children }) {
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
-  // console.log("Current pathname:", pathname);
   const TopBar = () => {
     const currentPage =
       [...menuItems]

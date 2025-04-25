@@ -25,7 +25,6 @@ const BlogCategories = () => {
 
   const categories = categoriesData?.data || [];
   const blogs = blogsData?.data?.blogs || [];
-  console.log(blogs);
 
   const tabs = useMemo(
     () => [{ id: null, name: "All Blogs" }, ...categories],

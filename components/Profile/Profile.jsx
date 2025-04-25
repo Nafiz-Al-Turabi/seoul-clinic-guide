@@ -12,7 +12,6 @@ const UserProfile = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
   };
 
   const handleImageUpload = (e) => {

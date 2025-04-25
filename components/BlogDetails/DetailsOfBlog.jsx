@@ -14,7 +14,6 @@ const DetailsOfBlog = ({ slug }) => {
     const { data } = useGetBlogDetailsQuery(slug);
 
     const blogDetails = data?.data || {};
-    // console.log(blogDetails, "blogDetails");
 
     return (
         <div>

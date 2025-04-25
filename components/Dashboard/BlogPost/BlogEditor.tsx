@@ -42,7 +42,6 @@ export default function BlogEditor({ id }: BlogProps) {
   const { data: BlogCategories } = useBlogCategoriesQuery(null);
   const { data: blogData } = useGetBlogByIdQuery(id);
   const singleBlog = blogData?.data;
-  console.log(singleBlog, "singleBlog");
   const [updateBlog, { isLoading: updating }] = useUpdateBlogMutation();
 
   const {
@@ -242,7 +241,6 @@ export default function BlogEditor({ id }: BlogProps) {
             return new Promise((resolve, reject) => {
               const formData = new FormData();
               formData.append("image", blobInfo.blob(), blobInfo.filename());
-              console.log(formData, "formData");
 
               fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/blogs/upload`, {
                 method: "POST",

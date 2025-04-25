@@ -35,7 +35,6 @@ const SearchEngagementChart = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const { data: searchEngagementData } = useGetDashboardSearchEngagementQuery(null);
-  console.log(searchEngagementData);
   const searchData = searchEngagementData?.data || [];
 
   const monthlyData = useMemo(() => {
