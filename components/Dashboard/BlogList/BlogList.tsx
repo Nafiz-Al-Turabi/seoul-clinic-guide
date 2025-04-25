@@ -32,7 +32,7 @@ import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const BlogList = () => {
   const [page, setPage] = useState(1);
-  const limit = 40;
+  const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
   const router = useRouter();
   const {
