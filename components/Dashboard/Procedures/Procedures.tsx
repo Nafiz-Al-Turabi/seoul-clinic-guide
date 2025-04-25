@@ -24,6 +24,7 @@ import { TbNotes } from "react-icons/tb";
 import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import LoadingSpinner from "@/components/shared/Loading/Loading";
 
 const Procedures = () => {
   const [page, setPage] = useState(1);
@@ -86,6 +87,10 @@ const Procedures = () => {
     setPage(selectedItem.selected + 1);
     router.push(`/dashboard/procedures?page=${selectedItem.selected + 1}&sortBy=${sortBy}`);
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="bg-white p-4 border border-[#EEF3F8] rounded-[12px]">

@@ -135,7 +135,7 @@ const BlogList = () => {
                 <SelectItem value="asc">Ascending</SelectItem>
                 <SelectItem value="desc"> Descending</SelectItem>
                 <SelectItem value="date">Sort by Date</SelectItem>
-                <SelectItem value="name"> Sort by Name</SelectItem>
+                <SelectItem value="title"> Sort by Title</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
