@@ -35,6 +35,8 @@ const StemCell = () => {
             <Image
               src={item.image}
               alt="stem-cell"
+              width={400}
+              height={400}
               className="aspect-3/2 object-cover rounded-lg"
             />
           </div>

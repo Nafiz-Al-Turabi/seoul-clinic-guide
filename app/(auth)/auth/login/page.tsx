@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useSigninMutation } from "@/app/store/api/authApi";
 import {  useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Image from "next/image";
 
 type LoginFormInputs = {
   email: string;
@@ -46,7 +47,7 @@ const Login = () => {
       <div className="max-w-[86rem] mx-auto 2xl:my-16">
         <div className="flex gap-5 lg:gap-10 xl:gap-10 2xl:gap-28 items-center py-10 md:py-0">
           <div className="hidden md:block 2xl:w-[45%]">
-            <CustomImage
+            <Image
               src={loginImage}
               width={713}
               height={914}

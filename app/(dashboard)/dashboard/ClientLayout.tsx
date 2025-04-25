@@ -109,7 +109,7 @@ export default function ClientLayout({ children }) {
         {/* Logo */}
         <div className="flex items-center py-8 pl-12">
           <Link href="/">
-            <Image src={logo} alt="logo" />
+            <Image src={logo} alt="logo" width={100} height={100} />
           </Link>
         </div>
 

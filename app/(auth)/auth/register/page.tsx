@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import registerImage from "@/public/assets/images/register.svg";
 import { useSignupMutation } from "@/app/store/api/authApi";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Register = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const Register = () => {
       <div className="max-w-[86rem] mx-auto 2xl:py-16">
         <div className="flex gap-5 lg:gap-5 xl:gap-10 2xl:gap-28 items-center py-10 md:py-0">
           <div className="hidden lg:block 2xl:w-[45%]">
-            <CustomImage
+            <Image
               src={registerImage}
               width={713}
               height={914}
