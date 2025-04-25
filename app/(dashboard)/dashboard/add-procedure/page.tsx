@@ -1,0 +1,225 @@
+"use client";
+
+import {
+  useCreateProcedureMutation,
+  useGetClinicCategoriesQuery,
+} from "@/app/store/api/adminProcedureApi";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { FaNoteSticky } from "react-icons/fa6";
+import { FiCamera, FiUser, FiFileText, FiTag } from "react-icons/fi";
+import { toast } from "sonner";
+
+type FormValues = {
+  image: FileList;
+  name: string;
+  description: string;
+  clinicId: string;
+};
+
+const AddProcedure = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const [createProcedure, { isLoading }] = useCreateProcedureMutation();
+  const { data: clinicCategories } = useGetClinicCategoriesQuery(null);
+  const clinicCategoriesData = clinicCategories?.data;
+
+  const [preview, setPreview] = useState<string | null>(null);
+  const image = watch("image");
+
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      const reader = new FileReader();
+      reader.onloadend = () => setPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null);
+    }
+  }, [image]);
+
+  const handleRemoveImage = () => {
+    setValue("image", null as any);
+    setPreview(null);
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    if (!data.image || data.image.length === 0) {
+      alert("Image is required");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", data.image[0]);
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("clinic_category_id", data.clinicId);
+
+    try {
+      const response = await createProcedure(formData).unwrap();
+      if (response.success) {
+        toast.success("Procedure created successfully");
+      }
+      reset();
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
+  };
+
+  return (
+    <div className="">
+        <div className="bg-gradient-to-r from-[#68B0D4] to-[#68B0D4]/90 p-4 xl:p-6 text-white rounded-t-xl">
+          <h3 className="text-3xl font-bold">
+            Add Procedure
+          </h3>
+          <p className="mt-2 opacity-90">
+            Enter the details to register a new healthcare facility
+          </p>
+        </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full bg-white/80 backdrop-blur-xl  rounded-xl p-4 xl:p-8 space-y-6 border border-white/30"
+      >
+        {/* Image Upload / Preview */}
+        {!preview ? (
+          <label
+            htmlFor="imageUpload"
+            className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#68B0D4] transition"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="bg-blue-100 p-3 rounded-full mb-3">
+                <FiCamera className="text-[#68B0D4] text-2xl" />
+              </div>
+              <p className="text-gray-600 font-medium">
+                Drag and drop an image here or click to browse
+              </p>
+              <p className="text-sm text-gray-400 mt-1">
+                Recommended size: 1200 × 600px
+              </p>
+              <div className="mt-4 flex items-center gap-2">
+                <div className="bg-blue-100 text-[#68B0D4] px-3 py-1 rounded text-sm">
+                  Choose File
+                </div>
+                <p className="text-sm text-gray-400 truncate max-w-[200px]">
+                  {image?.[0]?.name || "No file chosen"}
+                </p>
+              </div>
+            </div>
+            <input
+              id="imageUpload"
+              type="file"
+              accept="image/*"
+              {...register("image", { required: "Image is required" })}
+              className="hidden"
+            />
+          </label>
+        ) : (
+          <div className="flex flex-col items-center border-2 border-dashed border-gray-300 rounded-xl p-4">
+            <img
+              src={preview}
+              alt="Preview"
+              className="h-60 object-contain rounded-lg mb-4"
+            />
+            <button
+              type="button"
+              onClick={handleRemoveImage}
+              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+            >
+              Remove Image
+            </button>
+          </div>
+        )}
+        {errors.image && !preview && (
+          <p className="text-red-500 text-sm">{errors.image.message}</p>
+        )}
+
+        {/* Name */}
+        <div>
+          <label className="flex items-center gap-2 text-sm text-gray-700 mb-1">
+            <FaNoteSticky /> Procedure Name 
+          </label>
+          <input
+            type="text"
+            {...register("name", { required: "Name is required" })}
+            placeholder="Procedure Name"
+            className="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4]"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          )}
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="flex items-center gap-2 text-sm text-gray-700 mb-1">
+            <FiFileText /> Description
+          </label>
+          <textarea
+            {...register("description", {
+              required: "Description is required",
+            })}
+            rows={4}
+            placeholder="Write procedure details..."
+            className="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4]"
+          />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.description.message}
+            </p>
+          )}
+        </div>
+
+        {/* Clinic ID */}
+        <div>
+          <label className="flex items-center gap-2 text-sm text-gray-700 mb-1">
+            <FiTag /> Clinic Categories
+          </label>
+          <div className="relative">
+            <select
+              {...register("clinicId", {
+                required: "Please select at least one clinic category",
+              })}
+              className="w-full  px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4] bg-white text-gray-800"
+            >
+              <option value="">Select Clinic Category</option>
+              {clinicCategoriesData?.map((category: any) => (
+                <option
+                  key={category.id}
+                  value={category.id}
+                  className="text-lg py-1 flex"
+                >
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          {errors.clinicId && (
+            <p className="text-red-500 text-sm mt-1">
+              {(errors.clinicId as any).message}
+            </p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <div className="text-center flex justify-end pt-4">
+          <button
+            type="submit"
+            className="bg-[#68B0D4] text-white px-6 py-2 rounded-md hover:bg-[#68B0D4]/90 transition-all shadow-sm cursor-pointer"
+            disabled={isLoading}
+          >
+            {isLoading ? "Submitting..." : "Submit Procedure"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddProcedure;

@@ -25,6 +25,7 @@ import ReactPaginate from "react-paginate";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
+import Link from "next/link";
 
 const Procedures = () => {
   const [page, setPage] = useState(1);
@@ -44,7 +45,7 @@ const Procedures = () => {
   const totalPages = procedures?.data?.totalPages || 0;
 
   const columns: TableColumn[] = [
-    { key: "image", label: "Image", type: "image" },
+    // { key: "image", label: "Image", type: "image" },
     { key: "name", label: "Procedures Name", type: "text" },
     { key: "clinic_count", label: "Clinics", type: "text" },
     { key: "created_at", label: "Join Date & Time", type: "text" },
@@ -108,10 +109,10 @@ const Procedures = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Procedures</h5>
         </div>
         <div className="flex items-center gap-2">
-          <button className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer">
+          <Link href="/dashboard/add-procedure" className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer">
             <TbNotes />
             Add Procedures <FaPlus size={10} />
-          </button>
+          </Link>
           <Select onValueChange={(value) => setSortBy(value)}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">

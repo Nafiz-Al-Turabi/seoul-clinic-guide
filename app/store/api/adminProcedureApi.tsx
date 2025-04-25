@@ -37,6 +37,13 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         params: { page, limit, sortBy },
       }),
     }),
+
+    getClinicCategories: builder.query({
+      query: () => ({
+        url: "/admin/clinic-categories",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -46,4 +53,5 @@ export const {
   useDeleteProcedureMutation,
   useGetProcedureByIdQuery,
   useGetProceduresQuery,
+  useGetClinicCategoriesQuery,
 } = AdminProcedureApi;
