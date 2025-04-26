@@ -17,7 +17,7 @@ const ErrorComponent = () => {
           d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <h2 className="text-lg font-semibold">Something went wrong</h2>
+      <h5 className="text-lg font-semibold">Something went wrong</h5>
       <p className="text-sm text-gray-500">Please try again later or check your connection.</p>
     </div>
   );
