@@ -55,7 +55,6 @@ const Clinics = () => {
       created_at: new Date(clinic.created_at).toLocaleString(),
     })) || [];
 
-  console.log(clinicsData, "clinicsData")
 
   const totalPages = clinics?.data?.totalPages || 0;
   const handlePageClick = (selectedItem: { selected: number }) => {

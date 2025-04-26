@@ -27,6 +27,32 @@ interface AddClinicProps {
   id: string;
 }
 
+
+function extractProcedureIdsFromClinic(clinic: any): string[] {
+  return clinic?.procedure_clinic_relation
+    ?.map((item: any) => item.procedure?.id)
+    .filter(Boolean) || [];
+}
+
+function extractCategoryIdsFromClinic(clinic: any): string[] {
+  return clinic?.clinic_category_relation
+    ?.map((item: any) => item.category_id) || [];
+}
+
+function isProcedureSelected(clinic: any, procedureId: string): boolean {
+  return clinic?.procedure_clinic_relation?.some(
+    (item: any) => item.procedure?.id === procedureId
+  ) || false;
+}
+
+
+function isCategorySelected(clinic: any, categoryId: string): boolean {
+  return clinic?.clinic_category_relation?.some(
+    (item: any) => item.category_id === categoryId
+  ) || false;
+}
+
+
 export default function AddClinicForm({ id }: AddClinicProps) {
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");
@@ -47,6 +73,10 @@ export default function AddClinicForm({ id }: AddClinicProps) {
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
   const { data: clinic } = useGetClinicByIdQuery(id);
   const singleClinic = clinic?.data;
+
+  console.log("singleClinic", singleClinic)
+
+
   const [updateClinic, { isLoading: updating }] = useUpdateClinicMutation();
 
   const { fields, append, remove } = useFieldArray({
@@ -59,14 +89,14 @@ export default function AddClinicForm({ id }: AddClinicProps) {
 
     reset({
       name: singleClinic?.name,
-      clinic_category_id: String(singleClinic?.clinic_category_id),
+      clinic_category_id: extractCategoryIdsFromClinic(singleClinic),
       phone: singleClinic?.phone || "",
       website: singleClinic?.website || "",
       address: singleClinic?.address,
       subway_station: singleClinic?.subway_station || "",
       operating_hours: singleClinic?.operating_hours || [],
       is_top: singleClinic?.is_top,
-      procedures: singleClinic?.procedures?.map((p: any) => String(p.id)) || [],
+      procedures: extractProcedureIdsFromClinic(singleClinic),
     });
 
     setDescription(singleClinic?.description || "");
@@ -326,6 +356,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                         <input
                           type="checkbox"
                           value={category.id}
+                          checked={isCategorySelected(singleClinic, category.id)}
                           {...register("clinic_category_id", {
                             validate: (value) =>
                               value?.length > 0 ||
@@ -520,6 +551,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                         <input
                           type="checkbox"
                           value={procedure.id}
+                          checked={isProcedureSelected(singleClinic, procedure.id)}
                           {...register("procedures")}
                           className="h-6 w-6 rounded border-gray-300 accent-[#68B0D4] "
                         />
