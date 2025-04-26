@@ -44,7 +44,9 @@ const Clinic = () => {
 
   return (
     <div className="mb-20">
-      <div className="w-full px-4 mx-auto">
+      {
+        clinicsData.length > 0 ? (
+          <div className="w-full px-4 mx-auto">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
           {clinicsData.map((clinic) => (
             <ClinicCard key={clinic.id} clinic={clinic} />
@@ -78,6 +80,14 @@ const Clinic = () => {
           </div>
         )}
       </div>
+        ) : (
+          <div className="w-full px-4 mx-auto">
+            <div className="flex justify-center items-center h-[60vh]">
+              <h5 className="text-2xl primary-text">Sorry, no clinics found</h5>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };
