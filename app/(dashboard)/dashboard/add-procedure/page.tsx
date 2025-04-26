@@ -6,6 +6,7 @@ import {
   useGetProcedureByIdQuery,
   useUpdateProcedureMutation,
 } from "@/app/store/api/adminProcedureApi";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaNoteSticky } from "react-icons/fa6";
@@ -20,6 +21,7 @@ type FormValues = {
 };
 
 const AddProcedure = ({id}: {id: string}) => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -42,7 +44,11 @@ const AddProcedure = ({id}: {id: string}) => {
   const image = watch("image");
 
   useEffect(() => {
-    if (id && singleProcedure) {
+    console.log("id",id)
+    console.log("singleProcedure",singleProcedure)
+    console.log("id && singleProcedure",id && singleProcedure)
+    if (singleProcedure?.success) {
+      console.log(singleProcedure,47)
       reset({
         name: singleProcedure?.data?.name || "",
         description: singleProcedure?.data?.description || "",
@@ -87,6 +93,7 @@ const AddProcedure = ({id}: {id: string}) => {
       if (id) {
         response = await updateProcedure({ id, formData }).unwrap();
         toast.success("Procedure updated successfully");
+        router.push("/dashboard/procedures");
         refetch();
       } else {
         if (!data.image || data.image.length === 0) {

@@ -8,41 +8,44 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Procedures"],
     }),
 
-      updateProcedure: builder.mutation({
-        query: ({id, formData}) => ({
-          url: `/admin/procedures/${id}`,
-          method: "PATCH",
-          body: formData,
-          formData: true,
-        }),
-        invalidatesTags: (result, error, { id }) => [{ type: "Procedures", id }],
+    updateProcedure: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/admin/procedures/${id}`,
+        method: "PATCH",
+        body: formData,
+        formData: true,
       }),
+      invalidatesTags: ["Procedures"], // Updated here
+    }),
 
     deleteProcedure: builder.mutation({
       query: (id) => ({
         url: `/admin/procedures/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Procedures"], // Added here
     }),
-    
+
     getProcedureById: builder.query({
-      query: ({id}) => {
-        console.log("32",id)
+      query: (id) => {
+        console.log("32", id);
         return {
           url: `/admin/procedures/${id}`,
           method: "GET",
-        }
-      }
+        };
+      },
     }),
 
     getProcedures: builder.query({
-      query: ({ page, limit, sortBy}) => ({
+      query: ({ page, limit, sortBy }) => ({
         url: "/admin/procedures",
         method: "GET",
         params: { page, limit, sortBy },
       }),
+      providesTags: ["Procedures"], // Ensure this is consistent
     }),
 
     getClinicCategories: builder.query({
