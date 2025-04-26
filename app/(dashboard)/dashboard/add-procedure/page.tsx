@@ -19,7 +19,7 @@ type FormValues = {
   clinicId: string;
 };
 
-const AddProcedure = (id) => {
+const AddProcedure = ({id}: {id: string}) => {
   const {
     register,
     handleSubmit,
@@ -35,9 +35,8 @@ const AddProcedure = (id) => {
   const { data: clinicCategories, refetch } = useGetClinicCategoriesQuery(null);
   const clinicCategoriesData = clinicCategories?.data;
 
-  console.log(38, id);
   const { data: singleProcedure, isFetching } = useGetProcedureByIdQuery(id);
-  console.log(singleProcedure);
+  console.log(singleProcedure,39)
 
   const [preview, setPreview] = useState<string | null>(null);
   const image = watch("image");
@@ -45,12 +44,12 @@ const AddProcedure = (id) => {
   useEffect(() => {
     if (id && singleProcedure) {
       reset({
-        name: singleProcedure?.data.name || "",
-        description: singleProcedure?.data.description || "",
-        clinicId: String(singleProcedure?.data.clinic_category_id || ""),
+        name: singleProcedure?.data?.name || "",
+        description: singleProcedure?.data?.description || "",
+        clinicId: String(singleProcedure?.data?.clinic_category_id || ""),
         image: null,
       });
-      setPreview(singleProcedure?.data.image_url || null);
+      setPreview(singleProcedure?.data?.image_url || null);
     }
   }, [id, singleProcedure, reset]);
 
