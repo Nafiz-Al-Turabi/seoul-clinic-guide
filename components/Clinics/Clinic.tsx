@@ -24,7 +24,12 @@ const Clinic = () => {
     procedure,
   });
 
+  console.log(data)
+
+
+
   const clinicsData = data?.data?.clinics || [];
+  console.log(clinicsData, "clinicsData")
   const totalPages = data?.data?.totalPages || 1;
 
   const handlePageClick = (event: { selected: number }) => {
