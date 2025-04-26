@@ -12,6 +12,13 @@ export const clinicApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getAllProcedures: builder.query({
+      query: () => ({
+        url: "/admin/procedures/all",
+        method: "GET",
+      }),
+    }),
+
     getCategories: builder.query({
       query: () => ({
         url: "/admin/clinic-categories",
@@ -65,7 +72,7 @@ export const clinicApi = baseApi.injectEndpoints({
         body: formData,
         formData: true,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Clinics", id }],
+      invalidatesTags: ["Clinics"]
     }),
 
     deleteClinic: builder.mutation({
@@ -136,6 +143,7 @@ export const clinicApi = baseApi.injectEndpoints({
 
 export const {
   useGetProceduresQuery,
+  useGetAllProceduresQuery,
   useGetCategoriesQuery,
   useCreateClinicMutation,
   useGetClinicsQuery,

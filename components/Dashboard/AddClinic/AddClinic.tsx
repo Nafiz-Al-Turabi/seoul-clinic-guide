@@ -17,7 +17,7 @@ import {
   useCreateClinicMutation,
   useGetCategoriesQuery,
   useGetClinicByIdQuery,
-  useGetProceduresQuery,
+  useGetAllProceduresQuery,
   useUpdateClinicMutation,
 } from "@/app/store/api/clinicApi";
 import { Editor } from "@tinymce/tinymce-react";
@@ -39,7 +39,8 @@ export default function AddClinicForm({ id }: AddClinicProps) {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const { data: procedureList } = useGetProceduresQuery(null);
+  const { data: procedureList } = useGetAllProceduresQuery(null);
+  console.log( "procedureList", procedureList)
   const { data: categoryList } = useGetCategoriesQuery(null);
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
   const { data: clinic } = useGetClinicByIdQuery(id);
@@ -509,7 +510,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
                     Available Procedures
                   </label>
                   <div className=" grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                    {procedureList?.data?.map((procedure: any) => (
+                    {procedureList?.procedures?.map((procedure: any) => (
                       <div
                         key={procedure.id}
                         className="flex items-center space-x-2"
