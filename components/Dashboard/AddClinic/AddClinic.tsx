@@ -30,6 +30,7 @@ interface AddClinicProps {
 export default function AddClinicForm({ id }: AddClinicProps) {
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -40,6 +41,7 @@ export default function AddClinicForm({ id }: AddClinicProps) {
   } = useForm();
 
   const { data: procedureList } = useGetAllProceduresQuery(null);
+  
   console.log( "procedureList", procedureList)
   const { data: categoryList } = useGetCategoriesQuery(null);
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
