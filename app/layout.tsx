@@ -4,9 +4,13 @@ import type { Metadata } from "next";
 import { Providers } from "./provider";
 import { Toaster } from 'sonner';
 
+
 export const metadata: Metadata = {
-  title: AppConfig().app.name,
-  description: AppConfig().app.slogan,
+  title: "Seoul Clinic Guide",
+  description: "FIND THE BEST SPECIALIZED CLINICS IN KOREA FOR EXPERT CARE",
+  icons: {
+    icon: "/navlink.svg",
+  },
 };
 
 export default function RootLayout({
