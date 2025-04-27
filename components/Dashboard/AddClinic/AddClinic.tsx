@@ -22,6 +22,7 @@ import {
 } from "@/app/store/api/clinicApi";
 import { Editor } from "@tinymce/tinymce-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface AddClinicProps {
   id: string;
@@ -54,6 +55,7 @@ function isCategorySelected(clinic: any, categoryId: string): boolean {
 
 
 export default function AddClinicForm({ id }: AddClinicProps) {
+  const router = useRouter();
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");
 
@@ -156,12 +158,14 @@ export default function AddClinicForm({ id }: AddClinicProps) {
       let response;
       if (id) {
         response = await updateClinic({ id, formData }).unwrap();
+        
       } else {
         response = await createClinic(formData).unwrap();
       }
 
       if (response.success) {
         toast.success(response.message);
+        router.push("/dashboard/clinics");
       }
     } catch (error: any) {
       const messages = error?.data?.message?.message;
