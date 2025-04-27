@@ -143,7 +143,7 @@ const AddProcedure = ({id}: {id: string}) => {
                 <FiCamera className="text-[#68B0D4] text-2xl" />
               </div>
               <p className="text-gray-600 font-medium">
-                Drag and drop an image here or click to browse
+                Click to browse
               </p>
               <p className="text-sm text-gray-400 mt-1">
                 Recommended size: 1200 × 600px
