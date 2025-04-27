@@ -3,7 +3,12 @@ import NewsLetter from "@/components/ui/NewsLetter/NewsLetter";
 import TestimonialSlider from "@/components/ui/Testimonials/TestimonialSlider";
 import ClinicDetails from "@/components/ClinicDetails/ClinicDetails";
 
-const page = async ({ params }: { params: { slug: string } }) => {
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+const page = async ({ params }: PageProps) => {
   const { slug } = await params;
   return (
     <div>
