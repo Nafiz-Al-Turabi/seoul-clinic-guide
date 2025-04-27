@@ -78,36 +78,24 @@ const CustomTable: React.FC<TableProps> = ({
                     {col.type === "image" ? (
                       typeof row[col.key] === "string" &&
                       row[col.key] !== "" ? (
-                        // <Image
-                        //   src={row[col.key]}
-                        //   alt="Profile"
-                        //   width={40}
-                        //   height={40}
-                        //   className="w-10 h-10 rounded-full object-cover"
-                        // />
-                        <img
+                        <Image
                           src={row[col.key]}
                           alt="Profile"
                           width={40}
                           height={40}
                           className="w-10 h-10 rounded-full object-cover"
                         />
+                        
                       ) : typeof row[col.key]?.src === "string" &&
                         row[col.key].src !== "" ? (
-                        // <Image
-                        //   src={row[col.key].src}
-                        //   alt="Profile"
-                        //   width={40}
-                        //   height={40}
-                        //   className="w-10 h-10 rounded-full object-cover"
-                        // />
-                        <img
+                        <Image
                           src={row[col.key].src}
                           alt="Profile"
                           width={40}
                           height={40}
                           className="w-10 h-10 rounded-full object-cover"
                         />
+                       
                       ) : (
                         "No Image"
                       )

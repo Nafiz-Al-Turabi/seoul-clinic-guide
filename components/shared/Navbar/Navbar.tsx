@@ -135,9 +135,12 @@ export default function Navbar() {
                 Dashboard
               </Link>
             ) : (
-              <button className="primary-bg text-white py-2.5 px-6 rounded-full duration-300">
+              <Link
+                href="/clinics"
+                className="primary-bg text-white py-2.5 px-6 rounded-full duration-300"
+              >
                 Start Enquiry
-              </button>
+              </Link>
             )}
           </div>
         ) : (
@@ -228,9 +231,7 @@ export default function Navbar() {
                 href={menu.path}
                 onClick={() => setMenuOpen(false)}
                 className={`text-base mb-3 ${
-                  isActive(menu.path)
-                    ? "text-[#68B0D4]"
-                    : "text-gray-700"
+                  isActive(menu.path) ? "text-[#68B0D4]" : "text-gray-700"
                 }`}
               >
                 {menu.label}
@@ -238,20 +239,33 @@ export default function Navbar() {
             )
           )}
 
-          <Link
-            href="/login"
-            onClick={() => setMenuOpen(false)}
-            className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            onClick={() => setMenuOpen(false)}
-            className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
-          >
-            Signup
-          </Link>
+          <div className="flex flex-col gap-2">
+            {user ? (
+              <Link
+                href="/clinics"
+                className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 mt-6"
+              >
+                Start Enquiry
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
+                >
+                  Signup
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
