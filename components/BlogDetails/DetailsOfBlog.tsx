@@ -8,9 +8,11 @@ import { useGetBlogDetailsQuery } from '@/app/store/api/blogApi';
 import { FaFacebookF } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
+interface DetailsOfBlogProps {
+    slug: string;
+  }
 
-
-const DetailsOfBlog = ({ slug }) => {
+const DetailsOfBlog = ({ slug }: DetailsOfBlogProps) => {
     const { data } = useGetBlogDetailsQuery(slug);
 
     const blogDetails = data?.data || {};
