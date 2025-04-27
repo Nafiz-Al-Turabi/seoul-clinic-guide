@@ -1,40 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {
-//   poweredByHeader: false,
-//   images: {
-//     remotePatterns: [
-//       {
-//         protocol: 'http',
-//         hostname: '103.161.8.131',
-//         port: '4000',
-//         pathname: '/public/storage/avatar/**',
-//       },
-//       {
-//         protocol: 'http',
-//         hostname: '103.161.8.131',
-//         port: '4000',
-//         pathname: '/public/storage/blog-banner/**',
-//       },
-//       {
-//         protocol: 'http',
-//         hostname: '103.161.8.131',
-//         port: '4000',
-//         pathname: '/public/storage/blog-author-picture/**',
-//       },
-//       {
-//         protocol: 'http',
-//         hostname: '103.161.8.131',
-//         port: '4000',
-//         pathname: '/public/storage/clinic-banner/**',
-//       },
-//     ],
-//   },
-// };
-
-// export default nextConfig;
-
-
 import type { NextConfig } from "next";
 
 const commonHost = {
@@ -53,10 +16,10 @@ const paths = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   eslint: {
-    ignoreDuringBuilds: true, // disables linting errors during `next build`
+    ignoreDuringBuilds: true, 
   },
   typescript: {
-    ignoreBuildErrors: true, // disables type checking at build time
+    ignoreBuildErrors: true, 
   },
   images: {
     remotePatterns: paths.map(pathname => ({
