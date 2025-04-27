@@ -18,9 +18,10 @@ type FormValues = {
   name: string;
   description: string;
   clinicId: string;
+  existingImage?: string;
 };
 
-const AddProcedure = ({id}: {id: string}) => {
+const AddProcedure = ({ id }: { id: string }) => {
   const router = useRouter();
   const {
     register,
@@ -38,24 +39,26 @@ const AddProcedure = ({id}: {id: string}) => {
   const clinicCategoriesData = clinicCategories?.data;
 
   const { data: singleProcedure, isFetching } = useGetProcedureByIdQuery(id);
-  console.log(singleProcedure,39)
+  console.log(singleProcedure, 39);
 
   const [preview, setPreview] = useState<string | null>(null);
+  const [hasExistingImage, setHasExistingImage] = useState<boolean>(false);
   const image = watch("image");
+  const existingImage = watch("existingImage");
 
   useEffect(() => {
-    console.log("id",id)
-    console.log("singleProcedure",singleProcedure)
-    console.log("id && singleProcedure",id && singleProcedure)
     if (singleProcedure?.success) {
-      console.log(singleProcedure,47)
       reset({
         name: singleProcedure?.data?.name || "",
         description: singleProcedure?.data?.description || "",
         clinicId: String(singleProcedure?.data?.clinic_category_id || ""),
-        image: null,
+        existingImage: singleProcedure?.data?.image_url || "",
       });
-      setPreview(singleProcedure?.data?.image_url || null);
+
+      if (singleProcedure?.data?.image_url) {
+        setPreview(singleProcedure?.data?.image_url);
+        setHasExistingImage(true);
+      }
     }
   }, [id, singleProcedure, reset]);
 
@@ -65,14 +68,19 @@ const AddProcedure = ({id}: {id: string}) => {
       const reader = new FileReader();
       reader.onloadend = () => setPreview(reader.result as string);
       reader.readAsDataURL(file);
-    } else {
+      setHasExistingImage(false);
+    } else if (existingImage && hasExistingImage) {
+      setPreview(existingImage);
+    } else if (!hasExistingImage) {
       setPreview(null);
     }
-  }, [image]);
+  }, [image, existingImage, hasExistingImage]);
 
   const handleRemoveImage = () => {
-    setValue("image", null as any);
+    setValue("image", null);
+    setValue("existingImage", "");
     setPreview(null);
+    setHasExistingImage(false);
   };
 
   const onSubmit = async (data: FormValues) => {
@@ -142,9 +150,7 @@ const AddProcedure = ({id}: {id: string}) => {
               <div className="bg-blue-100 p-3 rounded-full mb-3">
                 <FiCamera className="text-[#68B0D4] text-2xl" />
               </div>
-              <p className="text-gray-600 font-medium">
-                Click to browse
-              </p>
+              <p className="text-gray-600 font-medium">Click to browse</p>
               <p className="text-sm text-gray-400 mt-1">
                 Recommended size: 1200 × 600px
               </p>
