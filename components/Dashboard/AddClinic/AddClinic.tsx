@@ -24,9 +24,6 @@ import { Editor } from "@tinymce/tinymce-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-interface AddClinicProps {
-  id: string;
-}
 
 
 function extractProcedureIdsFromClinic(clinic: any): string[] {
@@ -54,7 +51,7 @@ function isCategorySelected(clinic: any, categoryId: string): boolean {
 }
 
 
-export default function AddClinicForm({ id }: AddClinicProps) {
+export default function AddClinicForm({ id }) {
   const router = useRouter();
   const editorRef = useRef<any>(null);
   const [description, setDescription] = useState("");

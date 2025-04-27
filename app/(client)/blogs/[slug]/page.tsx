@@ -12,7 +12,7 @@ interface PageProps {
   };
 }
 
-const BlogDetails = async ({ params }: PageProps) => {
+const BlogDetails = async ({ params }) => {
   const { slug } =await params;
 
   return (

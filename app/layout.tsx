@@ -2,8 +2,8 @@ import { AppConfig } from "@/config/app.config";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Providers } from "./provider";
-import { Toaster } from 'sonner';
-
+import { Toaster } from "sonner";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Seoul Clinic Guide",
@@ -21,7 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body cz-shortcut-listen="true" no-processed="true">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Suspense fallback={<p>Loading search results...</p>}>
+            {children}
+          </Suspense>
+        </Providers>
         <Toaster position="top-center" richColors />
       </body>
     </html>

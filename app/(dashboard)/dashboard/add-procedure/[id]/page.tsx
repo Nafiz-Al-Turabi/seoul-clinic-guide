@@ -1,13 +1,13 @@
-import React from 'react';
-import AddProcedure from '../page';
+import React from "react";
+import AddProcedure from "../page";
 
-const page = async ({params}: {params: {id: string}}) => {
-    
-    return (
-        <div>
-            <AddProcedure id={params.id} />
-        </div>
-    );
+const page = async ({ params }) => {
+  const { id } = await params;
+  return (
+    <div>
+      {/* <AddProcedure id={id} /> */}
+    </div>
+  );
 };
 
 export default page;

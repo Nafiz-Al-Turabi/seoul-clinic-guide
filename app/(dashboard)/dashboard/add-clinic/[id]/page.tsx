@@ -1,7 +1,7 @@
 import AddClinicForm from "@/components/Dashboard/AddClinic/AddClinic";
 import React from "react";
 
-const UpdateClinic = async ({ params }: { params: { id: string } }) => {
+const UpdateClinic = async ({ params }) => {
   const { id } = await params;
   return (
     <div>

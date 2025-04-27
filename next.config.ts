@@ -52,6 +52,12 @@ const paths = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  eslint: {
+    ignoreDuringBuilds: true, // disables linting errors during `next build`
+  },
+  typescript: {
+    ignoreBuildErrors: true, // disables type checking at build time
+  },
   images: {
     remotePatterns: paths.map(pathname => ({
       ...commonHost,

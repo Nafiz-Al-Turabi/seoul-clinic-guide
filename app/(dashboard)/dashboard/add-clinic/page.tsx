@@ -1,7 +1,7 @@
 import AddClinic from "@/components/Dashboard/AddClinic/AddClinic";
 import React from "react";
 
-const AddClinicPost = ({ params }: { params: { id: string } }) => {
+const AddClinicPost = ({ params }) => {
   const { id } = params;
   return (
     <div>

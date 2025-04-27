@@ -21,7 +21,7 @@ type FormValues = {
   existingImage?: string;
 };
 
-const AddProcedure = ({ id }: { id: string }) => {
+const AddProcedure = ({ id }) => {
   const router = useRouter();
   const {
     register,
@@ -39,7 +39,6 @@ const AddProcedure = ({ id }: { id: string }) => {
   const clinicCategoriesData = clinicCategories?.data;
 
   const { data: singleProcedure, isFetching } = useGetProcedureByIdQuery(id);
-  console.log(singleProcedure, 39);
 
   const [preview, setPreview] = useState<string | null>(null);
   const [hasExistingImage, setHasExistingImage] = useState<boolean>(false);
@@ -104,7 +103,7 @@ const AddProcedure = ({ id }: { id: string }) => {
           toast.success("Procedure updated successfully");
           router.push("/dashboard/procedures");
           refetch();
-        }else{
+        } else {
           toast.error(response?.message || "Something went wrong");
         }
       } else {
@@ -118,7 +117,7 @@ const AddProcedure = ({ id }: { id: string }) => {
         setPreview(null);
         refetch();
       }
-    } catch (error: any) {
+    } catch (error) {
       toast.error(error?.message || "Something went wrongs");
     }
   };
@@ -245,7 +244,7 @@ const AddProcedure = ({ id }: { id: string }) => {
             className="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#68B0D4] bg-white text-gray-800"
           >
             <option value="">Select Clinic Category</option>
-            {clinicCategoriesData?.map((category: any) => (
+            {clinicCategoriesData?.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>
@@ -253,7 +252,7 @@ const AddProcedure = ({ id }: { id: string }) => {
           </select>
           {errors.clinicId && (
             <p className="text-red-500 text-sm mt-1">
-              {(errors.clinicId as any).message}
+              {errors.clinicId.message}
             </p>
           )}
         </div>

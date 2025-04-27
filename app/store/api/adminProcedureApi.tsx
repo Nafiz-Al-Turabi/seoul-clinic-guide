@@ -18,7 +18,7 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         body: formData,
         formData: true,
       }),
-      invalidatesTags: ["Procedures"], // Updated here
+      invalidatesTags: ["Procedures"], 
     }),
 
     deleteProcedure: builder.mutation({
@@ -26,7 +26,7 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         url: `/admin/procedures/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Procedures"], // Added here
+      invalidatesTags: ["Procedures"], 
     }),
 
     getProcedureById: builder.query({
