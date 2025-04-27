@@ -73,7 +73,7 @@ const ClinicDetails = ({ slug }) => {
                 </div>
             </div>
             <section className="flex flex-col lg:flex-row gap-6 mb-20">
-                <div className="w-full xl:w-[72.5%] space-y-4 bg-[#F9FDFD] p-6 rounded-[8px]">
+                <div className="w-full h-fit xl:w-[72.5%] space-y-4 bg-[#F9FDFD] p-6 rounded-[8px]">
                     <h5 className="text-[2rem] primary-text font-bold">Overview</h5>
                     <div
                         className="my-12 my-class
