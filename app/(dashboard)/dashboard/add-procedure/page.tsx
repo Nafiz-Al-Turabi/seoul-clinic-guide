@@ -100,9 +100,13 @@ const AddProcedure = ({ id }: { id: string }) => {
       let response;
       if (id) {
         response = await updateProcedure({ id, formData }).unwrap();
-        toast.success("Procedure updated successfully");
-        router.push("/dashboard/procedures");
-        refetch();
+        if (response?.success) {
+          toast.success("Procedure updated successfully");
+          router.push("/dashboard/procedures");
+          refetch();
+        }else{
+          toast.error(response?.message || "Something went wrong");
+        }
       } else {
         if (!data.image || data.image.length === 0) {
           toast.error("Image is required for new procedures");
@@ -115,7 +119,7 @@ const AddProcedure = ({ id }: { id: string }) => {
         refetch();
       }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Something went wrong");
+      toast.error(error?.message || "Something went wrongs");
     }
   };
 
