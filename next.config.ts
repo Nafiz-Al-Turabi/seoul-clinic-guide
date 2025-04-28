@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const commonHost = {
-  protocol: 'http' as const,
-  hostname: '103.161.8.131',
-  port: '4000',
+  protocol: 'https' as const,
+  hostname: 'backend.seoulclinicguide.com',
+  port: '',
 };
 
 const paths = [
@@ -16,10 +16,10 @@ const paths = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   eslint: {
-    ignoreDuringBuilds: true, 
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, 
+    ignoreBuildErrors: true,
   },
   images: {
     remotePatterns: paths.map(pathname => ({

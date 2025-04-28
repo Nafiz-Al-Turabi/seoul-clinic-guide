@@ -16,7 +16,7 @@ const DetailsOfBlog = ({ slug }) => {
   return (
     <div>
       <header
-        style={{ backgroundImage: `url(${blogDetails?.banner_url})` }}
+        style={{ backgroundImage: `url(${blogHeroImage.src})` }}
         className="relative w-full bg-position-center bg-cover bg-center bg-no-repeat h-[30vh] sm:h-[40vh] lg:h-[70.7vh]"
       >
         <div className="absolute inset-0 bg-gradient-to-l to-black/10 from-transparent z-0"></div>
