@@ -108,7 +108,7 @@ const ProceduresCategories = () => {
           Procedures
         </h4>
 
-        <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-3">
+        <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-2">
           {categories?.map((item) => (
             <button
               key={item.id}

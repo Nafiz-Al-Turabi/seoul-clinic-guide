@@ -87,10 +87,10 @@ const ClinicCategories = () => {
         <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">
           Categories
         </h4>
-        <div className="flex flex-col gap-3">
+        <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-2">
           <button
             onClick={() => handleCategoryClick("All Clinics", null)}
-            className={`text-left px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm lg:text-lg cursor-pointer ${
+            className={`text-left mr-2 px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm lg:text-lg cursor-pointer ${
               activeCategory === "All Clinics"
                 ? "bg-[#68B0D4] text-white"
                 : "text-[#305162] hover:text-[#B4B4B4]"
@@ -102,7 +102,7 @@ const ClinicCategories = () => {
             <button
               key={cat.id}
               onClick={() => handleCategoryClick(cat.name, cat.id)}
-              className={`text-left px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm lg:text-lg cursor-pointer ${
+              className={`text-left mr-2 px-4 py-2 lg:py-3 rounded-full duration-300 font-medium text-sm lg:text-lg cursor-pointer ${
                 activeCategory === cat.name
                   ? "bg-[#68B0D4] text-white"
                   : "text-[#305162] hover:text-[#B4B4B4]"
