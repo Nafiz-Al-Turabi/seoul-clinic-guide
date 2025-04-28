@@ -35,7 +35,7 @@ const Subscribers = () => {
             <span className="primary-text text-2xl">
               <MdOutlineUnsubscribe />
             </span>
-            Subscriber List
+            Subscriber List({subscribersData?.length || 0}) 
           </h5>
           <button
             onClick={handleDownload}
