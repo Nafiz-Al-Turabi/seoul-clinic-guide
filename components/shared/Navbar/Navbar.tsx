@@ -90,9 +90,10 @@ export default function Navbar() {
                   {menu.label} <ChevronDown size={14} />
                 </button>
                 {dropdownOpen === menu.label && (
-                  <div className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md py-2 z-40 animate-fadeIn">
+                  <div  className="absolute top-full mt-2 w-44 bg-white shadow-lg rounded-md py-2 z-40 animate-fadeIn">
                     {menu.dropdown.map((item, subIdx) => (
                       <Link
+                        onClick={() => setDropdownOpen("")}
                         key={subIdx}
                         href={item.path}
                         className={`block px-4 py-2.5 text-base hover:bg-gray-100 ${
