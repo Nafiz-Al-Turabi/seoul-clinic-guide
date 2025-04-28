@@ -72,9 +72,7 @@ const Users = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="flex flex-col gap-2 p-2">
-        <DropdownMenuItem className="text-[#046601] bg-[#04660115] cursor-pointer border">
-          Details
-        </DropdownMenuItem>
+        
         <DropdownMenuItem className="flex justify-between items-center gap-2 border p-2">
           <span className="text-sm">
             {user.type === "admin" ? "Remove Admin" : "Make Admin"}
