@@ -291,12 +291,7 @@ export default function AddClinicForm({ id }) {
                   </label>
                   <div className="relative">
                     <input
-                      {...register("phone", {
-                        pattern: {
-                          value: /^[0-9+-]+$/,
-                          message: "Please enter a valid phone number",
-                        },
-                      })}
+                      {...register("phone")}
                       id="phone"
                       placeholder="Enter phone number"
                       className="w-full px-4 py-2 pl-10 border rounded-lg outline-none"
@@ -322,13 +317,7 @@ export default function AddClinicForm({ id }) {
                   </label>
                   <div className="relative">
                     <input
-                      {...register("website", {
-                        pattern: {
-                          value:
-                            /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$/,
-                          message: "Please enter a valid URL",
-                        },
-                      })}
+                      {...register("website")}
                       id="website"
                       placeholder="https://example.com"
                       className="w-full px-4 py-2 pl-10 border rounded-lg outline-none"
@@ -357,7 +346,6 @@ export default function AddClinicForm({ id }) {
                         <input
                           type="checkbox"
                           value={category.id}
-                          checked={isCategorySelected(singleClinic, category.id)}
                           {...register("clinic_category_id", {
                             validate: (value) =>
                               value?.length > 0 ||
@@ -552,7 +540,6 @@ export default function AddClinicForm({ id }) {
                         <input
                           type="checkbox"
                           value={procedure.id}
-                          checked={isProcedureSelected(singleClinic, procedure.id)}
                           {...register("procedures")}
                           className="h-6 w-6 rounded border-gray-300 accent-[#68B0D4] "
                         />
