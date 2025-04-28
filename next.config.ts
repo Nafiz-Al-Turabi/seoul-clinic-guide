@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 
 const commonHost = {
-  protocol: 'https' as const,
-  hostname: 'backend.seoulclinicguide.com',
-  port: '',
+  protocol: 'http' as const,
+  hostname: '103.161.8.131',
+  port: '4000',
 };
 
 const paths = [
@@ -16,10 +16,10 @@ const paths = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, 
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, 
   },
   images: {
     remotePatterns: paths.map(pathname => ({
@@ -30,3 +30,39 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+
+
+// import type { NextConfig } from "next";
+
+// const commonHost = {
+//   protocol: 'https' as const,
+//   hostname: 'backend.seoulclinicguide.com',
+//   port: '',
+// };
+
+// const paths = [
+//   '/public/storage/avatar/**',
+//   '/public/storage/blog-banner/**',
+//   '/public/storage/blog-author-picture/**',
+//   '/public/storage/clinic-banner/**',
+// ];
+
+// const nextConfig: NextConfig = {
+//   poweredByHeader: false,
+//   eslint: {
+//     ignoreDuringBuilds: true,
+//   },
+//   typescript: {
+//     ignoreBuildErrors: true,
+//   },
+//   images: {
+//     remotePatterns: paths.map(pathname => ({
+//       ...commonHost,
+//       pathname,
+//     })),
+//   },
+// };
+
+// export default nextConfig;
+

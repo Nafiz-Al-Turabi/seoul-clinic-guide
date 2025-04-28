@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body cz-shortcut-listen="true" no-processed="true">
         <Providers>
-          <Suspense fallback={<p>Loading search results...</p>}>
+          <Suspense fallback={""}>
             {children}
           </Suspense>
         </Providers>

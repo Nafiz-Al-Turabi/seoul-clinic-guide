@@ -3,7 +3,7 @@ import GoogleComponent from "./Components/GoogleComponent";
 
 function page() {
   return (
-    <Suspense fallback={<p>Loading search results...</p>}>
+    <Suspense fallback={<p></p>}>
       <GoogleComponent />
     </Suspense>
   );

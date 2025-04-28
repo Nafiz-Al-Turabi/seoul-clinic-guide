@@ -7,7 +7,7 @@ import BlogCategories from "@/components/Blogs/BlogCategories/BlogCategories";
 const Blogs = ({ params }) => {
   return (
     <div>
-      <Suspense fallback={<p>Loading search results...</p>}>
+      <Suspense fallback={<p></p>}>
         <BlogHero />
         <BlogCategories />
         <NewsLetter />

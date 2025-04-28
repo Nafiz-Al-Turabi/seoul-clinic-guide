@@ -8,6 +8,14 @@ body{
     color: #151623;
 }
 
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 /*-------------------Text and background colors ----------------------*/
 .primary-bg{
     @apply bg-[#68B0D4] hover:bg-[#5093C2]
