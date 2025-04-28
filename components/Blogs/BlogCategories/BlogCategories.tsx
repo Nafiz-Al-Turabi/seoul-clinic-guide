@@ -3,6 +3,7 @@
 import {
   useBlogCategoriesQuery,
   useGetBlogsByCategoryQuery,
+  useUserBlogCategoriesQuery,
 } from "@/app/store/api/blogApi";
 import BlogCard from "@/components/ui/Cards/BlogCard";
 import { useState,  useMemo } from "react";
@@ -16,7 +17,7 @@ const BlogCategories = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(initialCategoryId);
 
   const { data: categoriesData, isLoading: loadingCategories } =
-    useBlogCategoriesQuery(null);
+  useUserBlogCategoriesQuery(null);
   const {
     data: blogsData,
     isLoading: loadingBlogs,

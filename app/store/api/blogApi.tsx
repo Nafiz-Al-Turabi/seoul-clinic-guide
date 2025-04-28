@@ -63,6 +63,14 @@ export const blogApi = baseApi.injectEndpoints({
       providesTags: ["BlogCategories"],
     }),
 
+    userBlogCategories: builder.query({
+      query: () => ({
+        url: "/blogs/categories",
+        method: "GET",
+      }),
+      providesTags: ["BlogCategories"],
+    }),
+
     deleteBlog: builder.mutation({
       query: (id) => ({
         url: `/admin/blogs/${id}`,
@@ -92,6 +100,7 @@ export const {
   useGetBlogsQuery,
   useCreateBlogMutation,
   useBlogCategoriesQuery,
+  useUserBlogCategoriesQuery,
   useDeleteBlogMutation,
   useGetBlogByIdQuery,
   useUpdateBlogMutation,
