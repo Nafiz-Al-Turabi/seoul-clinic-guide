@@ -5,7 +5,7 @@ import { get } from "http";
 export const blogApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBlogs: builder.query({
-      query: ({page = 1, limit, sortBy}) => ({
+      query: ({ page = 1, limit, sortBy }) => ({
         url: "/admin/blogs",
         method: "GET",
         params: {
@@ -16,14 +16,14 @@ export const blogApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Blogs"],
     }),
-
     getBlogsByCategory: builder.query({
-      query: (categoryId = null, currentPage = 1) => ({
+      query: ({categoryId = null, page = 1, limit = 1}) => ({
         url: `/blogs`,
         method: "GET",
         params: {
           ...(categoryId && { category: categoryId }),
-          page: currentPage,
+          page,
+          limit,
         },
       }),
       providesTags: ["Blogs"],
