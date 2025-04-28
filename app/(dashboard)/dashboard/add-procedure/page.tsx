@@ -44,6 +44,7 @@ const AddProcedure = ({ id }) => {
   const [hasExistingImage, setHasExistingImage] = useState<boolean>(false);
   const image = watch("image");
   const existingImage = watch("existingImage");
+  const [originalName, setOriginalName] = useState<string>("");
 
   useEffect(() => {
     if (singleProcedure?.success) {
@@ -53,6 +54,7 @@ const AddProcedure = ({ id }) => {
         clinicId: String(singleProcedure?.data?.clinic_category_id || ""),
         existingImage: singleProcedure?.data?.image_url || "",
       });
+      setOriginalName(singleProcedure?.data?.name || "");
 
       if (singleProcedure?.data?.image_url) {
         setPreview(singleProcedure?.data?.image_url);
@@ -91,7 +93,10 @@ const AddProcedure = ({ id }) => {
       formData.append("remove_image", "true");
     }
 
-    formData.append("name", data.name);
+    if (!id || data.name !== originalName) {
+      formData.append("name", data.name);
+    }
+
     formData.append("description", data.description);
     formData.append("clinic_category_id", data.clinicId);
 
