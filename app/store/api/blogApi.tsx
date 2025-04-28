@@ -83,7 +83,7 @@ export const blogApi = baseApi.injectEndpoints({
         body: formData,
         formData: true,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Blogs", id }],
+      invalidatesTags: ["Blogs"],
     }),
   }),
 });
