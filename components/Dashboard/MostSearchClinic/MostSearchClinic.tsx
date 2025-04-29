@@ -8,10 +8,6 @@ import { useGetDashboardUserEngagementQuery } from "@/app/store/api/dashboardApi
 const MostSearchClinic = () => {
     const { data: searcUserEngagementData } = useGetDashboardUserEngagementQuery(null);
     const topClinic = searcUserEngagementData?.data?.topClinic || 0;
-
-
-    // siteVisit userSearchIncrease userSearchAverage userSearch siteVisitIncrease siteVisitAverage
-  
   return (
     <div>
       <div className="bg-white rounded-lg p-4 shadow-sm w-full xl:h-[439px]">
