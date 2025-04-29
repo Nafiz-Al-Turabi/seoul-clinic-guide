@@ -56,9 +56,23 @@ export default function BlogEditor({ id }: BlogProps) {
   const openAuthorModal = () => {
     const title = getValues("title");
     if (!title || title.trim() === "") {
-      toast.warning("Please enter a blog title first.");
+      toast.warning("Please enter a blog title");
       return;
     }
+    if (!getValues("short_description") || getValues("short_description").trim() === "") {
+      toast.warning("Please enter a blog short description");
+      return;
+    }
+    if (!content || content.trim() === "") {
+      toast.warning("Please enter a blog content");
+      return;
+    }
+    
+    if (!getValues("blog_category_id") || getValues("blog_category_id").trim() === "") {
+      toast.warning("Please select a blog category");
+      return;
+    }
+
     setShowModal(true);
   };
 
@@ -90,6 +104,7 @@ export default function BlogEditor({ id }: BlogProps) {
     const content = editorRef.current?.getContent();
 
     // Only show warning if both new images are missing AND no existing images
+
     if (
       (!coverImage && !coverPreview) ||
       (!authorImageFile && authorImage === "/default-avatar.jpg")
