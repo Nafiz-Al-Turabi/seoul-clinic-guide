@@ -12,7 +12,7 @@ const DetailsOfBlog = ({ slug }) => {
   const { data } = useGetBlogDetailsQuery(slug);
 
   const blogDetails = data?.data || {};
-
+console.log(blogDetails)
   return (
     <div>
       <header
@@ -69,14 +69,14 @@ const DetailsOfBlog = ({ slug }) => {
           <div className="flex items-center gap-3 mt-4">
             <a
               href={blogDetails?.facebook}
-              target="blank"
+              target="_blank"
               className="p-2 primary-bg text-white hover:bg-[#385a69] duration-300 rounded-full"
             >
               <FaFacebookF size={20} />
             </a>
             <a
               href={blogDetails?.x}
-              target="blank"
+              target="_blank"
               className="p-2 primary-bg text-white hover:bg-[#385a69] duration-300 rounded-full"
             >
               <FaXTwitter size={20} />

@@ -113,10 +113,23 @@ export default function AddClinicForm({ id }) {
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [bannerWatch]);
+  
 
   const onSubmit = async (data: any) => {
+    if(!data?.name || data?.name?.trim() === ""){
+      toast.warning("Please enter a clinic name") ;
+      return;
+    }
+    if(!data?.address || data?.address?.trim() === ""){
+      toast.warning("Please enter a clinic address");
+      return;
+    }
+    if(!data?.clinic_category_id || data?.clinic_category_id?.length === 0){
+      toast.warning("Please select a clinic category");
+      return;
+    }
+    
     const formData = new FormData();
-
     formData.append("name", data.name);
     (data.clinic_category_id || []).forEach(
       (categoriesId: string, index: number) => {

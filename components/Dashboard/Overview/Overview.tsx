@@ -45,7 +45,9 @@ const Overview = () => {
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">{searches?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +{searches?.increaseRaw}
+              {
+                searches?.increaseRaw > 0 ? `+${searches?.increaseRaw}` : searches?.increaseRaw
+              }
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
@@ -75,7 +77,9 @@ const Overview = () => {
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">{totalUsersInLast30Days?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +{totalUsersInLast30Days?.increaseRaw}
+              {
+                totalUsersInLast30Days?.increaseRaw > 0 ? `+${totalUsersInLast30Days?.increaseRaw}` : totalUsersInLast30Days?.increaseRaw
+              }
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">
@@ -105,7 +109,9 @@ const Overview = () => {
           <div className="my-4 flex items-center gap-2">
             <p className="text-[2rem] font-bold ">{totalUsers?.total}</p>
             <p className="text-xs bg-[#22CAAD21] text-[#22CAAD] p-1 rounded-sm">
-              +{totalUsers?.increaseRaw}
+              {
+                totalUsers?.increaseRaw > 0 ? `+${totalUsers?.increaseRaw}` : totalUsers?.increaseRaw
+              }
             </p>
           </div>
           <div className="flex items-center justify-between gap-2">

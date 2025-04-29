@@ -50,7 +50,11 @@ const MostSearchClinic = () => {
           <div className="text-right">
             <p className="text-base text-[#44454F]">Average</p>
             <p className="text-sm font-medium text-gray-700">{topClinic?.userSearchAverage}%</p>
-            <p className="text-xs text-green-500 font-medium">+{topClinic?.userSearchIncrease}%</p>
+            <p className="text-xs text-green-500 font-medium">
+              {
+                topClinic?.userSearchIncrease > 0 ? `+${topClinic?.userSearchIncrease}%` : topClinic?.userSearchIncrease
+              }
+              </p>
           </div>
         </div>
 
@@ -66,7 +70,11 @@ const MostSearchClinic = () => {
           <div className="text-right">
             <p className="text-xs text-[#44454F]">Average</p>
             <p className="text-sm font-medium text-gray-700">{topClinic?.siteVisitAverage}%</p>
-            <p className="text-xs text-green-500 font-medium">+{topClinic?.siteVisitIncrease}%</p>
+            <p className="text-xs text-green-500 font-medium">
+              {
+                topClinic?.siteVisitIncrease > 0 ? `+${topClinic?.siteVisitIncrease}%` : topClinic?.siteVisitIncrease
+              }
+              </p>
           </div>
         </div>
       </div>
