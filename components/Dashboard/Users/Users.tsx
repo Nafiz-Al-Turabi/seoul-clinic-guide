@@ -129,7 +129,7 @@ const Users = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Users</h5>
         </div>
         <div className="flex gap-4 mt-4 sm:mt-0">
-          <Input type="text" className="py-5" placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
+          <Input type="text" className="py-5" placeholder="Search users..." onChange={(e)=>setSearch(e.target.value)} />
           <Select onValueChange={(value) => setMonth(value)} defaultValue="all">
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">

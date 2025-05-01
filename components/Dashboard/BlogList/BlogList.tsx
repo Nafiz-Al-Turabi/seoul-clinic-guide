@@ -126,7 +126,7 @@ const BlogList = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
         <div className="flex items-center gap-4 mt-4 sm:mt-0">
-          <Input type="text" className="py-5" placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
+          <Input type="text" className="py-5" placeholder="Search blogs..." onChange={(e)=>setSearch(e.target.value)} />
           <Link
             href="/dashboard/blog-post"
             className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 py-[11px] rounded-md cursor-pointer"

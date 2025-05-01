@@ -130,7 +130,7 @@ const Clinics = () => {
         <Input
             type="text"
             className="py-5"
-            placeholder="Search"
+            placeholder="Search clinics..."
             onChange={(e) => setSearch(e.target.value)}
           />
           <Link
