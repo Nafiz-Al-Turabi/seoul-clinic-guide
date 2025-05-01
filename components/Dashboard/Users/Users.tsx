@@ -35,7 +35,7 @@ const Users = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
-  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [month, setMonth] = useState("all");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -49,7 +49,7 @@ const Users = () => {
 
   const router = useRouter();
 
-  const { data, isLoading } = useGetusersQuery({ page, limit, sortBy, month, search: debouncedSearch });
+  const { data, isLoading } = useGetusersQuery({ page, limit, sortBy, month: month === "all" ? undefined : Number(month), search: debouncedSearch });
   const users = data?.data?.users || [];
   const totalPages = data?.data?.totalPages || 0;
   
@@ -130,16 +130,17 @@ const Users = () => {
         </div>
         <div className="flex gap-4 mt-4 sm:mt-0">
           <Input type="text" className="py-5" placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
-          <Select onValueChange={(value) => setMonth(Number(value))}>
+          <Select onValueChange={(value) => setMonth(value)} defaultValue="all">
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <MdOutlineCalendarMonth size={20} />
-                <SelectValue placeholder="Select Month" />
+                <SelectValue placeholder="All Months" />
               </span>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Months</SelectLabel>
+                <SelectItem value="all">All Months</SelectItem>
                 <SelectItem value="1">January</SelectItem>
                 <SelectItem value="2">February</SelectItem>
                 <SelectItem value="3">March</SelectItem>
