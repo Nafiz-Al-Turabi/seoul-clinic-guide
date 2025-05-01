@@ -5,13 +5,14 @@ import { get } from "http";
 export const blogApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getBlogs: builder.query({
-      query: ({ page = 1, limit, sortBy }) => ({
+      query: ({ page = 1, limit, sortBy, search }) => ({
         url: "/admin/blogs",
         method: "GET",
         params: {
           page,
           limit,
           sortBy,
+          search,
         },
       }),
       providesTags: ["Blogs"],

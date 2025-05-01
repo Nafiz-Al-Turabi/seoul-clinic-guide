@@ -7,7 +7,7 @@ export const userApi = baseApi.injectEndpoints({
     //   providesTags: ["Users"],
     // }),
     getusers: builder.query({
-      query: ({ page = 1, limit, sortBy, month }) => ({
+      query: ({ page = 1, limit, sortBy, month, search }) => ({
         url: "/admin/users",
         method: "GET",
         params: {
@@ -15,6 +15,7 @@ export const userApi = baseApi.injectEndpoints({
           limit,
           sortBy,
           month,
+          search,
         },
       }),
       providesTags: ["Users"],

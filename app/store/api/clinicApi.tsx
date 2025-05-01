@@ -28,13 +28,14 @@ export const clinicApi = baseApi.injectEndpoints({
     }),
 
     getClinics: builder.query({
-      query: ({page = 1, limit, sortBy}) => ({
+      query: ({page = 1, limit, sortBy, search}) => ({
         url: "/admin/clinics",
         method: "GET",
         params: {
           page,
           limit,
           sortBy,
+          search,
         },
       }),
       providesTags: ["Clinics"],

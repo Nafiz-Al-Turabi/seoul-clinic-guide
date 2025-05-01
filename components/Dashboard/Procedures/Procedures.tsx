@@ -150,7 +150,7 @@ const Procedures = () => {
           />
           <Link
             href="/dashboard/add-procedure"
-            className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 rounded-md cursor-pointer"
+            className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 py-[11px] rounded-md cursor-pointer"
           >
             <TbNotes />
             Add Procedure <FaPlus size={10} />

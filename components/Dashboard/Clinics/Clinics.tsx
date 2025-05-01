@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { PiHospitalThin } from "react-icons/pi";
 import { TbNotes } from "react-icons/tb";
@@ -29,17 +29,29 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
+import { Input } from "@/components/ui/input";
 
 const Clinics = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const router = useRouter();
   const {
     data: clinics,
     isLoading,
     refetch,
-  } = useGetClinicsQuery({ page, limit, sortBy });
+  } = useGetClinicsQuery({ page, limit, sortBy, search: debouncedSearch });
   const [deleteClinic] = useDeleteClinicMutation();
 
   const columns: TableColumn[] = [
@@ -115,9 +127,15 @@ const Clinics = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Clinics</h5>
         </div>
         <div className="flex items-center gap-2">
+        <Input
+            type="text"
+            className="py-5"
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <Link
             href="/dashboard/add-clinic"
-            className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
+            className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 py-[11px] rounded-md cursor-pointer"
           >
             <TbNotes />
             Add New Clinic <FaPlus size={10} />

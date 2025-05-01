@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SelectValue } from "@radix-ui/react-select";
 import { BsSortDown, BsThreeDotsVertical } from "react-icons/bs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiNotepad } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import { TbNotes } from "react-icons/tb";
@@ -29,17 +29,28 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
+import { Input } from "@/components/ui/input";
 
 const BlogList = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
+  const [search, setSearch] = useState(""); 
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [search]);
+
   const router = useRouter();
   const {
     data: blogs,
     isLoading,
     refetch,
-  } = useGetBlogsQuery({ page, limit, sortBy });
+  } = useGetBlogsQuery({ page, limit, sortBy, search: debouncedSearch });
   const [deleteBlog] = useDeleteBlogMutation();
 
   const columns: TableColumn[] = [
@@ -114,10 +125,11 @@ const BlogList = () => {
           </span>
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
-        <div className="flex gap-4 mt-4 sm:mt-0">
+        <div className="flex items-center gap-4 mt-4 sm:mt-0">
+          <Input type="text" className="py-5" placeholder="Search" onChange={(e)=>setSearch(e.target.value)} />
           <Link
             href="/dashboard/blog-post"
-            className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer"
+            className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 py-[11px] rounded-md cursor-pointer"
           >
             <TbNotes />
             Add New Blog <FaPlus size={10} />
