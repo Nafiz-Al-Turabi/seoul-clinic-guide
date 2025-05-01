@@ -1,6 +1,9 @@
 "use client";
-import React, { useState } from "react";
-import { useDeleteProcedureMutation, useGetProceduresQuery } from "@/app/store/api/adminProcedureApi";
+import React, { useEffect, useState } from "react";
+import {
+  useDeleteProcedureMutation,
+  useGetProceduresQuery,
+} from "@/app/store/api/adminProcedureApi";
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import {
@@ -26,17 +29,33 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
 const Procedures = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const router = useRouter();
 
-  const { data: procedures, isLoading, refetch } = useGetProceduresQuery({
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const {
+    data: procedures,
+    isLoading,
+    refetch,
+  } = useGetProceduresQuery({
     page,
     limit,
     sortBy,
+    search: debouncedSearch,
   });
 
   const [deleteProcedure] = useDeleteProcedureMutation();
@@ -56,11 +75,11 @@ const Procedures = () => {
     created_at: new Date(procedur.created_at).toLocaleString(),
   }));
 
-
-
-  const handleDelete =  async (procedureId: string)=>{
-    const confirmed = window.confirm("Are you sure you want to delete this procedure?");
-    if(!confirmed) return;
+  const handleDelete = async (procedureId: string) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this procedure?"
+    );
+    if (!confirmed) return;
 
     try {
       await deleteProcedure(procedureId).unwrap();
@@ -69,8 +88,8 @@ const Procedures = () => {
     } catch (error) {
       console.error("Delete failed", error);
       toast.error("Failed to delete procedure.");
-  }}
-
+    }
+  };
 
   const handleUpdate = (procedureId: string) => {
     router.push(`/dashboard/procedures/${procedureId}`);
@@ -84,15 +103,29 @@ const Procedures = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-36">
-        <DropdownMenuItem  onClick={() => router.push(`/dashboard/add-procedure/${procedure.id}`)} className="cursor-pointer">Update</DropdownMenuItem>
-        <DropdownMenuItem onClick={()=>handleDelete(procedure.id)} className="cursor-pointer">Delete</DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            router.push(`/dashboard/add-procedure/${procedure.id}`)
+          }
+          className="cursor-pointer"
+        >
+          Update
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => handleDelete(procedure.id)}
+          className="cursor-pointer"
+        >
+          Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     setPage(selectedItem.selected + 1);
-    router.push(`/dashboard/procedures?page=${selectedItem.selected + 1}&sortBy=${sortBy}`);
+    router.push(
+      `/dashboard/procedures?page=${selectedItem.selected + 1}&sortBy=${sortBy}`
+    );
   };
 
   if (isLoading) {
@@ -109,11 +142,23 @@ const Procedures = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Procedures</h5>
         </div>
         <div className="flex items-center gap-2">
-          <Link href="/dashboard/add-procedure" className="text-sm text-main flex gap-2 items-center border p-2 rounded-md cursor-pointer">
+          <Input
+            type="text"
+            className="py-5"
+            placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Link
+            href="/dashboard/add-procedure"
+            className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 rounded-md cursor-pointer"
+          >
             <TbNotes />
-            Add Procedures <FaPlus size={10} />
+            Add Procedure <FaPlus size={10} />
           </Link>
-          <Select onValueChange={(value) => setSortBy(value)} defaultValue={sortBy}>
+          <Select
+            onValueChange={(value) => setSortBy(value)}
+            defaultValue={sortBy}
+          >
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />

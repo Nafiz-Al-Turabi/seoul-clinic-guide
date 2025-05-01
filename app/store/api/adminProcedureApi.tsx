@@ -18,7 +18,7 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         body: formData,
         formData: true,
       }),
-      invalidatesTags: ["Procedures"], 
+      invalidatesTags: ["Procedures"],
     }),
 
     deleteProcedure: builder.mutation({
@@ -26,7 +26,7 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
         url: `/admin/procedures/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Procedures"], 
+      invalidatesTags: ["Procedures"],
     }),
 
     getProcedureById: builder.query({
@@ -40,12 +40,12 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
     }),
 
     getProcedures: builder.query({
-      query: ({ page, limit, sortBy }) => ({
+      query: ({ page, limit, sortBy, search }) => ({
         url: "/admin/procedures",
         method: "GET",
-        params: { page, limit, sortBy },
+        params: { page, limit, sortBy, search },
       }),
-      providesTags: ["Procedures"], // Ensure this is consistent
+      providesTags: ["Procedures"],
     }),
 
     getClinicCategories: builder.query({
