@@ -122,7 +122,7 @@ const BlogList = () => {
             <TbNotes />
             Add New Blog <FaPlus size={10} />
           </Link>
-          <Select onValueChange={(value) => setSortBy(value)}>
+          <Select onValueChange={(value) => setSortBy(value)} defaultValue={sortBy}>
             <SelectTrigger className=" justify-between text-main  py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />

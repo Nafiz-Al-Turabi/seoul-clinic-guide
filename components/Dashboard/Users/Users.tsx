@@ -33,7 +33,7 @@ import LoadingSpinner from "@/components/shared/Loading/Loading";
 const Users = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("desc");
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const router = useRouter();
 
@@ -142,7 +142,7 @@ const Users = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Select onValueChange={(value) => setSortBy(value)}>
+          <Select onValueChange={(value) => setSortBy(value)} defaultValue={sortBy}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />
@@ -154,7 +154,6 @@ const Users = () => {
                 <SelectLabel>Sort</SelectLabel>
                 <SelectItem value="asc">Ascending</SelectItem>
                 <SelectItem value="desc">Descending</SelectItem>
-                <SelectItem value="date">Sort by Date</SelectItem>
                 <SelectItem value="name">Sort by Name</SelectItem>
               </SelectGroup>
             </SelectContent>

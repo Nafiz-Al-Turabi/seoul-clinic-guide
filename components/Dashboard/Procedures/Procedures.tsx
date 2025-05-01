@@ -30,7 +30,7 @@ import Link from "next/link";
 const Procedures = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("desc");
   const router = useRouter();
 
   const { data: procedures, isLoading, refetch } = useGetProceduresQuery({
@@ -113,7 +113,7 @@ const Procedures = () => {
             <TbNotes />
             Add Procedures <FaPlus size={10} />
           </Link>
-          <Select onValueChange={(value) => setSortBy(value)}>
+          <Select onValueChange={(value) => setSortBy(value)} defaultValue={sortBy}>
             <SelectTrigger className="justify-between py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />
