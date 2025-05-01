@@ -11,6 +11,7 @@ const paths = [
   '/public/storage/blog-banner/**',
   '/public/storage/blog-author-picture/**',
   '/public/storage/clinic-banner/**',
+  '/public/storage/clinic-preview-image/**',
 ];
 
 const nextConfig: NextConfig = {

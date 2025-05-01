@@ -43,7 +43,7 @@ const ClinicDetails = ({ slug }) => {
             </div>
             <div className="flex flex-col xl:flex-row gap-6 mb-6 ">
                 <div className="xl:w-[72.5%] rounded-[8px] xl:h-[433px] overflow-hidden">
-                    <CustomImage src={clinicImage.src} />
+                    <CustomImage src={clinicDetails?.preview_image_url || clinicImage.src} alt={name} />
                 </div>
                 <div className="xl:w-[27.5%] bg-white rounded-[8px] p-4 border border-[#EEF3F8]">
                     <div

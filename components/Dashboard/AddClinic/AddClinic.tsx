@@ -24,32 +24,35 @@ import { Editor } from "@tinymce/tinymce-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-
-
 function extractProcedureIdsFromClinic(clinic: any): string[] {
-  return clinic?.procedure_clinic_relation
-    ?.map((item: any) => item.procedure?.id)
-    .filter(Boolean) || [];
+  return (
+    clinic?.procedure_clinic_relation
+      ?.map((item: any) => item.procedure?.id)
+      .filter(Boolean) || []
+  );
 }
 
 function extractCategoryIdsFromClinic(clinic: any): string[] {
-  return clinic?.clinic_category_relation
-    ?.map((item: any) => item.category_id) || [];
+  return (
+    clinic?.clinic_category_relation?.map((item: any) => item.category_id) || []
+  );
 }
 
 function isProcedureSelected(clinic: any, procedureId: string): boolean {
-  return clinic?.procedure_clinic_relation?.some(
-    (item: any) => item.procedure?.id === procedureId
-  ) || false;
+  return (
+    clinic?.procedure_clinic_relation?.some(
+      (item: any) => item.procedure?.id === procedureId
+    ) || false
+  );
 }
-
 
 function isCategorySelected(clinic: any, categoryId: string): boolean {
-  return clinic?.clinic_category_relation?.some(
-    (item: any) => item.category_id === categoryId
-  ) || false;
+  return (
+    clinic?.clinic_category_relation?.some(
+      (item: any) => item.category_id === categoryId
+    ) || false
+  );
 }
-
 
 export default function AddClinicForm({ id }) {
   const router = useRouter();
@@ -66,15 +69,14 @@ export default function AddClinicForm({ id }) {
   } = useForm();
 
   const { data: procedureList } = useGetAllProceduresQuery(null);
-  
-  console.log( "procedureList", procedureList)
+
+  console.log("procedureList", procedureList);
   const { data: categoryList } = useGetCategoriesQuery(null);
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
   const { data: clinic } = useGetClinicByIdQuery(id);
   const singleClinic = clinic?.data;
 
-  console.log("singleClinic", singleClinic)
-
+  console.log("singleClinic", singleClinic);
 
   const [updateClinic, { isLoading: updating }] = useUpdateClinicMutation();
 
@@ -100,6 +102,7 @@ export default function AddClinicForm({ id }) {
 
     setDescription(singleClinic?.description || "");
     setBannerPreview(singleClinic?.banner_url || null);
+    setPreviewImagePreview(singleClinic?.preview_image_url || null);
   }, [singleClinic, reset]);
 
   const [bannerPreview, setBannerPreview] = useState<string | null>(null);
@@ -113,22 +116,35 @@ export default function AddClinicForm({ id }) {
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [bannerWatch]);
-  
+
+  const [previewImagePreview, setPreviewImagePreview] = useState<string | null>(
+    null
+  );
+  const previewImageWatch = watch("preview_image");
+
+  useEffect(() => {
+    if (previewImageWatch && previewImageWatch.length > 0) {
+      const file = previewImageWatch[0];
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImagePreview(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [previewImageWatch]);
 
   const onSubmit = async (data: any) => {
-    if(!data?.name || data?.name?.trim() === ""){
-      toast.warning("Please enter a clinic name") ;
+    if (!data?.name || data?.name?.trim() === "") {
+      toast.warning("Please enter a clinic name");
       return;
     }
-    if(!data?.address || data?.address?.trim() === ""){
+    if (!data?.address || data?.address?.trim() === "") {
       toast.warning("Please enter a clinic address");
       return;
     }
-    if(!data?.clinic_category_id || data?.clinic_category_id?.length === 0){
+    if (!data?.clinic_category_id || data?.clinic_category_id?.length === 0) {
       toast.warning("Please select a clinic category");
       return;
     }
-    
+
     const formData = new FormData();
     formData.append("name", data.name);
     (data.clinic_category_id || []).forEach(
@@ -164,11 +180,15 @@ export default function AddClinicForm({ id }) {
       formData.append("banner", bannerFile);
     }
 
+    const previewImageFile = data.preview_image?.[0];
+    if (previewImageFile) {
+      formData.append("preview_image", previewImageFile);
+    }
+
     try {
       let response;
       if (id) {
         response = await updateClinic({ id, formData }).unwrap();
-        
       } else {
         response = await createClinic(formData).unwrap();
       }
@@ -212,51 +232,98 @@ export default function AddClinicForm({ id }) {
           className="p-4 xl:p-8"
         >
           {/* Banner Image Upload */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 primary-text flex items-center">
-              <Camera size={20} className="mr-2 text-[#68B0D4]" />
-              Banner Image
-            </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 primary-text flex items-center">
+                <Camera size={20} className="mr-2 text-[#68B0D4]" />
+                Banner Image
+              </h2>
 
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#68B0D4] transition-colors">
-              {bannerPreview ? (
-                <div className="relative">
-                  <img
-                    src={bannerPreview}
-                    alt="Banner Preview"
-                    className="mx-auto rounded-md max-h-64"
-                  />
-                  <button
-                    type="button"
-                    className="mt-4 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded-md transition-colors"
-                    onClick={() => setBannerPreview(null)}
-                  >
-                    Remove Image
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
-                    <Camera size={24} className="text-[#68B0D4]" />
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#68B0D4] transition-colors">
+                {bannerPreview ? (
+                  <div className="relative">
+                    <img
+                      src={bannerPreview}
+                      alt="Banner Preview"
+                      className="mx-auto rounded-md max-h-64"
+                    />
+                    <button
+                      type="button"
+                      className="mt-4 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded-md transition-colors"
+                      onClick={() => setBannerPreview(null)}
+                    >
+                      Remove Image
+                    </button>
                   </div>
-                  <p className="text-gray-600 mb-2">
-                    Drag and drop an image here or click to browse
-                  </p>
-                  <p className="text-gray-400 text-sm">
-                    Recommended size: 1200 x 600px
-                  </p>
-                </div>
-              )}
-              <input
-                type="file"
-                id="banner"
-                accept="image/*"
-                {...register("banner")}
-                className={`block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                ) : (
+                  <div>
+                    <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                      <Camera size={24} className="text-[#68B0D4]" />
+                    </div>
+                    <p className="text-gray-600 mb-2">Click to browse</p>
+                    <p className="text-gray-400 text-sm">
+                      Recommended size: 1200 x 600px
+                    </p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  id="banner"
+                  accept="image/*"
+                  {...register("banner")}
+                  className={`block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
                 file:rounded-full file:border-0 file:text-sm file:font-medium
                 file:bg-blue-50 file:text-[#68B0D4] hover:file:bg-blue-100 cursor-pointer
                 ${bannerPreview ? "hidden" : "mt-4"}`}
-              />
+                />
+              </div>
+            </div>
+
+            {/* Preview Image Upload */}
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold mb-4 primary-text flex items-center">
+                <Camera size={20} className="mr-2 text-[#68B0D4]" />
+                Card Image
+              </h2>
+
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#68B0D4] transition-colors">
+                {previewImagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={previewImagePreview}
+                      alt="Preview Image"
+                      className="mx-auto rounded-md max-h-64"
+                    />
+                    <button
+                      type="button"
+                      className="mt-4 bg-red-500 hover:bg-red-600 text-white text-sm py-2 px-4 rounded-md transition-colors"
+                      onClick={() => setPreviewImagePreview(null)}
+                    >
+                      Remove Image
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                      <Camera size={24} className="text-[#68B0D4]" />
+                    </div>
+                    <p className="text-gray-600 mb-2">Click to browse</p>
+                    <p className="text-gray-400 text-sm">
+                      Recommended size: 600 x 400px
+                    </p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  id="preview_image"
+                  accept="image/*"
+                  {...register("preview_image")}
+                  className={`block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0 file:text-sm file:font-medium
+                file:bg-blue-50 file:text-[#68B0D4] hover:file:bg-blue-100 cursor-pointer
+                ${previewImagePreview ? "hidden" : "mt-4"}`}
+                />
+              </div>
             </div>
           </div>
 
