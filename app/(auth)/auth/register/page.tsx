@@ -117,7 +117,12 @@ const Register = () => {
               </button>
             </form>
 
-            <button className="text-sm lg:text-lg flex items-center justify-center gap-2 w-full p-2 lg:p-3 text-center border border-[#151623] rounded-full mt-7 cursor-pointer active:bg-[#EEF3F8] active:border-[#EEF3F8] duration-300">
+            <button
+              onClick={() => {
+                window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
+              }}
+              className="text-sm lg:text-lg flex items-center justify-center gap-2 w-full p-2 lg:p-3 text-center border border-[#151623] rounded-full mt-7 cursor-pointer active:bg-[#EEF3F8] active:border-[#EEF3F8] duration-300"
+            >
               <FcGoogle className="text-sm lg:text-2xl" />
               Register With Google
             </button>
