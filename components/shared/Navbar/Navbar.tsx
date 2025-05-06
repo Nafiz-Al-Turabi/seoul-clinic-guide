@@ -243,7 +243,7 @@ export default function Navbar() {
           <div className="flex flex-col gap-2">
             {user ? (
               <Link
-                href="/clinics"
+                href="/contact?seaul-clinic-guide-enquiry"
                 className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 mt-6"
               >
                 Start Enquiry
