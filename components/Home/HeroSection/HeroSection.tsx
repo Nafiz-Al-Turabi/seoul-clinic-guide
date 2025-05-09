@@ -18,7 +18,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="bg-[#F9FDFD] px-4 2xl:px-0 relative">
+    <div className="bg-[#68b0d4]/20 px-4 2xl:px-0 relative">
       <div className="max-w-[86rem] mx-auto flex flex-col-reverse sm:flex-row items-center gap-5">
         <div className="capitalize primary-text">
           <h1>FIND THE BEST SPECIALIZED </h1>
@@ -30,7 +30,7 @@ const HeroSection = () => {
               placeholder="Search your desired clinic..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full lg:w-md px-6 py-2.5 rounded-full border border-[#E9E9E9] focus:outline-none focus:border-[#68B0D4]"
+              className="w-full lg:w-md px-6 py-2.5 rounded-full bg-[#ffffff] border border-[#E9E9E9] focus:outline-none focus:border-[#68B0D4]"
             />
             <button
               onClick={handleSearch}

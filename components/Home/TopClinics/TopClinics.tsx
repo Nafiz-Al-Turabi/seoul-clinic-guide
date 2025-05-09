@@ -112,7 +112,7 @@ const TopClinics = () => {
     return <LoadingSpinner />;
   }
   return (
-    <div className="py-[100px] bg-[#F9FDFD]">
+    <div className="py-[100px] bg-[#68b0d4]/20">
       <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
         <div className="flex items-center justify-between">
           <h3 className="primary-text font-bold mb-8">Top Clinics</h3>
