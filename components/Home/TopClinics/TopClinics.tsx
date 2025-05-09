@@ -117,7 +117,7 @@ const TopClinics = () => {
         <div className="flex items-center justify-between">
           <h3 className="primary-text font-bold mb-8">Top Clinics</h3>
         </div>
-        <div className="relative">
+        <div className="relative py-1">
           <Slider {...settings}>
             {topClinics?.map((clinic) => (
               <ClinicCard key={clinic.id} clinic={clinic} />
