@@ -30,6 +30,7 @@ console.log(blogDetails)
         </div>
       </header>
       <section className="max-w-[828px] mx-auto px-4 2xl:px-0 py-[32px]">
+        <Image src={blogDetails?.banner_url || ''} alt={blogDetails?.title} width={828} height={300} />
         <h5 className="text-lg sm:text-[1.5rem] lg:text-[2rem] font-semibold primary-text tracking-[-1.28] ">
           {blogDetails?.title}
         </h5>
