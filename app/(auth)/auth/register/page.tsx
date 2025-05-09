@@ -38,7 +38,7 @@ const Register = () => {
 
   return (
     <div>
-      <div className="max-w-[86rem] mx-auto 2xl:py-16">
+      <div className="container mx-auto 2xl:py-16">
         <div className="flex gap-5 lg:gap-5 xl:gap-10 2xl:gap-28 items-center py-10 md:py-0">
           <div className="hidden lg:block 2xl:w-[45%]">
             <Image

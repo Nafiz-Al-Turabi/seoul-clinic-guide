@@ -8,8 +8,8 @@ const Categories = () => {
   return (
     <div>
       <CategoriesHero />
-      <TopClinics />
       <ClinicCategories />
+      <TopClinics />
       <NewsLetter/>
     </div>
   );

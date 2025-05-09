@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="">
       <div className="bg-[#68B0D4] p-7 text-white">
-        <div className="max-w-[86rem] mx-auto px-4 flex flex-col  items-center justify-between gap-6">
+        <div className="container mx-auto px-4 flex flex-col  items-center justify-between gap-6">
           {/* Social icons */}
           <div className="flex space-x-6 text-xl">
             <a href="#" className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition">

@@ -56,7 +56,7 @@ const BlogCategories = () => {
   };
 
   return (
-    <div className="max-w-[86rem] mx-auto px-4 2xl:px-0 py-24">
+    <div className="container mx-auto px-4 2xl:px-0 py-24">
       {/* Category Tabs */}
       <div className="flex overflow-x-auto mb-8">
         <div className="flex gap-4 w-max">

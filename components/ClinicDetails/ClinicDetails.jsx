@@ -15,7 +15,7 @@ const ClinicDetails = ({ slug }) => {
     const clinicDetails = data?.data || {};
     const { name, address, subway_station, phone, clinic_category_relation, procedure_clinic_relation, description, location, map_link, operating_hours, website } = clinicDetails || {};
     return (
-        <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
+        <div className="container mx-auto px-4 2xl:px-0">
             <div className="py-6">
                 <h3 className="font-bold primary-text">{name}</h3>
                 <p className="flex items-center gap-2 primary-text mb-2">

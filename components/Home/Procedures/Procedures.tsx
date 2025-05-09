@@ -37,7 +37,7 @@ const Procedures = () => {
   }
 
   return (
-    <div className="max-w-[86rem] mx-auto">
+    <div className="container mx-auto">
       <h3 className="px-4 2xl:px-0 primary-text font-bold mb-8">Procedures</h3>
 
       {/* Tabs */}
@@ -60,7 +60,7 @@ const Procedures = () => {
       </div>
 
       {/* Procedures Grid */}
-      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
+      <div className="container mx-auto px-4 2xl:px-0">
         {loadingProcedures ? (
           <p>Loading...</p>
         ) : proceduresData?.length > 0 ? (

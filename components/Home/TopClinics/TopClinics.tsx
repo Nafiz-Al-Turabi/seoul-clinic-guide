@@ -113,11 +113,11 @@ const TopClinics = () => {
   }
   return (
     <div className="py-[100px] bg-[#68b0d4]/20">
-      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0">
+      <div className="container mx-auto px-4 2xl:px-0">
         <div className="flex items-center justify-between">
           <h3 className="primary-text font-bold mb-8">Top Clinics</h3>
         </div>
-        <div className="relative py-1">
+        <div className="relative pb-1">
           <Slider {...settings}>
             {topClinics?.map((clinic) => (
               <ClinicCard key={clinic.id} clinic={clinic} />

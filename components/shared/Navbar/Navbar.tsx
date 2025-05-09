@@ -63,7 +63,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white z-50 relative py-2">
-      <div className="max-w-[86rem] mx-auto px-4 2xl:px-0 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-4 2xl:px-0 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <CustomImage src={logo} alt="Logo" />
         </Link>

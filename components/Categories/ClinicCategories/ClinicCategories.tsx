@@ -58,7 +58,7 @@ const ClinicCategories = () => {
   }
 
   return (
-    <div className="max-w-[86rem] mx-auto px-4 py-20 flex gap-10 relative">
+    <div className="container mx-auto px-4 py-20 flex gap-10 relative">
       <button
         onClick={() => setMenuOpen((prev) => !prev)}
         className="lg:hidden absolute top-6 items-center gap-2 px-4 py-2 bg-[#68B0D4] text-white rounded-full shadow-md"

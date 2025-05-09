@@ -84,7 +84,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="max-w-[86rem] mx-auto min-h-screen mt-10 p-4 xl:p-0 ">
+    <div className="container mx-auto min-h-screen mt-10 p-4 xl:p-0 ">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-white shadow p-4 rounded-2xl"

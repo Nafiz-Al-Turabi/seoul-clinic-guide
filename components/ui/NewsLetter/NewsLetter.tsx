@@ -54,7 +54,7 @@ const NewsLetter = () => {
       <div className="absolute inset-0 bg-black opacity-60 lg:bg-black/60 z-0"></div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[86rem] mx-auto px-4 2xl:px-0 py-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-8">
+      <div className="relative z-10 container mx-auto px-4 2xl:px-0 py-24 flex flex-col-reverse lg:flex-row items-center justify-between gap-8">
         {/* Left Content */}
         <div className="w-full lg:w-1/2 text-center lg:text-left">
           <h1 className="text-white mb-4">
