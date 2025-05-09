@@ -1,0 +1,80 @@
+"use client";
+
+import { useAddAndUpdateSocialsMutation, useGetAdminSocialsQuery } from "@/app/store/api/socialApi";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+export default function AddSocials() {
+  const [values, setValues] = useState({
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    linkedin: "",
+  });
+  const [addAndUpdateSocials, { isLoading }] = useAddAndUpdateSocialsMutation();
+  const { data: socials } = useGetAdminSocialsQuery(null);
+
+  useEffect(() => {
+    if (socials) {
+      setValues({
+        facebook: socials?.data.facebook,
+        twitter: socials?.data.twitter,
+        instagram: socials?.data.instagram,
+        linkedin: socials?.data.linkedin,
+      });
+    }
+  }, [socials]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data: any) => {
+    const res = await addAndUpdateSocials(data);
+    if (res.data) {
+      toast.success("Social Links Updated Successfully");
+    }
+  };
+
+  return (
+    <div className="w-full p-6 bg-white rounded-lg shadow">
+      <h5 className="text-base sm:text-[1.5rem] font-bold">Add Social Links</h5>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4 grid grid-cols-2 gap-4"
+      >
+        {["facebook", "twitter", "instagram", "linkedin"].map((platform) => (
+          <div key={platform}>
+            <label className="block text-sm font-medium capitalize text-gray-700 mb-1">
+              {platform} URL
+            </label>
+            <input
+              type="url"
+              {...register(platform)}
+              defaultValue={values[platform]}
+              placeholder={`https://${platform}.com/your-profile`}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+            />
+            {errors[platform] && (
+              <p className="text-sm text-red-500 mt-1">
+                {String(errors[platform]?.message)}
+              </p>
+            )}
+          </div>
+        ))}
+
+        <div className="col-span-2 flex justify-end">
+          <button
+            type="submit"
+            className="w-fit px-6 py-2 primary-bg text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200 cursor-pointer"
+          >
+            {isLoading ? "Saving..." : "Save Socials"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

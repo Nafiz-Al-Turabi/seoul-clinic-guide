@@ -9,15 +9,27 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers) => {
-        const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-        if (token) {
-          headers.set("Authorization", `Bearer ${token}`);
-        }
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
       return headers;
     },
   }),
   endpoints: () => ({}),
-  tagTypes: ["Users","Blogs","Procedures", "BlogCategories", "Clinics", "Doctors", "Patients","Subscriptions,","SearchEngagement"],
+  tagTypes: [
+    "Users",
+    "Blogs",
+    "Procedures",
+    "BlogCategories",
+    "Clinics",
+    "Doctors",
+    "Patients",
+    "Subscriptions,",
+    "SearchEngagement",
+    "socials",
+  ],
 });
 
 export const { useQuery, useMutation } = baseApi as any;

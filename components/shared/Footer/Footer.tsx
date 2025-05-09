@@ -1,23 +1,44 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { useGetSocialsQuery } from "@/app/store/api/socialApi";
+import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
+  const { data: socials } = useGetSocialsQuery(null);
+  console.log(socials);
   return (
     <footer className="">
       <div className="bg-[#68B0D4] p-7 text-white">
         <div className="container mx-auto px-4 flex flex-col  items-center justify-between gap-6">
           {/* Social icons */}
           <div className="flex space-x-6 text-xl">
-            <a href="#" className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition">
+            <a
+              href={socials?.data?.facebook}
+              target="_blank"
+              className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition cursor-pointer"
+            >
               <FaFacebookF />
             </a>
-            <a href="#" className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition">
+            <a
+              href={socials?.data?.instagram}
+              target="_blank"
+              className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition"
+            >
               <FaInstagram />
             </a>
-            <a href="#" className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition">
-              <FaTwitter />
+            <a
+              href={socials?.data?.twitter}
+              target="_blank"
+              className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition"
+            >
+              <FaXTwitter />
             </a>
-            <a href="#" className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition">
+            <a
+              href={socials?.data?.youtube}
+              target="_blank"
+              className="bg-white rounded-full secondary-text p-2 hover:text-gray-200 transition"
+            >
               <FaYoutube />
             </a>
           </div>
