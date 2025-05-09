@@ -7,26 +7,45 @@ import {
 } from "@/app/store/api/clinicApi";
 import { MdKeyboardArrowRight, MdMenu, MdClose } from "react-icons/md";
 import ClinicCard from "@/components/ui/Cards/ClinicCard";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
 import ErrorComponent from "@/components/shared/ErrorComponent/ErrorComponent";
 
 const ClinicCategories = () => {
   const router = useRouter();
-  const { data: clinicCategories } = useGetClinicCategoryQuery(null);
+  const searchParams = useSearchParams();
 
+  const { data: clinicCategories } = useGetClinicCategoryQuery(null);
   const categoryList = clinicCategories?.data || [];
+
   const [activeCategory, setActiveCategory] = useState("All Clinics");
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const { data: clinicsByCategory, isLoading, error } = useGetClinicsByCategoryQuery(
-    activeCategoryId,
-    {
-      refetchOnMountOrArgChange: true,
+  // Set active category from URL on mount or when category list changes
+  useEffect(() => {
+    const categoryIdFromUrl = searchParams.get("category");
+
+    if (categoryIdFromUrl && categoryList.length > 0) {
+      const matchedCategory = categoryList.find((cat: any) => cat.id === categoryIdFromUrl);
+      if (matchedCategory) {
+        setActiveCategory(matchedCategory.name);
+        setActiveCategoryId(matchedCategory.id);
+      }
+    } else {
+      setActiveCategory("All Clinics");
+      setActiveCategoryId(null);
     }
-  );
+  }, [categoryList, searchParams]);
+
+  const {
+    data: clinicsByCategory,
+    isLoading,
+    error,
+  } = useGetClinicsByCategoryQuery(activeCategoryId, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -46,31 +65,33 @@ const ClinicCategories = () => {
     setActiveCategory(name);
     setActiveCategoryId(id);
     setMenuOpen(false);
+
     const queryParam = id ? `?category=${id}` : "";
     router.push(`${queryParam}`, { scroll: false });
   };
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-  if (isLoading) {
-    return <ErrorComponent />;
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorComponent />;
 
   return (
     <div className="container mx-auto px-4 py-20 flex gap-10 relative">
+      {/* Mobile Menu Toggle */}
       <button
         onClick={() => setMenuOpen((prev) => !prev)}
         className="lg:hidden absolute top-6 items-center gap-2 px-4 py-2 bg-[#68B0D4] text-white rounded-full shadow-md"
       >
         <MdMenu size={20} />
       </button>
+
+      {/* Overlay */}
       {menuOpen && (
         <div
           className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setMenuOpen(false)}
         />
       )}
+
+      {/* Sidebar Menu */}
       <div
         ref={menuRef}
         className={`fixed lg:static top-0 left-0 h-full lg:h-auto lg:w-auto bg-white lg:bg-transparent shadow-lg lg:shadow-none transition-transform duration-300 ease-in-out p-6 lg:p-0 lg:rounded-none z-50 ${
@@ -84,9 +105,7 @@ const ClinicCategories = () => {
           </button>
         </div>
 
-        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">
-          Categories
-        </h4>
+        <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">Categories</h4>
         <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-2">
           <button
             onClick={() => handleCategoryClick("All Clinics", null)}
@@ -114,6 +133,7 @@ const ClinicCategories = () => {
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="flex-1">
         <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
           Clinics <MdKeyboardArrowRight /> {activeCategory}
@@ -128,9 +148,7 @@ const ClinicCategories = () => {
                 <ClinicCard key={clinic.id} clinic={clinic} />
               ))
             ) : (
-              <p className="text-gray-500">
-                No clinics found for this category.
-              </p>
+              <p className="text-gray-500">No clinics found for this category.</p>
             )}
           </div>
         )}
