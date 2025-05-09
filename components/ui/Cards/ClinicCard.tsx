@@ -8,7 +8,7 @@ const ClinicCard = ({ clinic }) => {
   return (
     <Link
       href={`/clinics/${clinic?.slug}`}
-      className="px-2 flex flex-col justify-between bg-white group h-[520px] p-4 shadow rounded-xl"
+      className=" flex flex-col justify-between bg-white group h-[520px] p-4 shadow rounded-xl"
     >
       <div>
         <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
@@ -16,7 +16,7 @@ const ClinicCard = ({ clinic }) => {
             src={clinic?.preview_image_url || placeholder}
             alt={clinic?.name || "Clinic Image"}
             fill
-            className="object-cover object-center rounded-xl transition-transform duration-300 group-hover:scale-105"
+            className="object-cover object-center rounded-xl transition-transform duration-300 group-hover:scale-115"
           />
         </div>
         <div className="mb-2">

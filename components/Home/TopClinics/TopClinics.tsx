@@ -120,7 +120,9 @@ const TopClinics = () => {
         <div className="relative pb-1">
           <Slider {...settings}>
             {topClinics?.map((clinic) => (
-              <ClinicCard key={clinic.id} clinic={clinic} />
+              <div key={clinic.id} className="px-2">
+                <ClinicCard clinic={clinic} />
+              </div>
             ))}
           </Slider>
         </div>
