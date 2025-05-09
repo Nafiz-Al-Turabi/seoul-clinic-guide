@@ -41,13 +41,16 @@ const ProceduresCategories = () => {
   }, [categories, searchParams]);
 
   const { data: procedures, isLoading: loadingProcedures } =
-    useGetClientProceduresQuery({
-      clinic_category_id: activeTab?.id,
-      page: page + 1,
-      limit,
-    }, {
-      skip: !activeTab?.id,
-    });
+    useGetClientProceduresQuery(
+      {
+        clinic_category_id: activeTab?.id,
+        page: page + 1,
+        limit,
+      },
+      {
+        skip: !activeTab?.id,
+      }
+    );
 
   const proceduresData = procedures?.data?.procedures || [];
   const totalPages = procedures?.data?.totalPages || 1;
@@ -136,7 +139,7 @@ const ProceduresCategories = () => {
         </p>
 
         {loadingProcedures ? (
-          <LoadingSpinner/>
+          <LoadingSpinner />
         ) : proceduresData?.length > 0 ? (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -156,7 +159,7 @@ const ProceduresCategories = () => {
                 previousLabel="‹"
                 renderOnZeroPageCount={null}
                 containerClassName="custom-pagination"
-                 pageClassName="page-item hidden sm:inline"
+                pageClassName="page-item hidden sm:inline"
                 pageLinkClassName="page-link"
                 previousClassName="page-item"
                 previousLinkClassName="page-link"

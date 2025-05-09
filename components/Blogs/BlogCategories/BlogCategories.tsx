@@ -110,7 +110,7 @@ const BlogCategories = () => {
               previousLabel="‹"
               renderOnZeroPageCount={null}
               containerClassName="custom-pagination"
-              pageClassName="page-item"
+              pageClassName="page-item hidden sm:block"
               pageLinkClassName="page-link"
               previousClassName="page-item"
               previousLinkClassName="page-link"
