@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const commonHost = {
   protocol: 'http' as const,
-  hostname: 'localhost',
+  hostname: '192.168.5.8',
   port: '4000',
 };
 
