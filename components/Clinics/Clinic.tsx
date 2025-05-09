@@ -13,6 +13,7 @@ const Clinic = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pageFromURL = parseInt(searchParams.get("page") || "1", 10);
+  const [searchTerm, setSearchTerm] = useState("");
   const search = searchParams.get("search") || "";
   const procedure = searchParams.get("procedure") || "";
   const [page, setPage] = useState(pageFromURL - 1);
@@ -24,12 +25,12 @@ const Clinic = () => {
     procedure,
   });
 
-  console.log(data)
-
+  const handleSearch = () => {
+    router.push(`/clinics?page=1&search=${searchTerm}`);
+  };
 
 
   const clinicsData = data?.data?.clinics || [];
-  console.log(clinicsData, "clinicsData")
   const totalPages = data?.data?.totalPages || 1;
 
   const handlePageClick = (event: { selected: number }) => {
@@ -44,11 +45,31 @@ const Clinic = () => {
     router.push(`?${queryParams.toString()}`);
   };
 
+
+
   if (isLoading) return <LoadingSpinner/>;
   if (isError) return <ErrorComponent/>;
 
   return (
     <div className="mb-20">
+      <div className="py-10 flex flex-col md:flex-row justify-between">
+        <h1 className="font-bold primary-text uppercase">Clinics</h1>
+        <div className="w-full sm:w-sm lg:w-md relative mt-4 md:mt-0">
+            <input
+              type="text"
+              placeholder="Search your desired clinic..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full lg:w-md px-6 py-2.5 rounded-full bg-[#ffffff] border border-[#E9E9E9] focus:outline-none focus:border-[#68B0D4]"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-1.5 lg:top-[31%] top-[50%] -translate-y-1/2 primary-bg rounded-full px-6 py-1.5 text-white hover:text-white duration-300 cursor-pointer"
+            >
+              Search
+            </button>
+          </div>
+      </div>
       {
         clinicsData.length > 0 ? (
           <div className="w-full  mx-auto">

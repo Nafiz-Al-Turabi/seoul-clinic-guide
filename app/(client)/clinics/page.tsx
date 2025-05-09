@@ -7,9 +7,7 @@ import React from "react";
 const Clinics = () => {
   return (
     <div className="container mx-auto px-4 2xl:px-0">
-      <div className="py-10">
-        <h1 className="font-bold primary-text uppercase">Clinics</h1>
-      </div>
+      
       <Clinic />
       <RecentBlogs />
       <TestimonialSlider />
