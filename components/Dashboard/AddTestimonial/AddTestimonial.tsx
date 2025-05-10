@@ -1,6 +1,8 @@
 "use client";
 
+import { useCreateTestimonialMutation } from "@/app/store/api/othersApi";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 type TestimonialFormData = {
   title: string;
@@ -11,6 +13,7 @@ type TestimonialFormData = {
 };
 
 export default function AddTestimonial() {
+  const [createTestimonial, { isLoading }] = useCreateTestimonialMutation();
   const {
     register,
     handleSubmit,
@@ -24,14 +27,18 @@ export default function AddTestimonial() {
     formData.append("name", data.name);
     formData.append("message", data.message);
     formData.append("location", data.location);
-  
-    const res = await fetch("/api/testimonials", {
-      method: "POST",
-      body: formData, // No Content-Type needed, browser sets it
-    });
-  
-    const result = await res.json();
-    console.log(result);
+    
+    try {
+      const res = await createTestimonial(formData).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
 

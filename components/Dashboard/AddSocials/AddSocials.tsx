@@ -55,7 +55,7 @@ export default function AddSocials() {
       <h5 className="text-base sm:text-[1.5rem] font-bold">Add Social Links</h5>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 grid grid-cols-2 gap-4"
+        className="space-y-[18px]"
       >
         {(["facebook", "twitter", "instagram", "youtube"] as const).map(
           (platform) => (

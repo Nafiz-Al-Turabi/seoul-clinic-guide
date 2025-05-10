@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCreateContactMailMutation } from "@/app/store/api/othersApi";
+import { toast } from "sonner";
 
 type Country = {
   name: { common: string };
@@ -38,6 +40,7 @@ type FormData = {
 };
 
 export default function Contact() {
+  const [createContactMail, { isLoading }] = useCreateContactMailMutation();
   const {
     register,
     handleSubmit,
@@ -79,13 +82,23 @@ export default function Contact() {
       });
   }, []);
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     const finalData = {
       ...data,
       livesInKorea: livesInKorea === "yes",
     };
     console.log("Form Submitted:", finalData);
-    
+    try {
+      const res = await createContactMail(finalData).unwrap();
+      if (res.success) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (error) {
+      console.error("Error creating contact mail:", error);
+      toast.error("Failed to create contact mail");
+    }
   };
 
   return (
@@ -241,12 +254,12 @@ export default function Contact() {
                   name="visaStatus"
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value} >
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="w-full py-6 uppercase">
                         <SelectValue placeholder="--Visa Status--" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectGroup >
+                        <SelectGroup>
                           {[
                             "a",
                             "b",
@@ -258,7 +271,11 @@ export default function Contact() {
                             "other",
                             "citizen",
                           ].map((status) => (
-                            <SelectItem key={status} value={status} className="uppercase">
+                            <SelectItem
+                              key={status}
+                              value={status}
+                              className="uppercase"
+                            >
                               {status}
                             </SelectItem>
                           ))}
@@ -325,7 +342,7 @@ export default function Contact() {
             type="submit"
             className="primary-bg text-white px-6 py-3 rounded-md hover:bg-opacity-90 duration-300 cursor-pointer"
           >
-            Submit
+            {isLoading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
