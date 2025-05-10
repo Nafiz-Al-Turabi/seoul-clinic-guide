@@ -6,9 +6,10 @@ import React from "react";
 
 const Clinics = () => {
   return (
-    <div className="container mx-auto px-4 2xl:px-0">
-      
-      <Clinic />
+    <div>
+      <div className="container mx-auto px-4 2xl:px-0">
+        <Clinic />
+      </div>
       <RecentBlogs />
       <TestimonialSlider />
     </div>

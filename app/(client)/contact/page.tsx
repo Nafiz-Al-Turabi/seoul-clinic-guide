@@ -72,9 +72,9 @@ export default function Contact() {
           }
         });
 
-        const uniqueCodes = Array.from(codeMap.entries()).map(
-          ([code, label]) => ({ code, label })
-        );
+        const uniqueCodes = Array.from(codeMap.entries())
+          .map(([code, label]) => ({ code, label }))
+          .sort((a, b) => a.label.localeCompare(b.label));
         setCountryCodes(uniqueCodes);
       });
   }, []);
@@ -241,12 +241,12 @@ export default function Contact() {
                   name="visaStatus"
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-full py-6">
+                    <Select onValueChange={field.onChange} value={field.value} >
+                      <SelectTrigger className="w-full py-6 uppercase">
                         <SelectValue placeholder="--Visa Status--" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectGroup>
+                        <SelectGroup >
                           {[
                             "a",
                             "b",
@@ -258,7 +258,7 @@ export default function Contact() {
                             "other",
                             "citizen",
                           ].map((status) => (
-                            <SelectItem key={status} value={status}>
+                            <SelectItem key={status} value={status} className="uppercase">
                               {status}
                             </SelectItem>
                           ))}

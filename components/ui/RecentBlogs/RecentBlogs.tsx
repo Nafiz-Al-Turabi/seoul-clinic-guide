@@ -23,7 +23,7 @@ const RecentBlogs = () => {
   }
 
   return (
-    <section className="w-full px-4  py-16 bg-white">
+    <section className="w-full px-4  py-16 bg-[#68b0d4]/20">
       <div className="container mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h3 className="primary-text font-bold">Recent Blogs</h3>
