@@ -2,6 +2,13 @@ import { baseApi } from "./baseApi";
 
 export const OthersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getclientsTestimonials: builder.query({
+      query: () => ({
+        url: "/reviews",
+        method: "GET",
+      }),
+      providesTags: ["Testimonials"],
+    }),
     createContactMail: builder.mutation({
       query: (formData) => ({
         url: "/contact-mail",
@@ -37,4 +44,10 @@ export const OthersApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateContactMailMutation, useCreateTestimonialMutation, useGetTestimonialsQuery, useDeleteTestimonialMutation } = OthersApi;
+export const {
+  useCreateContactMailMutation,
+  useCreateTestimonialMutation,
+  useGetTestimonialsQuery,
+  useDeleteTestimonialMutation,
+  useGetclientsTestimonialsQuery,
+} = OthersApi;

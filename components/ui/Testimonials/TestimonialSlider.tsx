@@ -6,23 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import testimonial1 from "@/public/assets/images/testimonials.jpg";
+import { useGetclientsTestimonialsQuery } from "@/app/store/api/othersApi";
 
-const testimonials = [
-  {
-    name: "Jonathan S.",
-    location: "Texas",
-    message:
-      "As someone who recently moved to a new city and was referred by family in the past, Opencare made it easy for me to find a highly-rated dentist.",
-    image: testimonial1,
-  },
-  {
-    name: "Emily R.",
-    location: "California",
-    message:
-      "I was nervous about finding a new doctor. This platform made it simple and stress-free.",
-    image: testimonial1,
-  },
-];
+
 
 const randomBlobClasses = [
   "rounded-[40%_60%_60%_40%/40%_40%_60%_60%]",
@@ -57,6 +43,9 @@ const NextArrow = ({ onClick }: any) => (
 );
 
 const TestimonialSlider = () => {
+  const { data, isLoading } = useGetclientsTestimonialsQuery(null);
+  const testimonialsData = data?.data;
+  console.log(testimonialsData);
   const settings = {
     // dots: true,
     arrows: true,
@@ -79,7 +68,7 @@ const TestimonialSlider = () => {
   return (
     <div className="relative container mx-auto  px-4 2xl:px-0 py-12">
       <Slider {...settings}>
-        {testimonials.map((testimonial, index) => {
+        {testimonialsData?.map((testimonial, index) => {
           const blobClass = randomBlobClasses[index % randomBlobClasses.length];
           return (
             <div key={index}>
@@ -87,16 +76,16 @@ const TestimonialSlider = () => {
                 {/* Text Section */}
                 <div className="text-center md:text-left space-y-6 max-w-2xl">
                   <h2 className="primary-text mb-4 font-bold xl:w-[16ch]">
-                    All this feedback is making us blush.
+                    {testimonial?.title}
                   </h2>
                   <p className="text-main text-lg mb- xl:w-[50ch] leading-[180%]">
-                    "{testimonial.message}"
+                    "{testimonial?.message}"
                   </p>
                   <div>
                     <p className="text-lg font-bold text-main">
-                      {testimonial.name}
+                      {testimonial?.name}
                     </p>
-                    <p className="text-main">{testimonial.location}</p>
+                    <p className="text-main">{testimonial?.location}</p>
                   </div>
                 </div>
 
@@ -104,8 +93,8 @@ const TestimonialSlider = () => {
                 <div className="w-[300px] h-[300px] xl:w-[450px] xl:h-[450px] overflow-hidden">
                   <div className={`w-full h-full ${blobClass} overflow-hidden`}>
                     <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
+                      src={testimonial?.image_url}
+                      alt={testimonial?.name}
                       width={450}
                       height={450}
                       className="w-full h-full object-cover"
