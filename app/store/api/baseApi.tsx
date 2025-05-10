@@ -29,6 +29,7 @@ export const baseApi = createApi({
     "Subscriptions,",
     "SearchEngagement",
     "socials",
+    "Testimonials",
   ],
 });
 

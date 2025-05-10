@@ -16,11 +16,25 @@ export const OthersApi = baseApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Testimonials"],
     }),
 
+    getTestimonials: builder.query({
+      query: () => ({
+        url: "/admin/reviews",
+        method: "GET",
+      }),
+      providesTags: ["Testimonials"],
+    }),
 
-    
+    deleteTestimonial: builder.mutation({
+      query: (id) => ({
+        url: `/admin/reviews/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Testimonials"],
+    }),
   }),
 });
 
-export const { useCreateContactMailMutation, useCreateTestimonialMutation } = OthersApi;
+export const { useCreateContactMailMutation, useCreateTestimonialMutation, useGetTestimonialsQuery, useDeleteTestimonialMutation } = OthersApi;

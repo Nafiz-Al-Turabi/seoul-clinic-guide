@@ -18,6 +18,7 @@ export default function AddTestimonial() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<TestimonialFormData>();
 
   const onSubmit = async (data: TestimonialFormData) => {
@@ -32,6 +33,7 @@ export default function AddTestimonial() {
       const res = await createTestimonial(formData).unwrap();
       if (res.success) {
         toast.success(res.message);
+        reset();
       } else {
         toast.error(res.message);
       }

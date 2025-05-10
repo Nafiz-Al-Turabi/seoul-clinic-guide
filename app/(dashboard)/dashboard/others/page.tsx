@@ -1,5 +1,6 @@
 import AddSocials from "@/components/Dashboard/AddSocials/AddSocials";
 import AddTestimonial from "@/components/Dashboard/AddTestimonial/AddTestimonial";
+import Testimonial from "@/components/Dashboard/Testimonial/Testimonial";
 import React from "react";
 
 export default function Others() {
@@ -10,6 +11,9 @@ export default function Others() {
       </div>
       <div className="xl:col-span-8">
         <AddTestimonial />
+      </div>
+      <div className="xl:col-span-12">
+        <Testimonial />
       </div>
     </div>
   );
