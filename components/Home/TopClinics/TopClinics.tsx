@@ -2,17 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import Image from "next/image";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import clinicImage from "@/public/assets/topClinicImages/top-clinic-1.png";
-import clinicImage2 from "@/public/assets/topClinicImages/top-clinic-2.png";
-import clinicImage3 from "@/public/assets/topClinicImages/top-clinic-3.png";
-import clinicImage4 from "@/public/assets/topClinicImages/top-clinic-4.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ClinicCard from "@/components/ui/Cards/ClinicCard";
 import { useGetTopClinicsQuery } from "@/app/store/api/clinicApi";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
+import TopClinicCard from "@/components/ui/Cards/TopClinicCard";
 
 const PrevArrow = ({ onClick, isDisabled }: any) => (
   <button
@@ -121,7 +116,7 @@ const TopClinics = () => {
           <Slider {...settings}>
             {topClinics?.map((clinic) => (
               <div key={clinic.id} className="px-2">
-                <ClinicCard clinic={clinic} />
+                <TopClinicCard clinic={clinic} />
               </div>
             ))}
           </Slider>

@@ -9,7 +9,7 @@ const ClinicCard = ({ clinic }) => {
   return (
     <Link
       href={`/clinics/${clinic?.slug}`}
-      className=" flex flex-col justify-between bg-white group h-[520px] p-4 shadow rounded-xl"
+      className=" flex flex-col justify-between bg-white group  p-4 shadow rounded-xl"
     >
       <div>
         <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
