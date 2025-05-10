@@ -1,41 +1,52 @@
 "use client";
 
-import { useAddAndUpdateSocialsMutation, useGetAdminSocialsQuery } from "@/app/store/api/socialApi";
+import {
+  useAddAndUpdateSocialsMutation,
+  useGetAdminSocialsQuery,
+} from "@/app/store/api/socialApi";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function AddSocials() {
-  const [values, setValues] = useState({
-    facebook: "",
-    twitter: "",
-    instagram: "",
-    linkedin: "",
-  });
   const [addAndUpdateSocials, { isLoading }] = useAddAndUpdateSocialsMutation();
   const { data: socials } = useGetAdminSocialsQuery(null);
-
-  useEffect(() => {
-    if (socials) {
-      setValues({
-        facebook: socials?.data.facebook,
-        twitter: socials?.data.twitter,
-        instagram: socials?.data.instagram,
-        linkedin: socials?.data.linkedin,
-      });
-    }
-  }, [socials]);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      facebook: "",
+      twitter: "",
+      instagram: "",
+      youtube: "",
+    },
+  });
+
+  useEffect(() => {
+    if (socials?.data) {
+      reset({
+        facebook: socials.data.facebook || "",
+        twitter: socials.data.twitter || "",
+        instagram: socials.data.instagram || "",
+        youtube: socials.data.youtube || "",
+      });
+    }
+  }, [socials, reset]);
 
   const onSubmit = async (data: any) => {
-    const res = await addAndUpdateSocials(data);
-    if (res.data) {
-      toast.success("Social Links Updated Successfully");
+    try {
+      const res = await addAndUpdateSocials(data);
+      if (res.data) {
+        toast.success("Social Links Updated Successfully");
+      } else if (res.error) {
+        toast.info("Fill all the required fields");
+      }
+    } catch (error: any) {
+      console.log(error?.data?.message.message || "Something went wrong");
     }
   };
 
@@ -46,25 +57,26 @@ export default function AddSocials() {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-4 grid grid-cols-2 gap-4"
       >
-        {["facebook", "twitter", "instagram", "linkedin"].map((platform) => (
-          <div key={platform}>
-            <label className="block text-sm font-medium capitalize text-gray-700 mb-1">
-              {platform} URL
-            </label>
-            <input
-              type="url"
-              {...register(platform)}
-              defaultValue={values[platform]}
-              placeholder={`https://${platform}.com/your-profile`}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
-            />
-            {errors[platform] && (
-              <p className="text-sm text-red-500 mt-1">
-                {String(errors[platform]?.message)}
-              </p>
-            )}
-          </div>
-        ))}
+        {(["facebook", "twitter", "instagram", "youtube"] as const).map(
+          (platform) => (
+            <div key={platform}>
+              <label className="block text-sm font-medium capitalize text-gray-700 mb-1">
+                {platform} URL
+              </label>
+              <input
+                type="url"
+                {...register(platform)}
+                placeholder={`https://${platform}.com/your-profile`}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+              />
+              {errors[platform] && (
+                <p className="text-sm text-red-500 mt-1">
+                  {String(errors[platform]?.message)}
+                </p>
+              )}
+            </div>
+          )
+        )}
 
         <div className="col-span-2 flex justify-end">
           <button
