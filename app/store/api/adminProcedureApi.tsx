@@ -2,6 +2,15 @@ import { baseApi } from "./baseApi";
 
 export const AdminProcedureApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getProcedures: builder.query({
+      query: ({ page, limit, sortBy, search }) => ({
+        url: "/admin/procedures",
+        method: "GET",
+        params: { page, limit, sortBy, search },
+      }),
+      providesTags: ["Procedures"],
+    }),
+
     createProcedure: builder.mutation({
       query: (data) => ({
         url: "/admin/procedures",
@@ -37,15 +46,6 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
-    }),
-
-    getProcedures: builder.query({
-      query: ({ page, limit, sortBy, search }) => ({
-        url: "/admin/procedures",
-        method: "GET",
-        params: { page, limit, sortBy, search },
-      }),
-      providesTags: ["Procedures"],
     }),
 
     getClinicCategories: builder.query({
