@@ -28,10 +28,13 @@ type FormData = {
   countryCode: string;
   dob: string;
   nationality: string;
-  visaStatus: string;
+  visaStatus?: string;
   desiredVisitDate?: string;
+  estimatedArrivalDate?: string;
+  estimatedDepartureDate?: string;
   previousProcedures?: string;
   additionalDetails?: string;
+  livesInKorea: boolean;
 };
 
 export default function Contact() {
@@ -46,6 +49,7 @@ export default function Contact() {
   const [countryCodes, setCountryCodes] = useState<
     { code: string; label: string }[]
   >([]);
+  const [livesInKorea, setLivesInKorea] = useState<"yes" | "no">("yes");
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
@@ -56,7 +60,6 @@ export default function Contact() {
           .sort((a, b) => a.name.common.localeCompare(b.name.common));
         setCountries(sorted);
 
-        // Extract unique country codes
         const codeMap = new Map<string, string>();
         data.forEach((c) => {
           if (c.idd?.root && c.idd.suffixes) {
@@ -70,17 +73,19 @@ export default function Contact() {
         });
 
         const uniqueCodes = Array.from(codeMap.entries()).map(
-          ([code, label]) => ({
-            code,
-            label,
-          })
+          ([code, label]) => ({ code, label })
         );
         setCountryCodes(uniqueCodes);
       });
   }, []);
 
   const onSubmit = (data: FormData) => {
-    console.log("Form Submitted:", data);
+    const finalData = {
+      ...data,
+      livesInKorea: livesInKorea === "yes",
+    };
+    console.log("Form Submitted:", finalData);
+    
   };
 
   return (
@@ -194,59 +199,111 @@ export default function Contact() {
             )}
           />
         </div>
+        <div className="col-span-12">
+          <div className="mb-4">
+            <h5 className="text-[#484949] text-base font-semibold mb-2">
+              Do you live in South Korea?*
+            </h5>
+            <div className="flex">
+              <button
+                type="button"
+                onClick={() => setLivesInKorea("yes")}
+                className={`px-6 py-2 rounded-l-md cursor-pointer ${
+                  livesInKorea === "yes"
+                    ? "bg-[#68b0d4] text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                onClick={() => setLivesInKorea("no")}
+                className={`px-6 py-2 rounded-r-md cursor-pointer ${
+                  livesInKorea === "no"
+                    ? "bg-[#68b0d4] text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                No
+              </button>
+            </div>
+          </div>
 
-        <div className="col-span-12 md:col-span-6">
-          <label className="block text-[#484949] text-base font-semibold">
-            Visa Status*
-          </label>
-          <Controller
-            control={control}
-            name="visaStatus"
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Select onValueChange={field.onChange} value={field.value}>
-                <SelectTrigger className="w-full py-6">
-                  <SelectValue placeholder="--Visa Status--" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {[
-                      "a",
-                      "b",
-                      "c",
-                      "d",
-                      "e",
-                      "f",
-                      "military",
-                      "other",
-                      "citizen",
-                    ].map((status) => (
-                      <SelectItem
-                        key={status}
-                        className="uppercase"
-                        value={status}
-                      >
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}
-          />
+          {livesInKorea === "yes" ? (
+            <div className="flex gap-4">
+              <div className="w-full">
+                <label className="block text-[#484949] text-base font-semibold">
+                  Visa Status*
+                </label>
+                <Controller
+                  control={control}
+                  name="visaStatus"
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full py-6">
+                        <SelectValue placeholder="--Visa Status--" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {[
+                            "a",
+                            "b",
+                            "c",
+                            "d",
+                            "e",
+                            "f",
+                            "military",
+                            "other",
+                            "citizen",
+                          ].map((status) => (
+                            <SelectItem key={status} value={status}>
+                              {status}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+              </div>
+              <div className="w-full">
+                <label className="block text-[#484949] text-base font-semibold">
+                  Desired visit date
+                </label>
+                <input
+                  {...register("desiredVisitDate")}
+                  type="date"
+                  className="w-full py-3 px-4 border rounded-md focus:outline-none focus:border-[#68b0d4]"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <div className="w-full">
+                <label className="block text-[#484949] text-base font-semibold">
+                  Estimated arrival date in South Korea*
+                </label>
+                <input
+                  type="date"
+                  {...register("estimatedArrivalDate")}
+                  className="w-full py-3 px-4 border rounded-md focus:outline-none focus:border-[#68b0d4]"
+                />
+              </div>
+              <div className="w-full">
+                <label className="block text-[#484949] text-base font-semibold">
+                  Estimated departure date in South Korea*
+                </label>
+                <input
+                  type="date"
+                  {...register("estimatedDepartureDate")}
+                  className="w-full py-3 px-4 border rounded-md focus:outline-none focus:border-[#68b0d4]"
+                />
+              </div>
+            </div>
+          )}
         </div>
-
-        <div className="col-span-12 md:col-span-6">
-          <label className="block text-[#484949] text-base font-semibold">
-            Desired visit date
-          </label>
-          <input
-            {...register("desiredVisitDate")}
-            type="date"
-            className="w-full py-3 px-4 border rounded-md focus:outline-none focus:border-[#68b0d4]"
-          />
-        </div>
-
         <div className="col-span-12">
           <textarea
             {...register("previousProcedures")}
