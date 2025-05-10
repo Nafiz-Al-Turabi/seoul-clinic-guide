@@ -10,11 +10,12 @@ import ClinicCard from "@/components/ui/Cards/ClinicCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
 import ErrorComponent from "@/components/shared/ErrorComponent/ErrorComponent";
+import { IoSearchSharp } from "react-icons/io5";
 
 const ClinicCategories = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [searchTerm, setSearchTerm] = useState("");
   const { data: clinicCategories } = useGetClinicCategoryQuery(null);
   const categoryList = clinicCategories?.data || [];
 
@@ -46,6 +47,10 @@ const ClinicCategories = () => {
   } = useGetClinicsByCategoryQuery(activeCategoryId, {
     refetchOnMountOrArgChange: true,
   });
+
+  const filteredCategories = categoryList.filter((cat: any) =>
+    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -104,7 +109,19 @@ const ClinicCategories = () => {
             <MdClose size={24} />
           </button>
         </div>
-
+        <div className="relative">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search"
+            className="w-full p-2 rounded-full border border-[#305162] mb-4 focus:border-[#68b0d4]"
+          />
+          <IoSearchSharp
+            size={20}
+            className="text-[#9aa2a7] absolute right-4 top-[35%] -translate-y-1/2"
+          />
+        </div>
         <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">Categories</h4>
         <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-2">
           <button
@@ -117,7 +134,7 @@ const ClinicCategories = () => {
           >
             All Clinics
           </button>
-          {categoryList.map((cat: any) => (
+          {filteredCategories.map((cat: any) => (
             <button
               key={cat.id}
               onClick={() => handleCategoryClick(cat.name, cat.id)}

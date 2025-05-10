@@ -9,6 +9,8 @@ import ProcedureCard from "../ui/Cards/ProcedureCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactPaginate from "react-paginate";
 import LoadingSpinner from "../shared/Loading/Loading";
+import { CiSearch } from "react-icons/ci";
+import { IoSearchSharp } from "react-icons/io5";
 
 interface Category {
   id: string;
@@ -25,6 +27,7 @@ const ProceduresCategories = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(pageFromURL - 1);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data: clinic_category, isLoading: loadingCategories } =
     useGetClinicCategoryQuery(null);
@@ -54,6 +57,9 @@ const ProceduresCategories = () => {
 
   const proceduresData = procedures?.data?.procedures || [];
   const totalPages = procedures?.data?.totalPages || 1;
+  const filteredCategories = categories.filter((cat) =>
+    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -106,13 +112,25 @@ const ProceduresCategories = () => {
             <MdClose size={24} />
           </button>
         </div>
-
+        <div className="relative">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search"
+            className="w-full p-2 rounded-full border border-[#305162] mb-4 focus:border-[#68b0d4]"
+          />
+          <IoSearchSharp
+            size={20}
+            className="text-[#9aa2a7] absolute right-4 top-[35%] -translate-y-1/2"
+          />
+        </div>
         <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">
           Procedures
         </h4>
 
         <div className="lg:w-56 xl:w-72 max-h-[calc(90vh-120px)] overflow-y-auto custom-scroll flex flex-col gap-2">
-          {categories?.map((item) => (
+          {filteredCategories?.map((item) => (
             <button
               key={item.id}
               onClick={() => {
