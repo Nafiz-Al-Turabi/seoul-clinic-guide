@@ -7,9 +7,6 @@ import {
   useGetProcedureByCategoryQuery,
 } from "@/app/store/api/clinicApi";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface Category {
@@ -17,24 +14,9 @@ interface Category {
   name: string;
 }
 
-const ArrowButton = ({
-  onClick,
-  direction,
-}: {
-  onClick?: () => void;
-  direction: "left" | "right";
-}) => (
-  <button
-    onClick={onClick}
-    className="w-10 h-10 rounded-full bg-[#68B0D4] shadow-md flex items-center justify-center text-white"
-  >
-    {direction === "left" ? <FaArrowLeft size={16} /> : <FaArrowRight size={16} />}
-  </button>
-);
-
 const Procedures = () => {
   const [activeTab, setActiveTab] = useState<Category | null>(null);
-  const sliderRef = useRef<Slider>(null);
+  const categoriesRef = useRef<HTMLDivElement | null>(null);
 
   const { data: clinic_category, isLoading: loadingCategories } =
     useGetClinicCategoryQuery(null);
@@ -45,6 +27,22 @@ const Procedures = () => {
       setActiveTab({ id: categories[0].id, name: categories[0].name });
     }
   }, [categories]);
+
+  useEffect(() => {
+    if (window.innerWidth < 1280 && categoriesRef.current) {
+      categoriesRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  const scrollCategories = (direction: "left" | "right") => {
+    if (categoriesRef.current) {
+      const scrollAmount = 150;
+      categoriesRef.current.scrollBy({
+        left: direction === "right" ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const { data: procedures, isLoading: loadingProcedures } =
     useGetProcedureByCategoryQuery(activeTab?.id, {
@@ -57,56 +55,33 @@ const Procedures = () => {
     return <LoadingSpinner />;
   }
 
-  const sliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    arrows: false,
-    centerMode: true,
-    centerPadding: "20px",
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          centerMode: false,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 2,
-          centerMode: false,
-        },
-      },
-    ],
-  };
-
   return (
     <div className="container mx-auto">
-      {/* Heading with Arrows on Mobile */}
-      <div className="flex justify-between items-center px-4 2xl:px-0 mb-6">
-        <h3 className="primary-text font-bold">Procedures</h3>
+      <div className="flex items-center justify-between px-4 2xl:px-0 mb-4">
+        <h3 className="primary-text font-bold text-xl sm:text-2xl">Procedures</h3>
 
-        {/* Arrows - only on mobile */}
         <div className="flex gap-2 xl:hidden">
-          <ArrowButton
-            direction="left"
-            onClick={() => sliderRef.current?.slickPrev()}
-          />
-          <ArrowButton
-            direction="right"
-            onClick={() => sliderRef.current?.slickNext()}
-          />
+          <button
+            onClick={() => scrollCategories("left")}
+            className="bg-[#68B0D4] text-white shadow p-3 rounded-full"
+          >
+            <FaArrowLeft size={16} />
+          </button>
+          <button
+            onClick={() => scrollCategories("right")}
+            className="bg-[#68B0D4] text-white shadow p-3 rounded-full"
+          >
+            <FaArrowRight size={16} />
+          </button>
         </div>
       </div>
-
-      {/* Desktop Tabs */}
-      <div className="hidden xl:block overflow-x-auto mb-6 pl-4 xl:pl-0">
-        <div className="flex flex-wrap gap-4">
-          {categories.map((cat) => (
+    
+      <div
+        ref={categoriesRef}
+        className="overflow-x-auto scrollbar-hide mb-6 px-4 xl:hidden"
+      >
+        <div className="flex gap-4 pr-10">
+          {categories?.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveTab(cat)}
@@ -122,30 +97,30 @@ const Procedures = () => {
         </div>
       </div>
 
-      {/* Mobile Slider Tabs */}
-      <div className="xl:hidden mb-6 pl-4">
-        <Slider ref={sliderRef} {...sliderSettings}>
-          {categories.map((cat) => (
-            <div key={cat.id} className="px-2 box-border">
-              <button
-                onClick={() => setActiveTab(cat)}
-                className={`text-sm whitespace-nowrap rounded-full px-6 py-2.5 transition-all duration-200 cursor-pointer border ${
-                  activeTab?.id === cat.id
-                    ? "bg-[#68B0D4] text-white shadow-md border-transparent"
-                    : "border-[#EEF3F8] text-main"
-                }`}
-              >
-                {cat.name}
-              </button>
-            </div>
+      {/* Desktop (xl+): non-scroll, wrapped layout */}
+      <div className="hidden xl:block px-0 mb-6">
+        <div className="flex flex-wrap gap-4">
+          {categories?.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveTab(cat)}
+              className={`text-sm lg:text-base whitespace-nowrap rounded-full px-6 py-2.5 transition-all duration-200 cursor-pointer border ${
+                activeTab?.id === cat.id
+                  ? "bg-[#68B0D4] text-white shadow-md border-transparent"
+                  : "border-[#EEF3F8] text-main"
+              }`}
+            >
+              {cat.name}
+            </button>
           ))}
-        </Slider>
+        </div>
       </div>
 
+      {/* Procedures Grid */}
       <div className="container mx-auto px-4 2xl:px-0">
         {loadingProcedures ? (
           <p>Loading...</p>
-        ) : proceduresData.length > 0 ? (
+        ) : proceduresData?.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
             {proceduresData.map((procedure: any) => (
               <ProcedureCard key={procedure.id} procedure={procedure} />

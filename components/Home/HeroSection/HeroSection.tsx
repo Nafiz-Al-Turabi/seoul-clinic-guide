@@ -24,7 +24,7 @@ const HeroSection = () => {
           <h1>FIND THE BEST SPECIALIZED </h1>
           <h1 className="secondary-text">CLINICS IN KOREA</h1>
           <h1>FOR EXPERT CARE</h1>
-          <div className="w-full sm:w-sm lg:w-md relative mt-4">
+          <div className="w-full sm:w-sm lg:w-md relative my-4">
             <input
               type="text"
               placeholder="Search your desired clinic..."

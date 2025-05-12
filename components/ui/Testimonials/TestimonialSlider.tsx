@@ -65,7 +65,7 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <div className="relative container mx-auto  px-4 2xl:px-0 py-12">
+    <div className="relative container mx-auto  px-4 2xl:px-0 py-12 xl:py-24">
       <Slider {...settings}>
         {testimonialsData?.map((testimonial, index) => {
           const blobClass = randomBlobClasses[index % randomBlobClasses.length];
