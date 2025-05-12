@@ -6,7 +6,6 @@ import { useGetSocialsQuery } from "@/app/store/api/socialApi";
 import { FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   const { data: socials } = useGetSocialsQuery(null);
-  console.log(socials);
   return (
     <footer className="">
       <div className="bg-[#68B0D4] p-7 text-white">

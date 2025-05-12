@@ -3,6 +3,7 @@ import { baseApi } from "./baseApi";
 import { create } from "domain";
 
 export const clinicApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getProcedures: builder.query({
       query: () => ({

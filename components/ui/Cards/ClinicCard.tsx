@@ -4,7 +4,6 @@ import placeholder from "@/public/clinic.png";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const ClinicCard = ({ clinic }) => {
-  console.log("clinic from card",clinic);
   const router = useRouter();
   return (
     <Link

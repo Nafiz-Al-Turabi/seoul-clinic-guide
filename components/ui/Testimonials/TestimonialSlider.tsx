@@ -45,7 +45,6 @@ const NextArrow = ({ onClick }: any) => (
 const TestimonialSlider = () => {
   const { data, isLoading } = useGetclientsTestimonialsQuery(null);
   const testimonialsData = data?.data;
-  console.log(testimonialsData);
   const settings = {
     // dots: true,
     arrows: true,

@@ -8,8 +8,6 @@ import { toast } from "sonner";
 const Testimonial = () => {
   const { data, isLoading } = useGetTestimonialsQuery(null);
   const [deleteTestimonial] = useDeleteTestimonialMutation();
-
-  console.log(data?.data);
   const testimonialsData = data?.data;
 
   const handleDelete = async (id: string) => {

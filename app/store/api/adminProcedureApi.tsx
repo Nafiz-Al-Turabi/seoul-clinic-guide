@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 export const AdminProcedureApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getProcedures: builder.query({
       query: ({ page, limit, sortBy, search }) => ({
@@ -40,7 +41,6 @@ export const AdminProcedureApi = baseApi.injectEndpoints({
 
     getProcedureById: builder.query({
       query: (id) => {
-        console.log("32", id);
         return {
           url: `/admin/procedures/${id}`,
           method: "GET",

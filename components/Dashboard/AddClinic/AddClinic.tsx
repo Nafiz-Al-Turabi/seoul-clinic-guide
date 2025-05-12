@@ -70,14 +70,10 @@ export default function AddClinicForm({ id }) {
 
   const { data: procedureList } = useGetAllProceduresQuery(null);
 
-  console.log("procedureList", procedureList);
   const { data: categoryList } = useGetCategoriesQuery(null);
   const [createClinic, { isLoading, error }] = useCreateClinicMutation();
   const { data: clinic } = useGetClinicByIdQuery(id);
   const singleClinic = clinic?.data;
-
-  console.log("singleClinic", singleClinic);
-
   const [updateClinic, { isLoading: updating }] = useUpdateClinicMutation();
 
   const { fields, append, remove } = useFieldArray({

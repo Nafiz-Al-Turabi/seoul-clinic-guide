@@ -21,10 +21,10 @@ export default function HomePage() {
       <div className="my-28">
         <Procedures />
       </div>
-      <div className="my-28">
+      <div className="mt-28">
         <NewsLetter />
       </div>
-      <div className="my-28">
+      <div className="">
         <RecentBlogs />
       </div>
 

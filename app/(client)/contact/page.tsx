@@ -87,7 +87,6 @@ export default function Contact() {
       ...data,
       livesInKorea: livesInKorea === "yes",
     };
-    console.log("Form Submitted:", finalData);
     try {
       const res = await createContactMail(finalData).unwrap();
       if (res.success) {
