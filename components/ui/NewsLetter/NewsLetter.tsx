@@ -79,7 +79,7 @@ const NewsLetter = () => {
                 disabled={isSubmitting}
                 className="absolute right-1.5 top-1/2 -translate-y-1/2 primary-bg rounded-full px-6 py-1.5 text-white hover:text-white duration-300 cursor-pointer"
               >
-                Subscribe Now
+                Subscribe
               </button>
             </form>
           </div>

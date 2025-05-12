@@ -8,7 +8,7 @@ const ClinicCard = ({ clinic }) => {
   return (
     <Link
       href={`/clinics/${clinic?.slug}`}
-      className=" flex flex-col justify-between bg-white group border border-[#68b0d4] p-4 shadow-md shadow-[#68b0d4]/50  rounded-xl"
+      className=" flex flex-col justify-between bg-white group border border-[#68b0d4] p-4 shadow-lg shadow-[#68b0d4]/50  rounded-xl"
     >
       <div>
         <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
