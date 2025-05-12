@@ -46,7 +46,8 @@ const TestimonialSlider = () => {
   const { data, isLoading } = useGetclientsTestimonialsQuery(null);
   const testimonialsData = data?.data;
   const settings = {
-    // dots: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
     arrows: true,
     infinite: true,
     speed: 500,
@@ -66,7 +67,9 @@ const TestimonialSlider = () => {
 
   return (
     <div className="relative container mx-auto  px-4 2xl:px-0 py-12 xl:py-24">
-      <Slider {...settings}>
+      {
+        testimonialsData?.length > 0 ? 
+        <Slider {...settings}>
         {testimonialsData?.map((testimonial, index) => {
           const blobClass = randomBlobClasses[index % randomBlobClasses.length];
           return (
@@ -104,7 +107,8 @@ const TestimonialSlider = () => {
             </div>
           );
         })}
-      </Slider>
+      </Slider>: ""
+      }
     </div>
   );
 };
