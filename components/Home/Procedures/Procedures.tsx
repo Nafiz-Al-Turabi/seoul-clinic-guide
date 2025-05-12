@@ -1,25 +1,40 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ProcedureCard from "@/components/ui/Cards/ProcedureCard";
 import {
   useGetClinicCategoryQuery,
   useGetProcedureByCategoryQuery,
 } from "@/app/store/api/clinicApi";
 import LoadingSpinner from "@/components/shared/Loading/Loading";
-
 import Slider from "react-slick";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface Category {
   id: string;
   name: string;
 }
 
+const ArrowButton = ({
+  onClick,
+  direction,
+}: {
+  onClick?: () => void;
+  direction: "left" | "right";
+}) => (
+  <button
+    onClick={onClick}
+    className="w-10 h-10 rounded-full bg-[#68B0D4] shadow-md flex items-center justify-center text-white"
+  >
+    {direction === "left" ? <FaArrowLeft size={16} /> : <FaArrowRight size={16} />}
+  </button>
+);
+
 const Procedures = () => {
   const [activeTab, setActiveTab] = useState<Category | null>(null);
+  const sliderRef = useRef<Slider>(null);
 
   const { data: clinic_category, isLoading: loadingCategories } =
     useGetClinicCategoryQuery(null);
@@ -46,40 +61,49 @@ const Procedures = () => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 2.5,
+    slidesToShow: 2,
     slidesToScroll: 1,
-    arrows: true,
-    nextArrow: (
-      <div className="absolute right-14 -top-[75px] bg-[#68B0D4] text-white shadow-lg cursor-pointer transition duration-200 flex items-center justify-center p-3 rounded-full">
-        <FiChevronRight className="text-2xl text-[#68B0D4]" />
-      </div>
-    ),
-    prevArrow: (
-      <div className="absolute right-0 -top-[75px] transition duration-200 flex items-center justify-center p-3  rounded-full">
-        <FiChevronLeft className="text-2xl text-[#68B0D4]" />
-      </div>
-    ),
+    arrows: false,
+    centerMode: true,
+    centerPadding: "20px",
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3.5,
+          slidesToShow: 4,
+          centerMode: false,
         },
       },
       {
         breakpoint: 640,
         settings: {
-          slidesToShow: 2.5,
+          slidesToShow: 2,
+          centerMode: false,
         },
       },
     ],
   };
 
   return (
-    <div className="container mx-auto relative">
-      <h3 className="px-4 2xl:px-0 primary-text font-bold mb-8">Procedures</h3>
+    <div className="container mx-auto">
+      {/* Heading with Arrows on Mobile */}
+      <div className="flex justify-between items-center px-4 2xl:px-0 mb-6">
+        <h3 className="primary-text font-bold">Procedures</h3>
 
-      {/* Tabs for Desktop */}
+        {/* Arrows - only on mobile */}
+        <div className="flex gap-2 xl:hidden">
+          <ArrowButton
+            direction="left"
+            onClick={() => sliderRef.current?.slickPrev()}
+          />
+          <ArrowButton
+            direction="right"
+            onClick={() => sliderRef.current?.slickNext()}
+          />
+        </div>
+      </div>
+
+      {/* Desktop Tabs */}
       <div className="hidden xl:block overflow-x-auto mb-6 pl-4 xl:pl-0">
         <div className="flex flex-wrap gap-4">
           {categories.map((cat) => (
@@ -98,11 +122,11 @@ const Procedures = () => {
         </div>
       </div>
 
-      {/* Tabs for Mobile */}
-      <div className="xl:hidden mb-6 pl-4 relative">
-        <Slider {...sliderSettings}>
+      {/* Mobile Slider Tabs */}
+      <div className="xl:hidden mb-6 pl-4">
+        <Slider ref={sliderRef} {...sliderSettings}>
           {categories.map((cat) => (
-            <div key={cat.id} className="pr-2">
+            <div key={cat.id} className="px-2 box-border">
               <button
                 onClick={() => setActiveTab(cat)}
                 className={`text-sm whitespace-nowrap rounded-full px-6 py-2.5 transition-all duration-200 cursor-pointer border ${
@@ -118,7 +142,6 @@ const Procedures = () => {
         </Slider>
       </div>
 
-      {/* Procedures Grid */}
       <div className="container mx-auto px-4 2xl:px-0">
         {loadingProcedures ? (
           <p>Loading...</p>
