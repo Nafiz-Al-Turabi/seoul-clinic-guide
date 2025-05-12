@@ -114,8 +114,8 @@ const ClinicCategories = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search"
-            className="w-full py-2 px-4 rounded-full border border-[#afafaf] mb-4 focus:outline-none focus:border-[#68b0d4]"
+            placeholder="Search categories..."
+            className="w-full py-2 px-4 rounded-full border border-[#afafaf] mb-4 focus:outline-none focus:border-[#68b0d4] placeholder:italic"
           />
           <IoSearchSharp
             size={20}

@@ -60,7 +60,7 @@ const Clinic = () => {
               placeholder="Search your desired clinic..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full lg:w-md px-6 py-2.5 rounded-full bg-[#ffffff] border border-[#E9E9E9] focus:outline-none focus:border-[#68B0D4]"
+              className="w-full lg:w-md px-6 py-2.5 rounded-full bg-[#ffffff] border border-[#E9E9E9] focus:outline-none focus:border-[#68B0D4] placeholder:italic"
             />
             <button
               onClick={handleSearch}
