@@ -151,7 +151,7 @@ const ClinicCategories = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div id="categories" className="flex-1 scroll-mt-10">
         <p className="flex items-center gap-2 text-xl text-[#305162] font-semibold mb-4">
           Clinics <MdKeyboardArrowRight /> {activeCategory}
         </p>
