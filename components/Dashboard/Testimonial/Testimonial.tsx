@@ -22,7 +22,7 @@ const Testimonial = () => {
   };
 
   const columns: TableColumn[] = [
-    { key: "title", label: "Title", type: "text" },
+    { key: "title", label: "Testimonial Title", type: "text" },
     { key: "image_url", label: "Image", type: "image" },
     { key: "name", label: "Name", type: "text" },
     { key: "location", label: "Location", type: "text" },
