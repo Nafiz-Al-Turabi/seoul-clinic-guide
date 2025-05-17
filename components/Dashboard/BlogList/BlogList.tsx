@@ -35,12 +35,13 @@ const BlogList = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [sortBy, setSortBy] = useState("desc");
-  const [search, setSearch] = useState(""); 
+  const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
+      setPage(1);
     }, 1000);
     return () => clearTimeout(timer);
   }, [search]);
@@ -126,7 +127,15 @@ const BlogList = () => {
           <h5 className="text-base sm:text-[1.5rem] font-bold">Blogs</h5>
         </div>
         <div className="flex items-center gap-4 mt-4 sm:mt-0">
-          <Input type="text" className="py-5" placeholder="Search blogs..." onChange={(e)=>setSearch(e.target.value)} />
+          <Input
+            type="text"
+            className="py-5"
+            placeholder="Search blogs..."
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
           <Link
             href="/dashboard/blog-post"
             className="text-sm primary-bg text-white w-80 flex gap-2 items-center border p-2.5 py-[11px] rounded-md cursor-pointer"
@@ -134,7 +143,13 @@ const BlogList = () => {
             <TbNotes />
             Add New Blog <FaPlus size={10} />
           </Link>
-          <Select onValueChange={(value) => setSortBy(value)} defaultValue={sortBy}>
+          <Select
+            onValueChange={(value) => {
+              setSortBy(value);
+              setPage(1);
+            }}
+            defaultValue={sortBy}
+          >
             <SelectTrigger className=" justify-between text-main  py-5">
               <span className="flex items-center gap-2">
                 <BsSortDown size={20} />

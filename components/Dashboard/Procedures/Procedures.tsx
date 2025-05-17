@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {
   useDeleteProcedureMutation,
-  useGetProceduresQuery,
+  useGetAdminProceduresQuery,
 } from "@/app/store/api/adminProcedureApi";
 import CustomTable, { TableColumn } from "@/components/reusable/CustomTable";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -42,6 +42,7 @@ const Procedures = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
+      setPage(1);
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -51,7 +52,7 @@ const Procedures = () => {
     data: procedures,
     isLoading,
     refetch,
-  } = useGetProceduresQuery({
+  } = useGetAdminProceduresQuery({
     page,
     limit,
     sortBy,

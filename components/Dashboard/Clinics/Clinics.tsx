@@ -41,6 +41,7 @@ const Clinics = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
+      setPage(1);
     }, 500);
 
     return () => clearTimeout(timer);

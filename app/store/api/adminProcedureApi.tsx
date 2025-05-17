@@ -3,7 +3,7 @@ import { baseApi } from "./baseApi";
 export const AdminProcedureApi = baseApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
-    getProcedures: builder.query({
+    getAdminProcedures: builder.query({
       query: ({ page, limit, sortBy, search }) => ({
         url: "/admin/procedures",
         method: "GET",
@@ -62,6 +62,6 @@ export const {
   useUpdateProcedureMutation,
   useDeleteProcedureMutation,
   useGetProcedureByIdQuery,
-  useGetProceduresQuery,
+  useGetAdminProceduresQuery,
   useGetClinicCategoriesQuery,
 } = AdminProcedureApi;
