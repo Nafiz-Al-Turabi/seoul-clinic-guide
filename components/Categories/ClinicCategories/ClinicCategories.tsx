@@ -75,6 +75,19 @@ const ClinicCategories = () => {
     router.push(`${queryParam}`, { scroll: false });
   };
 
+  const handleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const searchTermLower = searchTerm.toLowerCase();
+      const matchedCategory = categoryList.find((cat: any) => 
+        cat.name.toLowerCase().includes(searchTermLower)
+      );
+      
+      if (matchedCategory) {
+        handleCategoryClick(matchedCategory.name, matchedCategory.id);
+      }
+    }
+  };
+
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorComponent />;
 
@@ -114,6 +127,7 @@ const ClinicCategories = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleSearchSubmit}
             placeholder="Search categories..."
             className="w-full py-2 px-4 rounded-full border border-[#afafaf] mb-4 focus:outline-none focus:border-[#68b0d4] placeholder:italic"
           />

@@ -80,6 +80,24 @@ const ProceduresCategories = () => {
     router.push(`?id=${activeTab?.id}&page=${selected + 1}`);
   };
 
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      const matchedCategory = categories.find(cat => 
+        cat.name.toLowerCase() === searchTerm.toLowerCase()
+      ) || categories.find(cat => 
+        cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      if (matchedCategory) {
+        setActiveTab(matchedCategory);
+        setPage(0);
+        router.push(`/procedures?id=${matchedCategory.id}&page=1`);
+        setIsOpen(false);
+      }
+    }
+  };
+
   if (loadingCategories) {
     return <LoadingSpinner />;
   }
@@ -113,17 +131,18 @@ const ProceduresCategories = () => {
           </button>
         </div>
         <div className="relative">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search procedures..."
-            className="w-full py-2 px-4 placeholder:italic rounded-full border border-[#afafaf] mb-4 focus:outline-none focus:border-[#68b0d4]"
-          />
-          <IoSearchSharp
-            size={20}
-            className="text-[#9aa2a7] absolute right-4 top-[35%] -translate-y-1/2"
-          />
+          <form onSubmit={handleSearch}>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search procedures..."
+              className="w-full py-2 px-4 placeholder:italic rounded-full border border-[#afafaf] mb-4 focus:outline-none focus:border-[#68b0d4]"
+            />
+            <button type="submit" className="absolute right-4 top-[35%] -translate-y-1/2">
+              <IoSearchSharp size={20} className="text-[#9aa2a7]" />
+            </button>
+          </form>
         </div>
         <h4 className="hidden lg:block font-medium text-[#B4B4B4] mb-4">
           Procedures
