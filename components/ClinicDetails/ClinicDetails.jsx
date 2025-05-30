@@ -1,45 +1,75 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BsGlobeCentralSouthAsia } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { CiGlobe } from "react-icons/ci";
 import { FaPhone } from "react-icons/fa";
 import CustomImage from "@/components/reusable/CustomImage";
-import clinicImage from "@/public/clinic.png";
+import clinicImage from "@/public/placeholder.png";
 import mapImage from "@/public/map.png";
 import { useGetClinicDetailsQuery } from "@/app/store/api/clinicApi";
+import { useRouter } from "next/navigation";
 
 const ClinicDetails = ({ slug }) => {
-
+    const router = useRouter();
+    const [isFixed, setIsFixed] = useState(false);
     const { data } = useGetClinicDetailsQuery(slug);
     const clinicDetails = data?.data || {};
     const { name, address, subway_station, phone, clinic_category_relation, procedure_clinic_relation, description, location, map_link, operating_hours, website } = clinicDetails || {};
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollPosition = window.scrollY;
+            if (scrollPosition > 100) {
+                setIsFixed(true);
+            } else {
+                setIsFixed(false);
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     return (
-        <div className="container mx-auto px-4 2xl:px-0">
-            <div className="py-6">
-                <h3 className="font-bold primary-text">{name}</h3>
-                <p className="flex items-center gap-2 primary-text mb-2">
-                    <BsGlobeCentralSouthAsia size={14} className="secondary-text" />{" "}
-                    {address || "Not available"}
-                </p>
-                <p className="flex flex-col sm:flex-row sm:items-center gap-2 primary-text space-x-1">
-                    <a
-                        href={website}
-                        target="blank"
-                        className="flex items-center gap-2 primary-text"
-                    >
-                        <CiGlobe className="secondary-text" size={16} />
-                        {website || "Not available"}
-                    </a>
-                    <span className="flex items-center gap-2 primary-text">
-                        <IoLocationSharp size={16} className="secondary-text" />
-                        {subway_station || location}
-                    </span>
-                    <span className="flex items-center gap-2 primary-text">
-                        <FaPhone size={16} className="secondary-text scale-x-[-1]" />
-                        {phone || "Not available"}
-                    </span>
-                </p>
+        <div className="container mx-auto px-4 2xl:px-0 relative">
+            <div className="flex flex-col lg:flex-row justify-between items-center gap-4 mb-4 ">
+                <div className="py-6">
+                    <h3 className="font-bold primary-text">{name}</h3>
+                    <p className="flex items-center gap-2 primary-text mb-2">
+                        <BsGlobeCentralSouthAsia size={16} className="secondary-text" />{" "}
+                        {address || "Not available"}
+                    </p>
+                    <p className="flex flex-col sm:flex-row sm:items-center gap-2 primary-text space-x-1">
+                        <a
+                            href={website}
+                            target="blank"
+                            className="flex items-center gap-2 primary-text"
+                        >
+                            <CiGlobe className="secondary-text" size={16} />
+                            {website || "Not available"}
+                        </a>
+                        <span className="flex items-center gap-2 primary-text">
+                            <IoLocationSharp size={16} className="secondary-text" />
+                            {subway_station || location}
+                        </span>
+                        <span className="flex items-center gap-2 primary-text">
+                            <FaPhone size={16} className="secondary-text scale-x-[-1]" />
+                            {phone || "Not available"}
+                        </span>
+                    </p>
+                </div>
+                <div className={`w-full lg:w-72 border border-[#EEF3F8] rounded-[8px] p-4 duration-300 ${isFixed ? 'lg:fixed lg:right-4 xl:right-24 2xl:right-46 top-2 bg-[#f9fdfd]' : 'bg-white'} space-y-2 self-start z-20`}>
+  <h5 className="secondary-text text-xl font-medium text-center">Interested in this clinic?</h5>
+  <p className="text-sm text-gray-800 text-center">Reach out to schedule a consultation, discuss pricing, or learn more about our services.</p>
+  <div className="flex justify-center">
+    <button onClick={() => router.push(`/contact`)} className="primary-bg px-4 py-2.5 rounded-full text-white duration-300 cursor-pointer">
+      Contact Now
+    </button>
+  </div>
+</div>
+
             </div>
             <div className="flex flex-col xl:flex-row gap-6 mb-6 ">
                 <div className="xl:w-[72.5%] rounded-[8px] xl:h-[600px] overflow-hidden">
