@@ -1,15 +1,14 @@
 import Image from "next/image";
 import React from "react";
-import stemCell from "@/public/assets/stemCellImages/stem-cell.jpg";
-import stemCell2 from "@/public/assets/stemCellImages/filler.png";
+import placeholder from "@/public/clinic-placeholder.jpg";
 import Link from "next/link";
 
 const ProcedureCard = ({procedure}) => {
   return (
     <Link href={`/clinics?procedure=${procedure?.id}`} className="bg-transparent p-1 hover:bg-[#68b0d421] duration-300 rounded-lg">
-      <div>
+      <div className="relative object-cover rounded-lg overflow-hidden">
         <Image
-          src={procedure?.image_url || stemCell}
+          src={procedure?.image_url || placeholder}
           width={400}
             height={300}
           alt="stem-cell"

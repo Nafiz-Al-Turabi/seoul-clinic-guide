@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import placeholder from "@/public/clinic.png";
+import placeholder from "@/public/clinic-placeholder.jpg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 const ClinicCard = ({ clinic }) => {

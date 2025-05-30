@@ -61,15 +61,14 @@ const ClinicDetails = ({ slug }) => {
                     </p>
                 </div>
                 <div className={`w-full lg:w-72 border border-[#EEF3F8] rounded-[8px] p-4 duration-300 ${isFixed ? 'lg:fixed lg:right-4 xl:right-24 2xl:right-46 top-2 bg-[#f9fdfd]' : 'bg-white'} space-y-2 self-start z-20`}>
-  <h5 className="secondary-text text-xl font-medium text-center">Interested in this clinic?</h5>
-  <p className="text-sm text-gray-800 text-center">Reach out to schedule a consultation, discuss pricing, or learn more about our services.</p>
-  <div className="flex justify-center">
-    <button onClick={() => router.push(`/contact`)} className="primary-bg px-4 py-2.5 rounded-full text-white duration-300 cursor-pointer">
-      Contact Now
-    </button>
-  </div>
-</div>
-
+                    <h5 className="secondary-text text-xl font-medium text-center">Interested in this clinic?</h5>
+                    <p className="text-sm text-gray-800 text-center">Reach out to schedule a consultation, discuss pricing, or learn more about our services.</p>
+                    <div className="flex justify-center">
+                        <button onClick={() => router.push(`/contact`)} className="primary-bg px-4 py-2.5 rounded-full text-white duration-300 cursor-pointer">
+                            Contact Now
+                        </button>
+                    </div>
+                </div>
             </div>
             <div className="flex flex-col xl:flex-row gap-6 mb-6 ">
                 <div className="xl:w-[72.5%] rounded-[8px] xl:h-[600px] overflow-hidden">
