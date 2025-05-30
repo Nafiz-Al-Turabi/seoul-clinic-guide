@@ -50,6 +50,14 @@ export const clinicApi = baseApi.injectEndpoints({
       providesTags: ["Clinics"],
     }),
 
+    getSimilarClinics: builder.query({
+      query: (id) => ({
+        url: `/clinics/related-clinics/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Clinics"],
+    }),
+    
     createClinic: builder.mutation({
       query: (formData) => ({
         url: "/admin/clinics",
@@ -153,6 +161,7 @@ export const {
   useUpdateClinicMutation,
   useGetClinicByIdQuery,
   useGetTopClinicsQuery,
+  useGetSimilarClinicsQuery,
   useGetClinicCategoryQuery,
   useGetProcedureByCategoryQuery, //this is for procedures
   useGetClinicsByCategoryQuery,

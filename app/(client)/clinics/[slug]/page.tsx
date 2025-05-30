@@ -11,7 +11,7 @@ const page = async ({ params }) => {
         <ClinicDetails slug={slug} />
       </div>
       <NewsLetter />
-      <TopClinics />
+      {/* <TopClinics /> */}
       <TestimonialSlider />
     </div>
   );
