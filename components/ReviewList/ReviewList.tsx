@@ -5,7 +5,7 @@ import {
   useGetAdminReviewsQuery,
   useGetReviewDetailsQuery,
 } from "@/app/store/api/reviewsApi";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaTimes } from "react-icons/fa";
 
 const ReviewList = () => {
   const { data, isLoading } = useGetAdminReviewsQuery(null);
@@ -19,10 +19,11 @@ const ReviewList = () => {
     rating: review?.rating,
     clinic_name: review?.clinic?.name,
     message: review?.review,
+    approved: review?.approved,
   }));
 
   const formatReview = (review: string) => {
-    return review?.split(" ").slice(0, 20).join(" ") + "...";
+    return review?.split(" ").slice(0, 10).join(" ") + "...";
   };
 
   const formatRating = (rating: number) => {
@@ -36,11 +37,26 @@ const ReviewList = () => {
     );
   };
 
+  const formatStatus = (status: boolean) => {
+    return (
+      <div className="flex items-center gap-2">
+        <span
+          className={`font-bold text-sm px-2 py-1 rounded-md ${
+            status === true ? "text-[#68b0d4] border-[#68b0d4]" : "text-[#ffe600] border-[#ffe600]"
+          }`}
+        >
+          {status === true ? "Approved" : "Pending"}
+        </span>
+      </div>
+    );
+  };
+
   const formatData = (data: any) => {
     return data?.map((item: any) => ({
       ...item,
       message: formatReview(item?.message),
       rating: formatRating(item?.rating),
+      approved: formatStatus(item?.approved),
     }));
   };
 
@@ -51,6 +67,7 @@ const ReviewList = () => {
     { key: "clinic_name", label: "Clinic Name", type: "text" },
     { key: "rating", label: "Rating", type: "text" },
     { key: "message", label: "Reviews", type: "text" },
+    { key: "approved", label: "Status", type: "text" },
   ];
 
   const TableActions = (row: any) => {
@@ -58,7 +75,7 @@ const ReviewList = () => {
       <div className="flex gap-2">
         <button
           onClick={() => setSelectedReviewId(row.id)}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+          className="bg-zinc-800 text-white px-4 py-2 rounded-md cursor-pointer"
         >
           Details
         </button>
@@ -71,7 +88,8 @@ const ReviewList = () => {
       skip: !selectedReviewId,
     });
 
-  console.log(reviewDetails, "reviewDetails");
+  const Details = reviewDetails?.data;
+  console.log(Details, "Details");
 
   return (
     <div>
@@ -82,39 +100,77 @@ const ReviewList = () => {
       />
 
       {selectedReviewId && reviewDetails && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-3xl mx-4 sm:mx-auto">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4 2xl:px-0 ">
+          <div className="bg-white p-6 rounded-lg w-full max-w-7xl mx-4 sm:mx-auto relative">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-              Review Details
+              Review Details <span className={`text-sm px-2 py-1 rounded-md border ${Details?.approved === true ? "text-[#68b0d4] border-[#68b0d4]" : "text-[#ffe600] border-[#ffe600]"}`}>{Details?.approved === true ? "Approved" : "Pending"}</span>
             </h3>
 
             {detailsLoading ? (
               <p className="text-center text-gray-500">Loading...</p>
             ) : (
               <div>
-                <div className="mb-4">
-                  <p>
-                    <strong>Name:</strong> {reviewDetails?.data?.user?.name}
-                  </p>
+                <div className="grid grid-cols-2 border-b pb-4">
+                  <div className="mb-4">
+                    <p>
+                      <strong>Name:</strong> {Details?.user?.name}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <p>
+                      <strong>Title:</strong> {Details?.headline}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <p>
+                      <strong>Clinic:</strong> {Details?.clinic?.name}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <p>
+                      <strong>Procedure:</strong> {Details?.procedure}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <p className="flex items-center gap-1">
+                      <strong>Rating:</strong> {Details?.rating}
+                      <span className="text-yellow-500">
+                        <FaStar size={16} />
+                      </span>
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <p>
+                      <strong>Referer:</strong> {Details?.referer}
+                    </p>
+                  </div>
                 </div>
-                <div className="mb-4">
-                  <p>
-                    <strong>Clinic:</strong> {reviewDetails?.data?.clinic?.name}
-                  </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-4 my-4">
+                  {Details?.images?.map((img: any, idx: number) => (
+                    <div key={idx} className="flex flex-col items-center">
+                      <img
+                        src={img?.image_url}
+                        alt={img.caption || `Image ${idx + 1}`}
+                        className="w-32 h-32 object-cover rounded"
+                      />
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {img.tags?.map((tag: string, tagIdx: number) => (
+                          <span
+                            key={tagIdx}
+                            className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="mb-4">
+
+                <div className="mb-4 border-t pt-4">
                   <p>
-                    <strong>Procedure:</strong> {reviewDetails?.data?.procedure}
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p>
-                    <strong>Rating:</strong> {reviewDetails?.data?.rating}
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <p>
-                    <strong>Message:</strong> {reviewDetails?.data?.review}
+                    <strong>Reviews:</strong> {reviewDetails?.data?.review}
                   </p>
                 </div>
               </div>
@@ -123,9 +179,9 @@ const ReviewList = () => {
             <div className="flex justify-end space-x-4 mt-6">
               <button
                 onClick={() => setSelectedReviewId(null)}
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+                className="absolute top-3 right-0 bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
               >
-                Close
+                <FaTimes />
               </button>
               <button
                 // onClick={() => handleApproveReview(reviewDetails.id)}
