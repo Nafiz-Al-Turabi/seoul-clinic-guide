@@ -10,6 +10,7 @@ import mapImage from "@/public/map.png";
 import { useGetClinicDetailsQuery } from "@/app/store/api/clinicApi";
 import { useRouter } from "next/navigation";
 import SimilerClinic from "../SimilarClinic/SimilerClinic";
+import ReviewSection from "../ReviewSection/ReviewSection";
 
 const ClinicDetails = ({ slug }) => {
     const router = useRouter();
@@ -53,7 +54,7 @@ const ClinicDetails = ({ slug }) => {
                     </div>
                     <div className="xl:w-[27.5%] space-y-[22px]">
                         <div className={`w-full lg:w-96 xl:w-104 border border-[#EEF3F8] rounded-[8px] p-4 duration-300 bg-white space-y-2 self-start z-20`}>
-                            <h5 className="secondary-text text-xl font-medium text-center">Interested in this clinic?</h5>
+                            <h5 className="secondary-text text-xl font-medium text-center">Curious about this clinic?</h5>
                             <p className="text-sm text-gray-800 text-center">Reach out to schedule a consultation, discuss pricing, or learn more about our services.</p>
                             <div className="flex justify-center">
                                 <button onClick={() => router.push(`/contact`)} className="primary-bg px-4 py-2.5 rounded-full text-white duration-300 cursor-pointer">
@@ -89,7 +90,7 @@ const ClinicDetails = ({ slug }) => {
                         </div>
                     </div>
                 </div>
-                <section className="flex flex-col lg:flex-row gap-6 mb-20">
+                <section className="flex flex-col lg:flex-row gap-6 mb-6">
                     <div className="w-full h-fit xl:w-[72.5%] space-y-4 bg-[#F9FDFD] p-6 rounded-[8px]">
                         <h5 className="text-[2rem] primary-text font-bold">Overview</h5>
                         <div
@@ -150,7 +151,9 @@ const ClinicDetails = ({ slug }) => {
                         </div>
                     </div>
                 </section>
-
+            </div>
+            <div>
+                <ReviewSection clinicId={clinicId} clinicName={name} />
             </div>
             <SimilerClinic clinicId={clinicId} />
         </div>
