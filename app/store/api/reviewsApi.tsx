@@ -21,8 +21,16 @@ export const reviewsApi = baseApi.injectEndpoints({
       providesTags: ["Reviews"],
     }),
 
+    // get review details
+    getReviewDetails: builder.query({
+      query: (id) => ({
+        url: `/admin/clinic-reviews/${id}`,
+        method: "GET",
+      }),
+    }),
+
     
   }),
 });
 
-export const { useCreateReviewMutation, useGetAdminReviewsQuery } = reviewsApi;
+export const { useCreateReviewMutation, useGetAdminReviewsQuery, useGetReviewDetailsQuery } = reviewsApi;
