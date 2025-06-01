@@ -104,12 +104,12 @@ const ReviewList = () => {
                 </div>
                 <div className="mb-4">
                   <p>
-                    <strong>Procedure:</strong> {reviewDetails.procedure}
+                    <strong>Procedure:</strong> {reviewDetails?.data?.procedure}
                   </p>
                 </div>
                 <div className="mb-4">
                   <p>
-                    <strong>Rating:</strong> {reviewDetails.rating}
+                    <strong>Rating:</strong> {reviewDetails?.data?.rating}
                   </p>
                 </div>
                 <div className="mb-4">
@@ -128,13 +128,13 @@ const ReviewList = () => {
                 Close
               </button>
               <button
-                onClick={() => handleApproveReview(reviewDetails.id)}
+                // onClick={() => handleApproveReview(reviewDetails.id)}
                 className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
               >
                 Approve
               </button>
               <button
-                onClick={() => handleRejectReview(reviewDetails.id)}
+                // onClick={() => handleRejectReview(reviewDetails.id)}
                 className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
               >
                 Reject
