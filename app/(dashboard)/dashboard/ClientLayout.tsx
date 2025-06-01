@@ -7,7 +7,7 @@ import Image from "next/image";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { PiHospitalThin } from "react-icons/pi";
 import { CgNotes } from "react-icons/cg";
-import { RiSettingsLine } from "react-icons/ri";
+import { RiSettingsLine, RiTimelineView } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { useGetMeQuery } from "@/app/store/api/authApi";
@@ -15,6 +15,7 @@ import useLogout from "@/hooks/useLogout";
 import { on } from "events";
 import { LiaProceduresSolid } from "react-icons/lia";
 import { TbSocial } from "react-icons/tb";
+import { MdOutlineReviews } from "react-icons/md";
 
 // Menu and Bottom items
 const menuItems = [
@@ -31,6 +32,7 @@ const menuItems = [
     label: "Clinic List",
   },
   { href: "/dashboard/blogs", icon: <CgNotes size={18} />, label: "Blogs" },
+  { href: "/dashboard/review-list", icon: <MdOutlineReviews size={18} />, label: "Review List" },
   { href: "/dashboard/others", icon: <TbSocial size={18} />, label: "Others" },
 ];
 

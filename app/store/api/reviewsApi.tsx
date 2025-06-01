@@ -9,18 +9,20 @@ export const reviewsApi = baseApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Reviews"],
     }),
 
     // get reviews
-    getReviews: builder.query({
+    getAdminReviews: builder.query({
       query: () => ({
         url: "/admin/clinic-reviews",
         method: "GET",
       }),
+      providesTags: ["Reviews"],
     }),
 
     
   }),
 });
 
-export const { useCreateReviewMutation, useGetReviewsQuery } = reviewsApi;
+export const { useCreateReviewMutation, useGetAdminReviewsQuery } = reviewsApi;
