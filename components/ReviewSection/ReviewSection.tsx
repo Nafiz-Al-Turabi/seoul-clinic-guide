@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function ReviewSection({
   clinicId,
@@ -7,6 +9,7 @@ export default function ReviewSection({
   clinicId: string;
   clinicName: string;
 }) {
+  const router = useRouter();
   return (
     <div className="px-4">
       <div className="container mx-auto xl:px-4 2xl:px-0 py-8">
@@ -32,7 +35,7 @@ export default function ReviewSection({
                   What Was Your Experience with{" "}
                   <span className="font-semibold">{clinicName}</span>?
                 </span>
-                <button className="bg-[#68b0d4] text-white px-4 py-2 my-4 rounded-md hover:bg-[#68b0d4]/80 transition-all cursor-pointer">
+                <button onClick={() => router.push(`/review?clinicId=${clinicId}&clinicName=${clinicName}`)} className="bg-[#68b0d4] text-white px-4 py-2 my-4 rounded-md hover:bg-[#68b0d4]/80 transition-all cursor-pointer">
                   Share Your Review
                 </button>
               </div>
