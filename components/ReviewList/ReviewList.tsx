@@ -6,6 +6,7 @@ import {
   useGetReviewDetailsQuery,
 } from "@/app/store/api/reviewsApi";
 import { FaStar, FaTimes } from "react-icons/fa";
+import Image from "next/image";
 
 const ReviewList = () => {
   const { data, isLoading } = useGetAdminReviewsQuery(null);
@@ -149,7 +150,9 @@ const ReviewList = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-7 xl:grid-cols-8 gap-4 my-4">
                   {Details?.images?.map((img: any, idx: number) => (
                     <div key={idx} className="flex flex-col items-center">
-                      <img
+                      <Image
+                        width={100}
+                        height={100}
                         src={img?.image_url}
                         alt={img.caption || `Image ${idx + 1}`}
                         className="w-32 h-32 object-cover rounded"
