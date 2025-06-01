@@ -29,8 +29,20 @@ export const reviewsApi = baseApi.injectEndpoints({
       }),
     }),
 
+    // approve review
+    approveReview: builder.mutation({
+      query: (id) => ({
+        url: `/admin/clinic-reviews/${id}`,
+        method: "PATCH",
+        body: {
+          approved: true,
+        },
+      }),
+      invalidatesTags: ["Reviews"],
+    }),
+
     
   }),
 });
 
-export const { useCreateReviewMutation, useGetAdminReviewsQuery, useGetReviewDetailsQuery } = reviewsApi;
+export const { useCreateReviewMutation, useGetAdminReviewsQuery, useGetReviewDetailsQuery, useApproveReviewMutation } = reviewsApi;
