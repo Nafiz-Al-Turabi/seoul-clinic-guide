@@ -8,7 +8,7 @@ const useLogout = () => {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     dispatch(authApi.util.resetApiState());
     router.push("/");
   };

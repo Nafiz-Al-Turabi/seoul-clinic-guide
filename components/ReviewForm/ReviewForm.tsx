@@ -117,6 +117,7 @@ const ReviewForm = () => {
 
   const handleRemoveImage = (index: number) => {
     setSelectedImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleUpdateImageMeta = (
