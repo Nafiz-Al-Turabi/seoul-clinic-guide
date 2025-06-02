@@ -17,10 +17,12 @@ const ClinicDetails = ({ slug }) => {
     const router = useRouter();
     const { data } = useGetClinicDetailsQuery(slug);
     const clinicDetails = data?.data || {};
+    const [showAllReviews, setShowAllReviews] = useState(false);
     console.log(clinicDetails);
     const { name, address, subway_station, phone, reviews, procedure_clinic_relation, description, location, map_link, operating_hours, website, id } = clinicDetails || {};
 
     const clinicId = id;
+    const displayedReviews = showAllReviews ? reviews : reviews?.slice(0, 3);
 
     return (
         <div>
@@ -159,10 +161,20 @@ const ClinicDetails = ({ slug }) => {
             </div>
             <div className="flex flex-col gap-4 mb-6">
                {
-                clinicDetails?.reviews?.map((review) => (
+                displayedReviews?.map((review) => (
                     <Reviews key={review.id} reviewData={review} />
                 ))
                }
+               {reviews?.length > 3 && (
+                    <div className="flex justify-center mt-4">
+                        <button 
+                            onClick={() => setShowAllReviews(!showAllReviews)}
+                            className="primary-bg px-6 py-2 rounded-full text-white duration-300 hover:opacity-90"
+                        >
+                            {showAllReviews ? 'Show Less' : 'Show More'}
+                        </button>
+                    </div>
+                )}
             </div>
             <SimilerClinic clinicId={clinicId} />
         </div>
