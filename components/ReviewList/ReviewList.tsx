@@ -115,7 +115,15 @@ const ReviewList = () => {
   const [deleteReview, { isLoading: deleteLoading }] =
     useDeleteReviewMutation();
 
+  const handleRejectReview = (id: number) => {
+    alert("Are you sure you want to reject this review?");
+    deleteReview(id);
+    refetch();
+    setSelectedReviewId(null);
+  };
+
   const handleDeleteReview = (id: number) => {
+    alert("Are you sure you want to delete this review?");
     deleteReview(id);
     refetch();
     setSelectedReviewId(null);
@@ -265,7 +273,17 @@ const ReviewList = () => {
                   {approveLoading ? "Approving..." : "Approve"}
                 </button>
               )}
-              {Details?.approved === false && (
+              {Details?.approved === false ? (
+                <button
+                  onClick={() => handleRejectReview(Details.id)}
+                  disabled={deleteLoading}
+                  className={`bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 ${
+                    deleteLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {deleteLoading ? "Rejecting..." : "Reject"}
+                </button>
+              ) : (
                 <button
                   onClick={() => handleDeleteReview(Details.id)}
                   disabled={deleteLoading}
@@ -273,7 +291,7 @@ const ReviewList = () => {
                     deleteLoading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                 >
-                  {deleteLoading ? "Rejecting..." : "Reject"}
+                  Delete
                 </button>
               )}
             </div>
