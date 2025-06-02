@@ -9,9 +9,16 @@ import {
 } from "@/app/store/api/reviewsApi";
 import { FaStar, FaTimes } from "react-icons/fa";
 import Image from "next/image";
+import ReactPaginate from "react-paginate";
 
 const ReviewList = () => {
-  const { data, isLoading, refetch } = useGetAdminReviewsQuery(null);
+  const [page, setPage] = useState(1);
+  const limit = 20;
+  const { data, isLoading, refetch } = useGetAdminReviewsQuery({
+    page,
+    limit,
+  });
+
   const reviews = data?.data?.reviews;
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
   const reviewsData = reviews?.map((review: any) => ({
@@ -114,6 +121,10 @@ const ReviewList = () => {
     setSelectedReviewId(null);
   };
 
+  const handlePageClick = (selectedItem: { selected: number }) => {
+    setPage(selectedItem.selected + 1);
+  };
+
   return (
     <div>
       <CustomTable
@@ -121,6 +132,32 @@ const ReviewList = () => {
         data={formatData(reviewsData)}
         actions={TableActions}
       />
+
+      {data?.data?.totalPages > 1 && (
+        <div className="flex justify-center mt-10">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="›"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            pageCount={data?.data?.totalPages}
+            forcePage={page - 1}
+            previousLabel="‹"
+            renderOnZeroPageCount={null}
+            containerClassName="custom-pagination"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            activeClassName="active"
+          />
+        </div>
+      )}
 
       {selectedReviewId && reviewDetails && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4 2xl:px-0 ">

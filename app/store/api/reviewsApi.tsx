@@ -14,9 +14,13 @@ export const reviewsApi = baseApi.injectEndpoints({
 
     // get reviews
     getAdminReviews: builder.query({
-      query: () => ({
+      query: ({page = 1, limit}) => ({
         url: "/admin/clinic-reviews",
         method: "GET",
+        params: {
+          page,
+          limit,
+        },
       }),
       providesTags: ["Reviews"],
     }),
