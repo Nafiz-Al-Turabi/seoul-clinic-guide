@@ -21,12 +21,12 @@ export default function PrivateRoute({
       const fullUrl = window.location.pathname + window.location.search;
       localStorage.setItem("redirectUrl", fullUrl);
       router.replace("/auth/login");
-    } else if (!isLoading && (error || data?.data?.type !== "user")) {
+    } else if (!isLoading && (error || data?.data?.type !== "user" || data?.data?.type !== "admin")) {
       router.replace("/unauthorized");
     }
   }, [token, isLoading, error, data]);
 
-  if (isLoading || !data || data?.data?.type !== "user") return null;
+  if (isLoading || !data || data?.data?.type !== "user" || data?.data?.type !== "admin") return null;
 
   return <>{children}</>;
 }
