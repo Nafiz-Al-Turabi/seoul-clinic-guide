@@ -133,7 +133,7 @@ const ReviewForm = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <h4 className="text-2xl font-semibold text-gray-800 mb-6">
-          Share Your Experience with {clinicName}
+          Share Your Experience with <strong className="text-[#72b5d7]">{clinicName}</strong>
         </h4>
 
         <form

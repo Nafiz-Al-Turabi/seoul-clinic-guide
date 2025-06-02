@@ -51,10 +51,11 @@ export default function ReviewSection({
             <div className="flex flex-col md:flex-row md:items-center justify-between ">
               <div>
                 <h5 className="text-2xl font-semibold text-gray-800">
-                  Our Rating: {rating?.toFixed(1)}
+                  Our Rating:{" "}
+                  {rating ? rating?.toFixed(1) : "No Rating"}
                 </h5>
                 <p className="text-sm text-gray-500">
-                  Based on {reviews?.length} Review
+                  Based on {reviews ? reviews?.length : 0} Review
                 </p>
               </div>
               <div className="flex flex-col md:flex-row md:items-center space-x-2">
