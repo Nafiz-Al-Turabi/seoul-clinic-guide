@@ -109,7 +109,7 @@ const menus = [
   { path: "/clinics", label: "Clinics" },
   { path: "/procedures", label: "Procedures" },
   { path: "/blogs", label: "Blogs" },
-  { path: "/contact", label: "Contact" },
+  // { path: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -164,7 +164,7 @@ export default function Navbar() {
     const el = document.getElementById("categories");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   }, [searchParams.toString()]);
-  
+
   const handleCategoryClick = (path: string) => {
     setDropdownOpen("");
     router.push(path);
@@ -203,16 +203,16 @@ export default function Navbar() {
                   <div className="absolute top-full grid grid-cols-2 gap-2 mt-2 w-[500px] p-2 bg-white shadow-lg rounded-md py-2 z-40 animate-fadeIn">
                     {menu.dropdown.map((item, subIdx) => (
                       <button
-                      key={subIdx}
-                      onClick={() => handleCategoryClick(item.path)}
-                      className={`block text-left w-full px-4 py-2.5 text-base hover:bg-gray-100 ${
-                        isActive(item.path)
-                          ? "text-[#68B0D4]"
-                          : "text-gray-700"
-                      }`}
-                    >
-                      {item.label}
-                    </button>
+                        key={subIdx}
+                        onClick={() => handleCategoryClick(item.path)}
+                        className={`block text-left w-full px-4 py-2.5 text-base hover:bg-gray-100 ${
+                          isActive(item.path)
+                            ? "text-[#68B0D4]"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
                     ))}
                   </div>
                 )}
@@ -246,15 +246,21 @@ export default function Navbar() {
               </Link>
             ) : (
               <Link
-                href="/clinics"
-                className="primary-bg text-white py-2.5 px-6 rounded-full duration-300"
+                href="/contact"
+                className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50"
               >
-                Start Enquiry
+                Enquire
               </Link>
             )}
           </div>
         ) : (
           <div className="hidden lg:flex gap-2">
+            <Link
+              href="/contact"
+              className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 xl:mr-20"
+            >
+              Contact Us
+            </Link>
             <Link
               href="/auth/login"
               className="px-6 py-2.5 primary-bg text-white rounded-full text-sm"
@@ -350,31 +356,28 @@ export default function Navbar() {
           )}
 
           <div className="flex flex-col gap-2">
-            {user ? (
+            <>
               <Link
                 href="/contact?seaul-clinic-guide-enquiry"
-                className="primary-bg text-white py-2.5 px-6 rounded-full duration-300 mt-6"
+                className="px-6 py-2.5 border border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 text-center mt-6"
               >
-                Start Enquiry
+                Contact Us
               </Link>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/signup"
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
-                >
-                  Signup
-                </Link>
-              </>
-            )}
+              <Link
+                href="/auth/login"
+                onClick={() => setMenuOpen(false)}
+                className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
+              >
+                Login
+              </Link>
+              <Link
+                href="/auth/register"
+                onClick={() => setMenuOpen(false)}
+                className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
+              >
+                Signup
+              </Link>
+            </>
           </div>
         </div>
       </div>
