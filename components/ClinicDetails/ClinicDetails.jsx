@@ -11,12 +11,14 @@ import { useGetClinicDetailsQuery } from "@/app/store/api/clinicApi";
 import { useRouter } from "next/navigation";
 import SimilerClinic from "../SimilarClinic/SimilerClinic";
 import ReviewSection from "../ReviewSection/ReviewSection";
+import Reviews from "../Reviews/Reviews";
 
 const ClinicDetails = ({ slug }) => {
     const router = useRouter();
     const { data } = useGetClinicDetailsQuery(slug);
     const clinicDetails = data?.data || {};
-    const { name, address, subway_station, phone, clinic_category_relation, procedure_clinic_relation, description, location, map_link, operating_hours, website, id } = clinicDetails || {};
+    console.log(clinicDetails);
+    const { name, address, subway_station, phone, reviews, procedure_clinic_relation, description, location, map_link, operating_hours, website, id } = clinicDetails || {};
 
     const clinicId = id;
 
@@ -153,7 +155,14 @@ const ClinicDetails = ({ slug }) => {
                 </section>
             </div>
             <div>
-                <ReviewSection clinicId={clinicId} clinicName={name} />
+                <ReviewSection clinicId={clinicId} clinicName={name} reviews={reviews} />
+            </div>
+            <div className="flex flex-col gap-4 mb-6">
+               {
+                clinicDetails?.reviews?.map((review) => (
+                    <Reviews key={review.id} review={review} />
+                ))
+               }
             </div>
             <SimilerClinic clinicId={clinicId} />
         </div>
