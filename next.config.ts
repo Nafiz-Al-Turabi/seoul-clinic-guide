@@ -1,9 +1,46 @@
+// import type { NextConfig } from "next";
+
+// const commonHost = {
+//   protocol: 'http' as const,
+//   hostname: '192.168.5.8',
+//   port: '4000',
+// };
+
+// const paths = [
+//   '/public/storage/avatar/**',
+//   '/public/storage/blog-banner/**',
+//   '/public/storage/blog-author-picture/**',
+//   '/public/storage/clinic-banner/**',
+//   '/public/storage/clinic-preview-image/**',
+//   '/public/storage/upload/**',
+// ];
+
+// const nextConfig: NextConfig = {
+//   poweredByHeader: false,
+//   eslint: {
+//     ignoreDuringBuilds: true, 
+//   },
+//   typescript: {
+//     ignoreBuildErrors: true, 
+//   },
+//   images: {
+//     remotePatterns: paths.map(pathname => ({
+//       ...commonHost,
+//       pathname,
+//     })),
+//   },
+// };
+
+// export default nextConfig;
+
+
+
 import type { NextConfig } from "next";
 
 const commonHost = {
-  protocol: 'http' as const,
-  hostname: '192.168.5.8',
-  port: '4000',
+  protocol: 'https' as const,
+  hostname: 'backend.seoulclinicguide.com',
+  port: '',
 };
 
 const paths = [
@@ -18,10 +55,10 @@ const paths = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   eslint: {
-    ignoreDuringBuilds: true, 
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, 
+    ignoreBuildErrors: true,
   },
   images: {
     remotePatterns: paths.map(pathname => ({
@@ -32,40 +69,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
-
-
-// import type { NextConfig } from "next";
-
-// const commonHost = {
-//   protocol: 'https' as const,
-//   hostname: 'backend.seoulclinicguide.com',
-//   port: '',
-// };
-
-// const paths = [
-//   '/public/storage/avatar/**',
-//   '/public/storage/blog-banner/**',
-//   '/public/storage/blog-author-picture/**',
-//   '/public/storage/clinic-banner/**',
-//   '/public/storage/clinic-preview-image/**',
-// ];
-
-// const nextConfig: NextConfig = {
-//   poweredByHeader: false,
-//   eslint: {
-//     ignoreDuringBuilds: true,
-//   },
-//   typescript: {
-//     ignoreBuildErrors: true,
-//   },
-//   images: {
-//     remotePatterns: paths.map(pathname => ({
-//       ...commonHost,
-//       pathname,
-//     })),
-//   },
-// };
-
-// export default nextConfig;
 
