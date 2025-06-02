@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import CustomTable, { TableColumn } from "../reusable/CustomTable";
 import {
+  useApproveReviewMutation,
+  useDeleteReviewMutation,
   useGetAdminReviewsQuery,
   useGetReviewDetailsQuery,
 } from "@/app/store/api/reviewsApi";
@@ -9,7 +11,7 @@ import { FaStar, FaTimes } from "react-icons/fa";
 import Image from "next/image";
 
 const ReviewList = () => {
-  const { data, isLoading } = useGetAdminReviewsQuery(null);
+  const { data, isLoading, refetch } = useGetAdminReviewsQuery(null);
   const reviews = data?.data?.reviews;
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
   const reviewsData = reviews?.map((review: any) => ({
@@ -43,7 +45,9 @@ const ReviewList = () => {
       <div className="flex items-center gap-2">
         <span
           className={`font-bold text-sm px-2 py-1 rounded-md ${
-            status === true ? "text-[#68b0d4] border-[#68b0d4]" : "text-[#ffe600] border-[#ffe600]"
+            status === true
+              ? "text-[#68b0d4] border-[#68b0d4]"
+              : "text-[#ffe600] border-[#ffe600]"
           }`}
         >
           {status === true ? "Approved" : "Pending"}
@@ -92,6 +96,24 @@ const ReviewList = () => {
   const Details = reviewDetails?.data;
   console.log(Details, "Details");
 
+  const [approveReview, { isLoading: approveLoading }] =
+    useApproveReviewMutation();
+
+  const handleApproveReview = (id: number) => {
+    approveReview(id);
+    refetch();
+    setSelectedReviewId(null);
+  };
+
+  const [deleteReview, { isLoading: deleteLoading }] =
+    useDeleteReviewMutation();
+
+  const handleDeleteReview = (id: number) => {
+    deleteReview(id);
+    refetch();
+    setSelectedReviewId(null);
+  };
+
   return (
     <div>
       <CustomTable
@@ -104,7 +126,16 @@ const ReviewList = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 px-4 2xl:px-0 ">
           <div className="bg-white p-6 rounded-lg w-full max-w-7xl mx-4 sm:mx-auto relative">
             <h3 className="text-2xl font-semibold text-gray-800 mb-6">
-              Review Details <span className={`text-sm px-2 py-1 rounded-md border ${Details?.approved === true ? "text-[#68b0d4] border-[#68b0d4]" : "text-[#ffe600] border-[#ffe600]"}`}>{Details?.approved === true ? "Approved" : "Pending"}</span>
+              Review Details{" "}
+              <span
+                className={`text-sm px-2 py-1 rounded-md border ${
+                  Details?.approved === true
+                    ? "text-[#68b0d4] border-[#68b0d4]"
+                    : "text-[#ffe600] border-[#ffe600]"
+                }`}
+              >
+                {Details?.approved === true ? "Approved" : "Pending"}
+              </span>
             </h3>
 
             {detailsLoading ? (
@@ -182,22 +213,32 @@ const ReviewList = () => {
             <div className="flex justify-end space-x-4 mt-6">
               <button
                 onClick={() => setSelectedReviewId(null)}
-                className="absolute top-3 right-0 bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+                className="absolute top-3 right-3 bg-red-600 text-white p-2 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
               >
                 <FaTimes />
               </button>
-              <button
-                // onClick={() => handleApproveReview(reviewDetails.id)}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
-              >
-                Approve
-              </button>
-              <button
-                // onClick={() => handleRejectReview(reviewDetails.id)}
-                className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50"
-              >
-                Reject
-              </button>
+              {Details?.approved === false && (
+                <button
+                  onClick={() => handleApproveReview(Details.id)}
+                  disabled={approveLoading}
+                  className={`bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 ${
+                    approveLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {approveLoading ? "Approving..." : "Approve"}
+                </button>
+              )}
+              {Details?.approved === false && (
+                <button
+                  onClick={() => handleDeleteReview(Details.id)}
+                  disabled={deleteLoading}
+                  className={`bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-50 ${
+                    deleteLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {deleteLoading ? "Rejecting..." : "Reject"}
+                </button>
+              )}
             </div>
           </div>
         </div>
