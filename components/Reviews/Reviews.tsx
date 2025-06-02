@@ -1,34 +1,31 @@
 import React from "react";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
-const Reviews = () => {
+const Reviews = ({ reviewData }: { reviewData: any }) => {
+  console.log("review from bangladesh", reviewData);
+  const { headline, rating, review, user, images, created_at } = reviewData;
+  const date = new Date(created_at);
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   return (
-    <div className="container mx-auto">
-      <div className=" bg-white rounded-lg shadow-md p-6">
+    <div className="container mx-auto px-4 2xl:px-0">
+      <div className=" bg-white rounded-lg shadow p-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold text-white  mr-3">
-              M
+            <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold secondary-text  mr-3">
+              {user?.name?.charAt(0)}
             </div>
             <div>
-              <div className="font-semibold text-gray-800">MaxAdventures</div>
-              <div className="text-xs text-gray-500">Wed Mar 05 2025</div>
+              <div className="font-semibold text-gray-800">{user?.name}</div>
+              <div className="text-xs text-gray-500">{formattedDate}</div>
             </div>
           </div>
           <div className="flex items-center space-x-1">
-            <svg
-              className="w-4 h-4 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+            <VscVerifiedFilled className="text-gray-600" />
             <span className="text-xs text-green-600 font-medium">
               Review Verified
             </span>
@@ -37,10 +34,10 @@ const Reviews = () => {
         {/* Title & Stars */}
         <div className="mt-4">
           <div className="font-bold text-lg text-gray-900">
-            I'm already loving the results
+            {headline}
           </div>
           <div className="flex items-center mt-1">
-            {[...Array(5)].map((_, i) => (
+            {[...Array(rating)].map((_, i) => (
               <svg
                 key={i}
                 className="w-4 h-4 text-yellow-400"
@@ -54,29 +51,17 @@ const Reviews = () => {
         </div>
         {/* Review Text */}
         <div className="mt-3 text-gray-700 text-sm">
-          I've been to Seojin a few times before and hve had a spectacular
-          experience every time, so i knew! I wanted to come back for a surgery
-          that is an important as this one. Doctor Lee is super nice and
-          meticulous about everything, and the staff are always super welcoming.
-          I was honestly pretty nervous, but felt a lot better after seeing the
-          design and talking with Doctor Lee about the whole process. It's only
-          been one week since the surgery but I can already tell that it's
-          exactly what I wanted!
-          <br />
-          <br />
-          After my firsy visit, they even gave me a brochure detailing how many
-          hairs were taken from where and by who. I'm looking forward to going
-          back next week and the week…
+          {review}
         </div>
         {/* Images */}
-        <div className="flex space-x-3 mt-4">
-          {[1, 2, 3].map((img, i) => (
+        <div className="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 2xl:grid-cols-16 gap-4 mt-4">
+          {images.map((img, i) => (
             <div
               key={i}
-              className="w-16 h-16 rounded-md overflow-hidden bg-gray-100"
+              className="w-20 h-20 rounded-md overflow-hidden bg-gray-100"
             >
               <img
-                src={`https://via.placeholder.com/64x64?text=Img${i + 1}`}
+                src={img?.image_url}
                 alt={`Review photo ${i + 1}`}
                 className="object-cover w-full h-full"
               />

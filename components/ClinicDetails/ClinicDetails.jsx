@@ -160,7 +160,7 @@ const ClinicDetails = ({ slug }) => {
             <div className="flex flex-col gap-4 mb-6">
                {
                 clinicDetails?.reviews?.map((review) => (
-                    <Reviews key={review.id} review={review} />
+                    <Reviews key={review.id} reviewData={review} />
                 ))
                }
             </div>
