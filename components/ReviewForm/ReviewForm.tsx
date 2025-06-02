@@ -151,7 +151,7 @@ const ReviewForm = () => {
             >
               <option value="">Select a procedure</option>
               {proceduresData?.map((procedure: any) => (
-                <option key={procedure?.id} value={procedure?.id}>
+                <option key={procedure?.id} value={procedure?.name}>
                   {procedure?.name}
                 </option>
               ))}
