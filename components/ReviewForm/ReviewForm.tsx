@@ -55,7 +55,7 @@ const ReviewForm = () => {
   } = useForm<ReviewFormData>({
     defaultValues: {
       procedure: "",
-      rating: 1,
+      rating: 5,
       headline: "",
       review: "",
       clinic_id: clinicId || "",
