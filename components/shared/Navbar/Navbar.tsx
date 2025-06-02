@@ -247,7 +247,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/contact"
-                className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50"
+                className="px-6 py-2.5 primary-bg text-white rounded-full text-sm"
               >
                 Enquire
               </Link>
@@ -257,19 +257,19 @@ export default function Navbar() {
           <div className="hidden lg:flex gap-2">
             <Link
               href="/contact"
-              className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 xl:mr-20"
+              className="px-6 py-2.5 primary-bg text-white rounded-full text-sm xl:mr-20"
             >
-              Contact Us
+              Enquire
             </Link>
             <Link
               href="/auth/login"
-              className="px-6 py-2.5 primary-bg text-white rounded-full text-sm"
+              className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 "
             >
               Login
             </Link>
             <Link
               href="/auth/register"
-              className="px-6 py-2.5 border border-[#68B0D4] rounded-full text-sm hover:bg-sky-50"
+              className="px-6 py-2.5 border text-[#68B0D4] border-[#68B0D4] rounded-full text-sm hover:bg-sky-50"
             >
               Signup
             </Link>
@@ -359,21 +359,21 @@ export default function Navbar() {
             <>
               <Link
                 href="/contact?seaul-clinic-guide-enquiry"
-                className="px-6 py-2.5 border border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 text-center mt-6"
+                className=" px-4 py-2 bg-[#68B0D4]  text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500  mt-6"
               >
-                Contact Us
+                Enquire
               </Link>
               <Link
                 href="/auth/login"
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-2 bg-[#68B0D4] text-white rounded-full text-sm text-center mb-2 hover:bg-sky-500"
+                className="px-6 py-2.5 border border-[#68B0D4] rounded-full text-sm hover:bg-sky-50 text-center mt-6"
               >
                 Login
               </Link>
               <Link
                 href="/auth/register"
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-2 border border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
+                className="px-4 py-2 border  border-[#68B0D4] text-[#68B0D4] rounded-full text-sm text-center hover:bg-sky-50"
               >
                 Signup
               </Link>
