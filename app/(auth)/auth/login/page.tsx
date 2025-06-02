@@ -33,7 +33,12 @@ const Login = () => {
         if(response?.success){
           toast.success(response?.message);
         }
-        router.push("/"); 
+        const redirectUrl = localStorage.getItem("redirectUrl");
+        if(redirectUrl){
+          router.push(redirectUrl);
+        }else{
+          router.push("/");
+        }
       })
       .catch((error) => {
         if(error?.status === 401) {

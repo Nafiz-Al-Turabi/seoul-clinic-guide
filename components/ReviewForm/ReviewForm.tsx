@@ -4,6 +4,8 @@ import { useForm, Controller } from "react-hook-form";
 import { Star, X, Plus } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useCreateReviewMutation } from "@/app/store/api/reviewsApi";
+import { useGetClientProceduresQuery } from "@/app/store/api/clinicApi";
+import { toast } from "sonner";
 
 interface ImageMeta {
   tags: string[];
@@ -41,6 +43,8 @@ const ReviewForm = () => {
   const [selectedImages, setSelectedImages] = useState<ImageMeta[]>([]);
 
   const [createReview, { isLoading }] = useCreateReviewMutation();
+  const { data: procedures } = useGetClientProceduresQuery(clinicId);
+  const proceduresData = procedures?.data?.procedures;
 
   const {
     reset,
@@ -51,7 +55,7 @@ const ReviewForm = () => {
   } = useForm<ReviewFormData>({
     defaultValues: {
       procedure: "",
-      rating: 0,
+      rating: 1,
       headline: "",
       review: "",
       clinic_id: clinicId || "",
@@ -63,7 +67,7 @@ const ReviewForm = () => {
 
   const onSubmit = async (data: ReviewFormData) => {
     const formData = new FormData();
-    
+
     const reviewData = {
       ...data,
       images_meta: selectedImages.map((img) => ({
@@ -74,16 +78,21 @@ const ReviewForm = () => {
 
     delete reviewData.images;
 
-    formData.append('data', JSON.stringify(reviewData));
+    formData.append("data", JSON.stringify(reviewData));
 
     images.forEach((file, index) => {
-      formData.append('images', file);
+      formData.append("images", file);
     });
 
-
-
     const response = await createReview(formData);
-    console.log(response);
+    if (response?.data?.success) {
+      toast.success("Review submitted successfully");
+      reset();
+      setSelectedImages([]);
+      setImages([]);
+    } else {
+      toast.info("Please Login and try again");
+    }
   };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +150,11 @@ const ReviewForm = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#72b5d7]"
             >
               <option value="">Select a procedure</option>
-              <option value="Hair Transplant">Hair Transplant</option>
+              {proceduresData?.map((procedure: any) => (
+                <option key={procedure?.id} value={procedure?.id}>
+                  {procedure?.name}
+                </option>
+              ))}
             </select>
             {errors.procedure && (
               <p className="mt-1 text-sm text-red-600">

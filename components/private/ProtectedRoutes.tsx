@@ -17,6 +17,7 @@ export default function ProtectedRoutes({
 
   useEffect(() => {
     if (!token) {
+      localStorage.setItem("redirectUrl", window.location.pathname);
       router.replace("/auth/login");
     } else if (!isLoading && (error || data?.data?.type !== "admin")) {
       router.replace("/unauthorized");
